@@ -1,6 +1,8 @@
 Walrus
 =====================
 
+!(https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+
 ### Team :
 Jusqu'a 6 personnes, il faut des gens motivés et bosseur 
 
