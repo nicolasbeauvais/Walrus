@@ -1,6 +1,9 @@
 Framework (lobster ?)
 =====================
 
+Team :
+Jusqu'a 6 personnes, il faut des gens motivés et bosseur 
+
 A Definir:
 
 Serveur de developpement ?
