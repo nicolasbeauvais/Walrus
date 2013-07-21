@@ -1,4 +1,5 @@
 Walrus
+> _Brace Yourselves Walrus is Coming !_
 =====================
 
 ![Walrus](https://github.com/E-Wok/Walrus/blob/master/Walrus.jpg?raw=true "Walrus is comming !")
