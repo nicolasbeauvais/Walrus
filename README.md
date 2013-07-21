@@ -16,9 +16,9 @@ Test unitaire [PHPUnit] (https://github.com/sebastianbergmann/phpunit/)
 ### A Definir:
 Serveur de developpement ?
 
-Render: Smart, Twig, h20, haml autre ?
+Render: Smarty, Twig, h20, haml autre ?
 
-Documentation : Doxygen ? phpdoc ?
+Documentation : Doxygen ? PHPDoc ?
 
 Framework javascript : jQuery ? Angular ? Backbone ?
 
@@ -28,7 +28,7 @@ Preprocessing: [CSS] SASS ? LESS ?
 On met du node.js quelque part ? c'est toujours utile :D:D
 
 ### Features :
-gestion des route
+gestion des routes
 
 
 Creation de Web service / API ?
@@ -40,3 +40,5 @@ Gestion d'ACL (droits utilisateur) ?
 Generateur de formulaire ?
 
 Filer ?
+
+Query builder ?
