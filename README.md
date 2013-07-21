@@ -27,9 +27,16 @@ Preprocessing: [CSS] SASS ? LESS ?
                
 On met du node.js quelque part ? c'est toujours utile :D:D
 
-### Add-on :
+### Features :
+gestion des route
+
+
 Creation de Web service / API ?
 
 Outil de long polling ?
 
-Gestion d'ACL ?
+Gestion d'ACL (droits utilisateur) ?
+
+Generateur de formulaire ?
+
+Filer ?
