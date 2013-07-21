@@ -1,7 +1,8 @@
-Walrus
+#Walrus
+> _Brace Yourselves Walrus is Coming !_
 =====================
 
-!(https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![Walrus](https://github.com/E-Wok/Walrus/blob/master/Walrus.jpg?raw=true "Walrus is comming !")
 
 ### Team :
 Jusqu'a 6 personnes, il faut des gens motivés et bosseur 
