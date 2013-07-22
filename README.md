@@ -16,12 +16,12 @@ Norme [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/fr/P
 
 Test unitaire [PHPUnit] (https://github.com/sebastianbergmann/phpunit/)
 
+Documentation [Doxygen] (http://www.stack.nl/~dimitri/doxygen/)
+
 ### A Definir:
 Serveur de developpement ?
 
 Render: Smarty, Twig, h20, haml autre ?
-
-Documentation : Doxygen ? PHPDoc ?
 
 Framework javascript : jQuery ? Angular ? Backbone ?
 
