@@ -2,7 +2,7 @@
 > _Brace Yourselves Walrus is Coming !_
 =====================
 
-![Walrus](https://github.com/E-Wok/Walrus/blob/master/Walrus.jpg?raw=true "Walrus is comming !")
+![Walrus](https://github.com/E-Wok/Walrus/blob/master/Walrus.png?raw=true "Walrus is comming !")
 
 ### Team :
 Jusqu'a 6 personnes, il faut des gens motivés et bosseur 
