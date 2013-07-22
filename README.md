@@ -49,3 +49,30 @@ Query builder ?
 Library easy load ?
 
 Light load ?
+
+###Arborescence
+=====================
+```
+ Walrus/
+  ├── app/
+  │   ├── config/
+  │   ├── components/
+  │   ├── log/
+  │   └── kernel.php
+  │   
+  ├── src/
+  │   ├── config
+  │   ├── controllers
+  │   ├── views
+  │   └── entities
+  ├── plugins/
+  ├── vendors/
+  └── web/
+      ├── walrus/
+      │  │── assets/
+      │  │  ├── css
+      │  │  ├── js
+      │  │  └── img
+      ├── index.php
+      └── .htaccess
+```
