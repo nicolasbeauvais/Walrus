@@ -18,21 +18,19 @@ Test unitaire [PHPUnit] (https://github.com/sebastianbergmann/phpunit/)
 
 Documentation [Doxygen] (http://www.stack.nl/~dimitri/doxygen/)
 
-### A Definir:
-Serveur de developpement ?
+Render: [Smarty] (http://www.smarty.net/)
+        [Twig] (http://twig.sensiolabs.org/)
+        [HAML] (https://code.google.com/p/phamlp/)
+        [Mustache] (http://mustache.github.io/)
+        
+Preprocessing CSS: [SASS] (http://sass-lang.com/)
 
-Render: Smarty, Twig, h20, haml autre ?
+Preprocessing Javascript: [CofeeScript] (http://coffeescript.org/)
 
-Framework javascript : jQuery ? Angular ? Backbone ?
-
-Preprocessing: [CSS] SASS ? LESS ?
-               [JS] CofeeScript ? typescript ?
-               
-On met du node.js quelque part ? c'est toujours utile :D:D
+Framework javascript : [jQuery] (http://jquery.com/)
 
 ### Features :
 gestion des routes
-
 
 Creation de Web service / API ?
 
