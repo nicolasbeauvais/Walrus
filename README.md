@@ -57,22 +57,32 @@ Light load ?
   ├── app/
   │   ├── config/
   │   ├── components/
-  │   ├── log/
-  │   └── kernel.php
+  │   └── log/
   │   
   ├── src/
-  │   ├── config
-  │   ├── controllers
-  │   ├── views
-  │   └── entities
-  ├── plugins/
+  │   ├── config/
+  │   ├── controllers/
+  │   ├── views/
+  │   └── entities/
   ├── vendors/
   └── web/
       ├── walrus/
-      │  │── assets/
-      │  │  ├── css
-      │  │  ├── js
-      │  │  └── img
-      ├── index.php
-      └── .htaccess
+      └── index.php
 ```
+
+#####app
+========
+Coeur de Walrus
+
+#####src
+=======
+Modele/Vue/Controleur du projet
+
+#####vendors
+===========
+Composant externe a Walrus
+
+#####web
+========
+Fichiers accessibles coté client
+
