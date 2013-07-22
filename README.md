@@ -82,3 +82,14 @@ Composant externe a Walrus
 #####web
 Fichiers accessibles coté client
 
+###Ordre d'execution
+=====================
+1. Gestion des erreurs
+2. Variables d'environement
+3. Configuration
+4. Lib / autres fonctions generale
+4. Base de donnée
+5. Routeur
+6. Controleur
+7. Modele
+8. Vue
