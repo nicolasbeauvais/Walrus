@@ -71,18 +71,14 @@ Light load ?
 ```
 
 #####app
-========
 Coeur de Walrus
 
 #####src
-=======
 Modele/Vue/Controleur du projet
 
 #####vendors
-===========
 Composant externe a Walrus
 
 #####web
-========
 Fichiers accessibles coté client
 
