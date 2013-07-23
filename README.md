@@ -5,7 +5,9 @@
 ![Walrus](https://github.com/E-Wok/Walrus/blob/master/Walrus.png?raw=true "Walrus is comming !")
 
 ### Team :
-Jusqu'a 6 personnes, il faut des gens motivés et bosseur 
+Jusqu'a 6 personnes, il faut des gens motivés et bosseur.
+
+Rendre le repo ouvert par la suite ? Faire gaffe à ce que personne vienne nous piquer des idées et du code dans la promo.
 
 ### A utilisé
 PHP 5.3.X
