@@ -4,35 +4,42 @@
 
 ![Walrus](https://github.com/E-Wok/Walrus/blob/master/Walrus.png?raw=true "Walrus is comming !")
 
-### Team :
-Jusqu'a 6 personnes, il faut des gens motivés et bosseur 
+### Team
+Jusqu'a 6 personnes, il faut des gens motivés et bosseur.
 
-### A utilisé
+### Miscelaneous
+Le repo sera ouvers apres la soutenance.
+
+### Composantes
+#####A utilisé (obligatoire):
 PHP 5.3.X
 
-Build [Composer] (http://getcomposer.org/)
+Build [Composer] (http://getcomposer.org/) ([Tutoriel] (http://net.tutsplus.com/tutorials/php/easy-package-management-with-composer/?search_index=28))
 
 Norme [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/fr/PSR-0.md)
+([Tutoriel 1] (https://github.com/php-fig/fig-standards/blob/master/accepted/fr/PSR-0.md),
+[Tutoriel 2] (http://net.tutsplus.com/tutorials/php/psr-huh/?search_index=32))
 
 Test unitaire [PHPUnit] (https://github.com/sebastianbergmann/phpunit/)
+([Tutoriel] (http://net.tutsplus.com/tutorials/php/how-to-write-testable-and-maintainable-code-in-php/?search_index=3),
+[Video] (http://net.tutsplus.com/tutorials/php/hands-on-unit-testing-with-phpunit/?search_index=1))
 
-### A Definir:
-Serveur de developpement ?
+Documentation [Doxygen] (http://www.stack.nl/~dimitri/doxygen/)
 
-Render: Smarty, Twig, h20, haml autre ?
+Render: [Smarty] (http://www.smarty.net/)
+        [Twig] (http://twig.sensiolabs.org/)
+        [HAML] (https://code.google.com/p/phamlp/)
+        [Mustache] (http://mustache.github.io/)
 
-Documentation : Doxygen ? PHPDoc ?
+#####Kikoulol Front-End (useless):
+Preprocessing CSS: [SASS] (http://sass-lang.com/)
 
-Framework javascript : jQuery ? Angular ? Backbone ?
+Preprocessing Javascript: [CofeeScript] (http://coffeescript.org/)
 
-Preprocessing: [CSS] SASS ? LESS ?
-               [JS] CofeeScript ? typescript ?
-               
-On met du node.js quelque part ? c'est toujours utile :D:D
+Framework javascript : [jQuery] (http://jquery.com/)
 
 ### Features :
-gestion des routes
-
+gestion des routes ?
 
 Creation de Web service / API ?
 
@@ -45,3 +52,47 @@ Generateur de formulaire ?
 Filer ?
 
 Query builder ?
+
+###Arborescence (Symfony like)
+=====================
+```
+ Walrus/
+  ├── app/
+  │   ├── config/
+  │   ├── components/
+  │   └── log/
+  │   
+  ├── src/
+  │   ├── config/
+  │   ├── controllers/
+  │   ├── views/
+  │   └── entities/
+  ├── vendors/
+  └── web/
+      ├── walrus/
+      └── index.php
+```
+
+#####app
+Coeur de Walrus
+
+#####src
+Modele/Vue/Controleur du projet
+
+#####vendors
+Composant externe a Walrus
+
+#####web
+Fichiers accessibles coté client
+
+###Ordre d'execution
+=====================
+1. Gestion des erreurs
+2. Variables d'environement
+3. Configuration
+4. Lib / autres fonctions generale
+4. Base de donnée
+5. Routeur
+6. Controleur
+7. Modele
+8. Vue
