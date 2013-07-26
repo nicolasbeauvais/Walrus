@@ -14,11 +14,15 @@ Le repo sera ouvers apres la soutenance.
 #####A utilisé (obligatoire):
 PHP 5.3.X
 
-Build [Composer] (http://getcomposer.org/)
+Build [Composer] (http://getcomposer.org/) ([Tutoriel] (http://net.tutsplus.com/tutorials/php/easy-package-management-with-composer/?search_index=28))
 
 Norme [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/fr/PSR-0.md)
+([Tutoriel 1] (https://github.com/php-fig/fig-standards/blob/master/accepted/fr/PSR-0.md),
+[Tutoriel 2] (http://net.tutsplus.com/tutorials/php/psr-huh/?search_index=32))
 
 Test unitaire [PHPUnit] (https://github.com/sebastianbergmann/phpunit/)
+([Tutoriel] (http://net.tutsplus.com/tutorials/php/how-to-write-testable-and-maintainable-code-in-php/?search_index=3),
+[Video] (http://net.tutsplus.com/tutorials/php/hands-on-unit-testing-with-phpunit/?search_index=1))
 
 Documentation [Doxygen] (http://www.stack.nl/~dimitri/doxygen/)
 
