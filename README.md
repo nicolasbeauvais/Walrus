@@ -11,7 +11,8 @@ Jusqu'a 6 personnes, il faut des gens motivés et bosseur.
 Rendre le repo ouvert par la suite ? Faire gaffe à ce que personne vienne nous piquer des idées et du code dans la promo.
 => Rendre le repo ouvers apres la soutenance ? comme Tiitz l'a fait
 
-### A utilisé
+### Composantes
+#####A utilisé (obligatoire):
 PHP 5.3.X
 
 Build [Composer] (http://getcomposer.org/)
@@ -26,7 +27,8 @@ Render: [Smarty] (http://www.smarty.net/)
         [Twig] (http://twig.sensiolabs.org/)
         [HAML] (https://code.google.com/p/phamlp/)
         [Mustache] (http://mustache.github.io/)
-        
+
+#####Kikoulol Front-End (useless):
 Preprocessing CSS: [SASS] (http://sass-lang.com/)
 
 Preprocessing Javascript: [CofeeScript] (http://coffeescript.org/)
@@ -34,7 +36,7 @@ Preprocessing Javascript: [CofeeScript] (http://coffeescript.org/)
 Framework javascript : [jQuery] (http://jquery.com/)
 
 ### Features :
-gestion des routes
+gestion des routes ?
 
 Creation de Web service / API ?
 
@@ -48,11 +50,7 @@ Filer ?
 
 Query builder ?
 
-Library easy load ?
-
-Light load ?
-
-###Arborescence
+###Arborescence (Symfony like)
 =====================
 ```
  Walrus/
