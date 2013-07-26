@@ -8,8 +8,7 @@
 Jusqu'a 6 personnes, il faut des gens motivés et bosseur.
 
 ### Miscelaneous
-Rendre le repo ouvert par la suite ? Faire gaffe à ce que personne vienne nous piquer des idées et du code dans la promo.
-=> Rendre le repo ouvers apres la soutenance ? comme Tiitz l'a fait
+Le repo sera ouvers apres la soutenance.
 
 ### Composantes
 #####A utilisé (obligatoire):
