@@ -53,6 +53,8 @@ Filer ?
 
 Query builder ?
 
+Caching ?
+
 ###Arborescence (Symfony like)
 =====================
 ```
