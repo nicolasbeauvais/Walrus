@@ -58,6 +58,8 @@ Query builder ?
 
 Caching ?
 
+Gestion d'instance ?
+
 ###Arborescence (Symfony like)
 =====================
 ```
