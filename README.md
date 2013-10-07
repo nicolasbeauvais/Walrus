@@ -31,7 +31,7 @@ Documentation [Doxygen] (http://www.stack.nl/~dimitri/doxygen/)
 
 Render: [Smarty] (http://www.smarty.net/)
         [Twig] (http://twig.sensiolabs.org/)
-        [HAML] (https://code.google.com/p/phamlp/)
+        [HAML] (https://code.google.com/p/phamlp/ also see http://phphaml.sourceforge.net/)
         [Mustache] (http://mustache.github.io/)
 
 #####Kikoulol Front-End (useless):
