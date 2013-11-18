@@ -34,6 +34,8 @@ Render: [Smarty] (http://www.smarty.net/)
         [HAML] (https://code.google.com/p/phamlp/ also see http://phphaml.sourceforge.net/)
         [Mustache] (http://mustache.github.io/)
 
+Monitoring / Perf : XDebug & [KCacheGrind] (http://kcachegrind.sourceforge.net/)
+
 #####Kikoulol Front-End (useless):
 Preprocessing CSS: [SASS] (http://sass-lang.com/)
 
@@ -75,7 +77,7 @@ Gestion d'instance ?
   │   ├── views/
   │   └── entities/
   ├── vendors/
-  └── web/
+  └── www/
       ├── walrus/
       └── index.php
 ```
@@ -89,17 +91,5 @@ Modele/Vue/Controleur du projet
 #####vendors
 Composant externe a Walrus
 
-#####web
+#####www
 Fichiers accessibles coté client
-
-###Ordre d'execution
-=====================
-1. Gestion des erreurs
-2. Variables d'environement
-3. Configuration
-4. Lib / autres fonctions generale
-4. Base de donnée
-5. Routeur
-6. Controleur
-7. Modele
-8. Vue
