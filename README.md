@@ -48,6 +48,8 @@ gestion des routes ?
 
 Creation de Web service / API ?
 
+Gestion d'API externe (google etc...) ?
+
 Outil de long polling ?
 
 Gestion d'ACL (droits utilisateur) ?
@@ -60,7 +62,11 @@ Query builder ?
 
 Caching ?
 
-Gestion d'instance ?
+Instances ?
+
+Modules ?
+
+Full Ajax ?
 
 ###Arborescence (Symfony like)
 =====================
