@@ -4,15 +4,9 @@
 
 ![Walrus](https://github.com/E-Wok/Walrus/blob/master/Walrus.png?raw=true "Walrus is comming !")
 
-### Team
-Jusqu'a 6 personnes, il faut des gens motivés et bosseur.
-
-### Miscelaneous
-Le repo sera ouvers apres la soutenance.
-
 ### Composantes
 #####A utilisé (obligatoire):
-PHP 5.3.X
+PHP 5.3.X ou 5.5.X ?
 
 Gestion des dépendances [Composer] (http://getcomposer.org/) ([Tutoriel] (http://net.tutsplus.com/tutorials/php/easy-package-management-with-composer/?search_index=28))
 
@@ -67,35 +61,3 @@ Instances ?
 Modules ?
 
 Full Ajax ?
-
-###Arborescence (Symfony like)
-=====================
-```
- Walrus/
-  ├── app/
-  │   ├── config/
-  │   ├── components/
-  │   └── log/
-  │   
-  ├── src/
-  │   ├── config/
-  │   ├── controllers/
-  │   ├── views/
-  │   └── entities/
-  ├── vendors/
-  └── www/
-      ├── walrus/
-      └── index.php
-```
-
-#####app
-Coeur de Walrus
-
-#####src
-Modele/Vue/Controleur du projet
-
-#####vendors
-Composant externe a Walrus
-
-#####www
-Fichiers accessibles coté client
