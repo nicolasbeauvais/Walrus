@@ -17,8 +17,9 @@ Norme [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/fr/P
 ([Tutoriel 1] (https://github.com/php-fig/fig-standards/blob/master/accepted/fr/PSR-0.md),
 [Tutoriel 2] (http://net.tutsplus.com/tutorials/php/psr-huh/?search_index=32))
 
+
 _NE PAS OUBLIER D'UTILISER [TravisCI] (https://travis-ci.org/)_
-Ca nous servira a run les specs pour être certains que notre build passe.
+Ca nous servira a run les specs pour être certains que notre build passe. ?
 
 Test unitaire [PHPUnit] (https://github.com/sebastianbergmann/phpunit/)
 ([Tutoriel] (http://net.tutsplus.com/tutorials/php/how-to-write-testable-and-maintainable-code-in-php/?search_index=3),
