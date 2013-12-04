@@ -8,6 +8,9 @@
 #####A utilisé (obligatoire):
 PHP 5.3.X ou 5.5.X ?
 
+####Cible
+
+
 Gestion des dépendances [Composer] (http://getcomposer.org/) ([Tutoriel] (http://net.tutsplus.com/tutorials/php/easy-package-management-with-composer/?search_index=28))
 
 Norme [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/fr/PSR-0.md)
@@ -38,26 +41,20 @@ Preprocessing Javascript: [CofeeScript] (http://coffeescript.org/)
 Framework javascript : [jQuery] (http://jquery.com/)
 
 ### Features :
-gestion des routes ?
+Lazy load
+Routage
+Helper
+Facilité la creation d'API
+Grunt
+ORM
+CLI
+ACL
+Generateur de formulaire
+Cache avec le protocol HTTP
+Instance ?
 
-Creation de Web service / API ?
 
-Gestion d'API externe (google etc...) ?
-
-Outil de long polling ?
-
-Gestion d'ACL (droits utilisateur) ?
-
-Generateur de formulaire ?
-
+traduction po / yaml ?
+Outil de long polling / web socket ?
 Filer ?
-
-Query builder ?
-
-Caching ?
-
-Instances ?
-
 Modules ?
-
-Full Ajax ?
