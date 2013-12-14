@@ -6,22 +6,28 @@
 
 session_start();
 
-//a bouger dans la config ?
-define("APP_PATH", dirname(__FILE__) ."/");
-define("ROOT_PATH", preg_replace($pattern, "", dirname(__FILE__)));
+use Walrus\core\Kernel\WalrusKernel as WalrusKernel;
 
-var_dump(ROOT_PATH);
-function __autoload($class_name)
+//a bouger dans la config ?
+define("APP_PATH", dirname(__FILE__) . '/');
+define("ROOT_PATH", substr(dirname(__FILE__), 0, -4) . '/');
+
+function __autoload ($class_name)
 {
-    if (is_file('/engine/controllers/' . $class_name . '.php'))
-        require_once('/engine/controllers/' . $class_name . '/' . $class_name . '.php');
+    if (strrpos($class_name, "\\")) {
+        $exploded_class = explode('\\', $class_name);
+        $class_name = array_pop($exploded_class);
+    }
+
+    if (is_file(ROOT_PATH . 'Walrus/controllers/' . $class_name . '.php')) {
+        require_once(ROOT_PATH . 'Walrus/controllers/' . $class_name . '.php');
+    }
+    if (is_file(ROOT_PATH . 'Walrus/core/' . $class_name . '.php')) {
+        require_once(ROOT_PATH . 'Walrus/core/' . $class_name . '.php');
+    }
+    if (is_file(ROOT_PATH . 'Walrus/models/' . $class_name . '.php')) {
+        require_once(ROOT_PATH . 'Walrus/models/' . $class_name . '.php');
+    }
 }
 
-// require our registry
-require_once('/engine/Walrus_registry.php');
-$registry = Walrus_registry::singleton();
-
-// print out the frameworks name - just to check everything is working
-print $registry->getFrameworkName();
-
-exit();
+WalrusKernel::execute();
