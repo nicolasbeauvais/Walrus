@@ -15,7 +15,7 @@ class WalrusKernel
     {
 
         self::bootstrap();
-        new WalrusRoute();
+        WalrusRoute::singleton();
     }
 
     private static function bootstrap()
