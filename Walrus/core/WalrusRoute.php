@@ -10,12 +10,18 @@ class WalrusRoute
 {
     private $route_current;
     private $route_params;
+    private static $instance;
 
-    public function __construct()
+    private function __construct()
+    {
+
+    }
+
+    public static function singleton()
     {
         if (!isset(self::$instance)) {
-            self::route();
             $obj = __CLASS__;
+            self::route();
             self::$instance = new $obj;
         }
 
@@ -49,7 +55,7 @@ class WalrusRoute
             }
         }
 
-        var_dump($controller, $method, $params);
+        var_dump($controller, $method, isset($params) ? $params : 'no params');
     }
 
     public function getRoute()
@@ -65,8 +71,6 @@ class WalrusRoute
 
         return $this->route_params;
     }
-
-    private static $instance;
 
     public function __clone()
     {
