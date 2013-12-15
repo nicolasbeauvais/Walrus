@@ -8,8 +8,10 @@ namespace Walrus\core\Route;
 
 class WalrusRoute
 {
-    private $route_current;
-    private $route_params;
+    private static $route;
+    private static $route_with_params;
+    private static $params;
+
     private static $instance;
 
     private function __construct()
@@ -32,6 +34,12 @@ class WalrusRoute
     {
 
         //walrus.com/controller/method/param1/value1/param2/value2/
+        if (!isset($_GET['url'])) {
+            self::$route = '';
+            self::$route_with_params = '';
+            self::$params = '';
+            return;
+        }
 
         $route = explode('/', rtrim($_GET['url'], "/"));
         $count = count($route);
@@ -60,16 +68,17 @@ class WalrusRoute
 
     public function getRoute()
     {
-        return $this->route_current;
+        return self::$route;
     }
 
     public function getParams()
     {
-        if (!isset($this->route_params)) {
-            throw new \Exception("No parameters set");
-        }
+        return isset(self::$params) && !empty(self::$params) ? self::$params : false;
+    }
 
-        return $this->route_params;
+    public function getRouteWithParams()
+    {
+        return isset(self::$route_with_params) && !empty(self::$route_with_params) ? self::$route_with_params : false;
     }
 
     public function __clone()
