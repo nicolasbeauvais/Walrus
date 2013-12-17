@@ -6,7 +6,7 @@
 
 ### Composantes
 #####A utilisé (obligatoire):
-PHP 5.3.X ou 5.5.X ?
+PHP 5.3.X ou 5.5.X ??
 
 ####Cible
 
