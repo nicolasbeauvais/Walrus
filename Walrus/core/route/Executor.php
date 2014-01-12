@@ -16,10 +16,10 @@ class Executor
 
         // create the reflection class
         try {
-            $rc = new ReflectionClass($cb[0]);
+            $rc = new ReflectionClass('engine\controllers\\' . $cb[0]);
         } catch (Exception $e) {
-            //@TODO: Exception Handler
-            die;
+            echo 'Exception: ',  $e->getMessage(), "\n";
+            return 0;
         }
 
         $args = null;
