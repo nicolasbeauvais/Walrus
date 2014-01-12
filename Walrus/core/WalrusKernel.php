@@ -6,8 +6,7 @@
 
 namespace Walrus\core\Kernel;
 
-use Walrus\core\route\Mux;
-use Walrus\core\route\Executor;
+use Walrus\core\route;
 
 class WalrusKernel
 {
@@ -17,7 +16,7 @@ class WalrusKernel
 
         self::bootstrap();
 
-        $mux = new Mux\Mux();
+        $mux = new route\Mux();
 
         $mux->add('/product', array('ProductController','listAction'));
         $mux->add('/product/:id', array('ProductController','itemAction'), array(
@@ -25,7 +24,7 @@ class WalrusKernel
             'default' => array( 'id' => '1', )
         ));
         $route = $mux->dispatch('/product/1');
-        Executor\Executor::execute($route);
+        route\Executor::execute($route);
     }
 
     private static function bootstrap()

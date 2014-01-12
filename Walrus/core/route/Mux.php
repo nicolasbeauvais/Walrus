@@ -1,6 +1,6 @@
 <?php
 
-namespace Walrus\core\route\Mux;
+namespace Walrus\core\route;
 
 use Walrus\core\route\PatternCompiler;
 
@@ -121,7 +121,7 @@ class Mux
         // compile place holder to patterns
         $pcre = strpos($pattern, ':') !== false;
         if ($pcre) {
-            $routeArgs = PatternCompiler\PatternCompiler::compile($pattern, $options);
+            $routeArgs = PatternCompiler::compile($pattern, $options);
 
             // generate a pcre pattern route
             return $this->routes[] = array(

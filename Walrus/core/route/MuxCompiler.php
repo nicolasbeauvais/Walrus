@@ -1,6 +1,6 @@
 <?php
 
-namespace Walrus\core\route\MuxCompiler;
+namespace Walrus\core\route;
 
 use Walrus\core\route\Mux;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Walrus\core\route\PatternCompiler;
+namespace Walrus\core\route;
 
 /**
  * Compile path string into PCRE pattern:
