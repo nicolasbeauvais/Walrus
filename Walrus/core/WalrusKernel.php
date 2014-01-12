@@ -16,7 +16,7 @@ class WalrusKernel
 
         self::bootstrap();
 
-        $mux = new route\Mux();
+        $mux = new route\Route();
 
         $mux->add('/product', array('HelloController','doHelloWorld'));
         $mux->add('/product/:id', array('HelloController','doHelloWorld'), array(
