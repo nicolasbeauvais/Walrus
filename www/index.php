@@ -21,13 +21,18 @@ function __autoload ($class_name)
 
     if (is_file(ROOT_PATH . 'Walrus/controllers/' . $class_name . '.php')) {
         require_once(ROOT_PATH . 'Walrus/controllers/' . $class_name . '.php');
-    }
-    if (is_file(ROOT_PATH . 'Walrus/core/' . $class_name . '.php')) {
+
+    } elseif (is_file(ROOT_PATH . 'Walrus/core/' . $class_name . '.php')) {
         require_once(ROOT_PATH . 'Walrus/core/' . $class_name . '.php');
-    }
-    if (is_file(ROOT_PATH . 'Walrus/models/' . $class_name . '.php')) {
+
+    } elseif (is_file(ROOT_PATH . 'Walrus/core/route/' . $class_name . '.php')) {
+        require_once(ROOT_PATH . 'Walrus/core/route/' . $class_name . '.php');
+
+    } elseif (is_file(ROOT_PATH . 'Walrus/models/' . $class_name . '.php')) {
         require_once(ROOT_PATH . 'Walrus/models/' . $class_name . '.php');
     }
+
+
 }
 
 WalrusKernel::execute();
