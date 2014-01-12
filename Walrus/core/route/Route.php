@@ -2,14 +2,12 @@
 
 namespace Walrus\core\route;
 
-use Walrus\core\route\PatternCompiler;
-
 define('REQ_METHOD_GET', 1);
 define('REQ_METHOD_POST', 2);
 define('REQ_METHOD_PUT', 3);
 define('REQ_METHOD_DELETE', 4);
 
-class Mux
+class Route
 {
     public $routes = array();
 
@@ -21,7 +19,7 @@ class Mux
 
 
     /**
-     * When expand is enabled, all mounted Mux will expand the routes to the parent mux.
+     * When expand is enabled, all mounted Route will expand the routes to the parent mux.
      * This improves the dispatch performance when you have a lot of sub mux to dispatch.
      *
      * When expand is enabled, the pattern comparison strategy for 
@@ -166,13 +164,13 @@ class Mux
     public function compile($outFile)
     {
         // compile routes to php file as a cache.
-        usort($this->routes, array('Pux\\Mux' , 'sortRoutes'));
+        usort($this->routes, array('Pux\\Route' , 'sortRoutes'));
 
         $code = '<?php return ' . $this->export() . ';';
         return file_put_contents($outFile, $code);
     }
 
-    public function getSubMux($id)
+    public function getSubRoute($id)
     {
         if (isset($this->submux[ $id ])) {
             return $this->submux[ $id ];
