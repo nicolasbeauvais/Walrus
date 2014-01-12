@@ -1,6 +1,6 @@
 <?php
 
-namespace Walrus\core\route\Executor;
+namespace Walrus\core\route;
 
 use Exception;
 use ReflectionClass;
