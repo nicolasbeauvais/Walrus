@@ -18,8 +18,8 @@ class WalrusKernel
 
         $mux = new route\Mux();
 
-        $mux->add('/product', array('ProductController','listAction'));
-        $mux->add('/product/:id', array('ProductController','itemAction'), array(
+        $mux->add('/product', array('HelloController','doHelloWorld'));
+        $mux->add('/product/:id', array('HelloController','doHelloWorld'), array(
             'require' => array('id' => '\d+', ),
             'default' => array( 'id' => '1', )
         ));
