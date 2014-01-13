@@ -13,11 +13,13 @@ use Walrus\core\WalrusKernel as WalrusKernel;
 define("APP_PATH", dirname(__FILE__) . '/');
 define("ROOT_PATH", substr(dirname(__FILE__), 0, -4) . '/');
 
-function __autoload ($class_name)
+function __autoload ($called_class)
 {
-    if (strrpos($class_name, "\\")) {
-        $exploded_class = explode('\\', $class_name);
+    if (strrpos($called_class, "\\")) {
+        $exploded_class = explode('\\', $called_class);
         $class_name = array_pop($exploded_class);
+    } else {
+        $class_name = $called_class;
     }
 
     if (is_file(ROOT_PATH . 'Walrus/controllers/' . $class_name . '.php')) {
