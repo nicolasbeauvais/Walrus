@@ -8,4 +8,9 @@ class HelloController
     {
         echo 'Hello World !';
     }
+
+    public function doHelloWorldNew()
+    {
+        echo 'new Hello World !';
+    }
 }

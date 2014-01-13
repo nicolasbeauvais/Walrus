@@ -1,0 +1,21 @@
+#$mux->add('/product', ['ProductController','listAction']);
+#$mux->add('/product/:id', ['ProductController','itemAction'] , [
+#    'require' => [ 'id' => '\d+', ],
+#    'default' => [ 'id' => '1', ]
+#]);z
+
+_hello:
+    method: 'get'
+    path:   '/hello'
+    controller:   'HelloController'
+    action: 'doHelloWorld'
+    params:
+        require:
+            id: '\d+'
+        default:
+            id: 1
+
+_helloNew:
+    path:   '/helloNew'
+    controller:   'HelloController'
+    action: 'doHelloWorldNew'
