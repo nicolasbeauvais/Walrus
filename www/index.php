@@ -7,7 +7,7 @@
 
 session_start();
 
-use Walrus\core\Kernel\WalrusKernel as WalrusKernel;
+use Walrus\core\WalrusKernel as WalrusKernel;
 
 //a bouger dans la config ?
 define("APP_PATH", dirname(__FILE__) . '/');
@@ -31,6 +31,9 @@ function __autoload ($class_name)
 
     } elseif (is_file(ROOT_PATH . 'Walrus/models/' . $class_name . '.php')) {
         require_once(ROOT_PATH . 'Walrus/models/' . $class_name . '.php');
+
+    } elseif (is_file(ROOT_PATH . 'vendors/' . $class_name . '.php')) {
+        require_once(ROOT_PATH . 'vendors/' . $class_name . '.php');
 
     } elseif (is_file(ROOT_PATH . 'engine/controllers/' . $class_name . '.php')) {
         require_once(ROOT_PATH . 'engine/controllers/' . $class_name . '.php');
