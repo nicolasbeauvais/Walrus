@@ -4,7 +4,7 @@
  * "Created: 16:10 13/12/13
  */
 
-namespace Walrus\core\Kernel;
+namespace Walrus\core;
 
 use Walrus\core\route;
 

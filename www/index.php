@@ -7,7 +7,7 @@
 
 session_start();
 
-use Walrus\core\Kernel\WalrusKernel as WalrusKernel;
+use Walrus\core\WalrusKernel as WalrusKernel;
 
 //a bouger dans la config ?
 define("APP_PATH", dirname(__FILE__) . '/');
