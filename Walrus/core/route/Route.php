@@ -17,7 +17,6 @@ class Route
 
     public $id;
 
-
     /**
      * When expand is enabled, all mounted Route will expand the routes to the parent mux.
      * This improves the dispatch performance when you have a lot of sub mux to dispatch.
@@ -35,6 +34,11 @@ class Route
     public static function generateId()
     {
         return ++static::$id_counter;
+    }
+
+    public static function makeRoutes()
+    {
+        $data = \Spyc::YAMLLoad('../config/routing.yml');
     }
 
     public function getId()
