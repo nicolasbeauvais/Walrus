@@ -1,6 +1,6 @@
 _hello:
     method: 'get'
-    path:   '/hello'
+    path:   '/hello/:id'
     controller:   'HelloController'
     action: 'doHelloWorld'
     params:
