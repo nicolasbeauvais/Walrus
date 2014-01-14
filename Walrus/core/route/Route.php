@@ -2,6 +2,8 @@
 
 namespace Walrus\core\route;
 
+use Exception;
+
 define('REQ_METHOD_GET', 1);
 define('REQ_METHOD_POST', 2);
 define('REQ_METHOD_PUT', 3);
@@ -38,6 +40,8 @@ class Route
 
     public static function makeRoutes()
     {
+        $url = isset($_GET['url']) ? '/' . rtrim($_GET['url'], "/") : '/';
+
         $routes = \Spyc::YAMLLoad('../config/routing.yml');
 
         $walrusRoutes = new Route();
@@ -61,10 +65,14 @@ class Route
         }
 
         //check current route
-        $dispatched = $walrusRoutes->dispatch('/');
+        $dispatched = $walrusRoutes->dispatch($url);
 
         //Execute route
-        Executor::execute($dispatched);
+        try {
+            Executor::execute($dispatched);
+        } catch (Exception $e) {
+            echo 'Exception: ',  $e->getMessage(), "\n";
+        }
     }
 
     public function getId()

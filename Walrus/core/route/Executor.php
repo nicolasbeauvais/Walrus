@@ -14,9 +14,17 @@ class Executor
     {
         $cb = $route[2]; /* get callback */
 
+        if (class_exists('engine\controllers\\' . $cb[0], true)) {
+            $class_name = 'engine\controllers\\' . $cb[0];
+        } elseif (class_exists('Walrus\controllers\\' . $cb[0], true)) {
+            $class_name = 'Walrus\controllers\\' . $cb[0];
+        } else {
+            throw new Exception('Requested route doesn\'t exist');
+        }
+
         // create the reflection class
         try {
-            $rc = new ReflectionClass('engine\controllers\\' . $cb[0]);
+            $rc = new ReflectionClass($class_name);
         } catch (Exception $e) {
             echo 'Exception: ',  $e->getMessage(), "\n";
             return 0;

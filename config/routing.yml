@@ -1,9 +1,3 @@
-#$mux->add('/product', ['ProductController','listAction']);
-#$mux->add('/product/:id', ['ProductController','itemAction'] , [
-#    'require' => [ 'id' => '\d+', ],
-#    'default' => [ 'id' => '1', ]
-#]);z
-
 _hello:
     method: 'get'
     path:   '/hello'

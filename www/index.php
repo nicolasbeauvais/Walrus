@@ -41,7 +41,7 @@ function __autoload ($called_class)
         require_once(ROOT_PATH . 'engine/controllers/' . $class_name . '.php');
 
     } else {
-        trigger_error("Can't find class " . $class_name, E_USER_ERROR);
+        return false;
     }
 }
 
