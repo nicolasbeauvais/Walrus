@@ -2,6 +2,8 @@
 
 namespace Walrus\core\route;
 
+use Exception;
+
 define('REQ_METHOD_GET', 1);
 define('REQ_METHOD_POST', 2);
 define('REQ_METHOD_PUT', 3);
@@ -38,7 +40,39 @@ class Route
 
     public static function makeRoutes()
     {
-        $data = \Spyc::YAMLLoad('../config/routing.yml');
+        $url = isset($_GET['url']) ? '/' . rtrim($_GET['url'], "/") : '/';
+
+        $routes = \Spyc::YAMLLoad('../config/routing.yml');
+
+        $walrusRoutes = new Route();
+
+        //Save all routes
+        foreach ($routes as $route) {
+
+            //@TODO: verification des variable (Exception ?)
+            $method = isset($route['method']) ? strtolower($route['method']) : 'add';
+            $path = isset($route['path']) ? $route['path'] : '';
+            $controller = isset($route['controller']) ? $route['controller'] : '';
+            $action = isset($route['action']) ? $route['action'] : '';
+            $params = isset($route['params']) ? $route['params'] : array();
+
+            $methodConstant = $walrusRoutes->getRequestMethodConstant($method);
+            if ($methodConstant != 0) {
+                $params['method'] = $methodConstant;
+            }
+
+            $walrusRoutes->add($path, array($controller, $action), $params);
+        }
+
+        //check current route
+        $dispatched = $walrusRoutes->dispatch($url);
+
+        //Execute route
+        try {
+            Executor::execute($dispatched);
+        } catch (Exception $e) {
+            echo 'Exception: ',  $e->getMessage(), "\n";
+        }
     }
 
     public function getId()
