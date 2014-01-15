@@ -44,6 +44,7 @@ class WalrusKernel
             }
         } else {
             $php_content = array(
+		"configfile" => array("language" => "yml"),  // to deal with
                 "database" => array("language" => "MySQL",
                                     "name" => "project",
                                     "password" => ""),
