@@ -4,6 +4,9 @@
 
 ![Walrus](https://github.com/E-Wok/Walrus/blob/master/Walrus.png?raw=true "Walrus is comming !")
 
+Simple, fast and lightweight.
+Certainly not that whatever factory.
+
 ### Version
 PHP > 5.3.X
 
