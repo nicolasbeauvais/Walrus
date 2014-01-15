@@ -6,7 +6,7 @@
 
 namespace Walrus\core;
 
-use Walrus\core\route\Route as WalrusRoute;
+use Walrus\core\route\Mux as WalrusRoute;
 
 class WalrusKernel
 {
