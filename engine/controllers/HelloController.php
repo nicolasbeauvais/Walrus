@@ -3,6 +3,10 @@ namespace engine\controllers;
 
 class HelloController
 {
+    public function helloHome ()
+    {
+        echo 'Home';
+    }
 
     public function doHelloWorld ($id = false)
     {
