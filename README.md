@@ -11,6 +11,7 @@ Certainly not that whatever factory.
 PHP > 5.3.X
 
 ####Cible
+Sites a grosse structure, performance, scalabilité, bon outils front end
 
 Gestion des dépendances [Composer] (http://getcomposer.org/) ([Tutoriel] (http://net.tutsplus.com/tutorials/php/easy-package-management-with-composer/?search_index=28))
 
