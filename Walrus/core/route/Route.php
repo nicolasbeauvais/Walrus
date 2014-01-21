@@ -1,5 +1,7 @@
 <?php
 
+namespace Walrus\core\route;
+
 class Route {
 	
 	/**
