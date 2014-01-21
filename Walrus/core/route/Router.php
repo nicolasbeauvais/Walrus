@@ -1,14 +1,17 @@
 <?php
 
+namespace Walrus\core\route;
+
 /**
  * Routing class to match request URL's against given routes and map them to a controller action.
  */
-class Router {
+class Router
+{
 
     /**
     * Array that holds all Route objects
     * @var array
-    */ 
+    */
     private $routes = array();
 
     /**
@@ -27,7 +30,8 @@ class Router {
      * Set the base url - gets prepended to all route url's.
      * @param string $base_url 
      */
-    public function setBasePath($basePath) {
+    public function setBasePath($basePath)
+    {
         $this->basePath = (string) $basePath;
     }
 

@@ -15,6 +15,7 @@ class WalrusAutoload
         'Walrus/controllers/',
         'Walrus/models/',
         'Walrus/core/',
+        'Walrus/core/route',
         'engine/controllers/',
         'engine/models/',
         'vendors/'
