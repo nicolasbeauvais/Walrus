@@ -85,34 +85,35 @@ class Route
 
     public function setName($name)
     {
-    	$this->name = (string) $name;
+        $this->name = (string) $name;
     }
 
-    public function setFilters(array $filters) {
-    	$this->filters = $filters;
+    public function setFilters(array $filters)
+    {
+        $this->filters = $filters;
     }
 
-    public function getRegex() {
-    	return preg_replace_callback("/:(\w+)/", array(&$this, 'substituteFilter'), $this->url);
+    public function getRegex()
+    {
+        return preg_replace_callback("/:(\w+)/", array(&$this, 'substituteFilter'), $this->url);
     }
 
-    private function substituteFilter($matches) {
-    	if (isset($matches[1]) && isset($this->filters[$matches[1]])) {
-        		return $this->filters[$matches[1]];
-        	}
+    private function substituteFilter($matches)
+    {
+        if (isset($matches[1]) && isset($this->filters[$matches[1]])) {
+            return $this->filters[$matches[1]];
+        }
 
-        	return "([\w-]+)";
+        return "([\w-]+)";
     }
 
-    public function getParameters() {
-    	return $this->parameters;
+    public function getParameters()
+    {
+        return $this->parameters;
     }
 
-    public function setParameters(array $parameters) {
-    	$this->parameters = $parameters;
+    public function setParameters(array $parameters)
+    {
+        $this->parameters = $parameters;
     }
-
-
-
-
 }
