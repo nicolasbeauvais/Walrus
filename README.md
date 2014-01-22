@@ -6,7 +6,7 @@
 
 ![Walrus](https://github.com/E-Wok/Walrus/blob/master/Walrus.png?raw=true "Walrus is comming !")
 
-> “We need a simple PHP framework that can build web applications easily and simply without all of those functionalities that are not necessary”
+> “We need a simple PHP framework that can build web applications easily and simply without all of those features that are not necessary”
 
 Walrus is a framework for building web-application in a very simple way according to the Model-View-Controller (MVC) pattern.
 
