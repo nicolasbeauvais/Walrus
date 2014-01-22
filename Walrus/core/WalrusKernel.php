@@ -17,7 +17,8 @@ class WalrusKernel
     {
         //self::bootstrap();
         try {
-            WalrusRouter::makeRoutes();
+            $WalrusRoute = new WalrusRouter();
+            $WalrusRoute->execute();
         } catch (Exception $e) {
 
         }
