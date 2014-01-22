@@ -9,7 +9,6 @@
 //@TODO: Add singleton patten
 namespace Walrus\core;
 
-
 use Spyc\Spyc as Spyc;
 use Walrus\core\entity\Route as Route;
 use Exception;
@@ -20,8 +19,6 @@ use Exception;
  */
 class WalrusRouter
 {
-
-
     /**
      * Array that holds all Route objects
      * @var array
@@ -104,9 +101,8 @@ class WalrusRouter
             && ($_method = strtoupper($_POST['_method']))
             && in_array($_method, array('PUT', 'DELETE'));
 
-        //@TODO: change _SERVER by old Walrus get route
         $requestMethod = $checkMethod ? $_method : $_SERVER['REQUEST_METHOD'];
-        $requestUrl = $_SERVER['REQUEST_URI'];
+        $requestUrl = isset($_GET['url']) ? $_GET['url'] : '/';
 
         // strip GET variables from URL
         if (($pos = strpos($requestUrl, '?')) !== false) {
@@ -199,9 +195,8 @@ class WalrusRouter
     public function getRoutesFromYAML()
     {
         $this->setBasePath('/');
-
+        $this->map('/', 'someController:indexAction', array('methods' => 'GET'));
         //load routes
-
         $route = $this->matchCurrentRequest();
         
         /*
