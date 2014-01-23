@@ -189,6 +189,31 @@ class WalrusRouter
     }
 
     /**
+     * Match routes, make verification on controller and action.
+     */
+    public function process()
+    {
+        // @TODO: check every route parameter and throw Exceptions
+        $route = $this->matchCurrentRequest();
+
+        // sanitize
+        if ($route->getMethods() === 'GET') {
+            $_POST[] = array();
+        }
+
+        $toCall = explode(':', $route->getTarget());
+
+        if (count($toCall) !== 2) {
+            $controller = $toCall[0];
+            $action = $toCall[1];
+        } else {
+            // @TODO: throw Exception
+        }
+
+        var_dump($route);
+    }
+
+    /**
      * Special Walrus router.
      * Make use of pux with YAML functionality.
      */
@@ -197,8 +222,8 @@ class WalrusRouter
         $this->setBasePath('/');
         $this->map('/', 'someController:indexAction', array('methods' => 'GET'));
         //load routes
-        $route = $this->matchCurrentRequest();
-        
+        $this->process();
+        die;
         /*
         $url = isset($_GET['url']) ? '/' . rtrim($_GET['url'], "/") : '/';
 
