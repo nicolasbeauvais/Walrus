@@ -12,7 +12,7 @@ Walrus is a framework for building web-application in a very simple way accordin
 
 When it comes to building web applications we have plenty of choices. There must be around 30 or 40 PHP frameworks that are recognized as capable of building web applications in a proper way depending on the PHP community.
 
-In those nearly 40 frameworks only a bunch of them are truly used by web developers. This bunch of frameworks also represents the core of the PHP community.
+In those nearly 40 frameworks only a bunch of them are truly used by web developers. These few also represents the core of the PHP community.
 
 Those frameworks have their own properties and usage and they do a pretty great job for most of them. They both have plenty of front and back end features.
 Besides those features they have got a lot of tutorials, videos showing how to do this particular thing or this other thing. A lots of trainings also exist helping the community to get bigger everyday.
