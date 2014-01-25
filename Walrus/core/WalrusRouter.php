@@ -32,6 +32,12 @@ class WalrusRouter
     private $namedRoutes = array();
 
     /**
+     * String to store the current URL
+     * @var string
+     */
+    private $currentPath = '';
+
+    /**
      * The base REQUEST_URI. Gets prepended to all route url's.
      * @var string
      */
@@ -103,6 +109,7 @@ class WalrusRouter
 
         $requestMethod = $checkMethod ? $_method : $_SERVER['REQUEST_METHOD'];
         $requestUrl = isset($_GET['url']) ? $_GET['url'] : '/';
+        $this->currentPath = $requestUrl;
 
         // strip GET variables from URL
         if (($pos = strpos($requestUrl, '?')) !== false) {
