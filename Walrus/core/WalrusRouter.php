@@ -59,9 +59,61 @@ class WalrusRouter
      */
     public function execute()
     {
+        $this->setBasePath('/');
+
         //@TODO: check config for YAML / PHP mode
         $this->getRoutesFromYAML();
+
+        try {
+            $this->process();
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+
+        die;
+
+        /*
+        // create the reflection class
+        $rc = new ReflectionClass( $cb[0] );
+
+        $args = null;
+
+        // if the first argument is a class name string,
+        // then create the controller object.
+        if (is_string($cb[0])) {
+            $cb[0] = $controller = $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
+        } else {
+            $controller = $cb[0];
+        }
+
+        // check controller action method
+        if ($controller && ! method_exists($controller, $cb[1])) {
+            throw new Exception('Controller exception');
+        }
+
+        $rps = $rc->getMethod($cb[1])->getParameters();
+
+        $vars = isset($route[3]['vars'])
+            ? $route[3]['vars']
+            : array();
+
+        $arguments = array();
+        foreach ($rps as $param) {
+            $n = $param->getName();
+            if (isset($vars[ $n ])) {
+                $arguments[] = $vars[ $n ];
+            } elseif (isset($route['default'][ $n ])
+                && $default = $route['default'][ $n ]) {
+                $arguments[] = $default;
+            } elseif (!$param->isOptional() && !$param->allowsNull()) {
+                throw new Exception('parameter is not defined.');
+            }
+        }
+
+        return call_user_func_array($cb, $arguments);
+        */
     }
+
 
     /**
      * Route factory method.
