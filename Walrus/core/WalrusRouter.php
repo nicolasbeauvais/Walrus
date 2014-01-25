@@ -252,24 +252,34 @@ class WalrusRouter
      */
     public function process()
     {
-        // @TODO: check every route parameter and throw Exceptions
+        // @TODO: check method, name, filters, parameters
         $route = $this->matchCurrentRequest();
 
-        // sanitize
+        if (!$route) {
+            throw new Exception('[WalrusRouting] undefined route: ' . isset($_GET['url']) ? $_GET['url'] : '/');
+        }
+
+        // sanitize ?
         if ($route->getMethods() === 'GET') {
             $_POST[] = array();
         }
 
         $toCall = explode(':', $route->getTarget());
 
-        if (count($toCall) !== 2) {
+        if (count($toCall) === 2) {
             $controller = $toCall[0];
+            if (empty($controller)) {
+                throw new Exception('[WalrusRouting] empty route controller');
+            }
             $action = $toCall[1];
+            if (empty($action)) {
+                throw new Exception('[WalrusRouting] empty route action');
+            }
         } else {
-            // @TODO: throw Exception
+            throw new Exception('[WalrusRouting] invalid route target: "' . $route->getTarget() . '"');
         }
 
-        var_dump($route);
+        var_dump($route, $controller, $action);
     }
 
     /**
@@ -278,13 +288,6 @@ class WalrusRouter
      */
     public function getRoutesFromYAML()
     {
-        $this->setBasePath('/');
-        $this->map('/', 'someController:indexAction', array('methods' => 'GET'));
-        //load routes
-        $this->process();
-        die;
-        /*
-        $url = isset($_GET['url']) ? '/' . rtrim($_GET['url'], "/") : '/';
 
         //Load YAML routes
         if (file_exists('../config/routes.yml')) {
@@ -293,11 +296,9 @@ class WalrusRouter
             throw new Exception("Can't find routes.yml in config directory");
         }
 
-        //Transform YAML routes to valid Pux routes
-        $walrusRoutes = new Mux();
-
         foreach ($routes as $route) {
-
+            //@TODO: search YAML parameter
+            /*
             $method = isset($route['method']) ? strtolower($route['method']) : 'add';
             $path = isset($route['path']) ? $route['path'] : '';
             $controller = isset($route['controller']) ? $route['controller'] : '';
@@ -309,27 +310,10 @@ class WalrusRouter
                 $params['method'] = $methodConstant;
             }
 
-            $walrusRoutes->add($path, array($controller, $action), $params);
+            */
+
+            $this->map('/', 'someController:action', array('methods' => 'GET'));
         }
 
-        //check current route
-        $dispatched = $walrusRoutes->dispatch($url);
-
-        // create the reflection class
-        if (class_exists('engine\controllers\\' . $dispatched[2][0], true)) {
-            $dispatched[2][0] = 'engine\controllers\\' . $dispatched[2][0];
-        } elseif (class_exists('Walrus\controllers\\' . $dispatched[2][0], true)) {
-            $dispatched[2][0] = 'Walrus\controllers\\' . $dispatched[2][0];
-        } else {
-            throw new Exception('Requested route doesn\'t exist');
-        }
-
-        //Execute route
-        try {
-            Executor::execute($dispatched);
-        } catch (Exception $e) {
-            echo 'Exception: ',  $e->getMessage(), "\n";
-        }
-        */
     }
 }
