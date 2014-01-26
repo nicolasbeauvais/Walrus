@@ -95,6 +95,8 @@ class Route
 
     public function getRegex()
     {
+        // @TODO: change w+ pattern with route parameters /:id as w+
+        // @TODO: optional condition /(:id)
         return preg_replace_callback("/:(\w+)/", array(&$this, 'substituteFilter'), $this->url);
     }
 
