@@ -12,6 +12,7 @@ namespace Walrus\core;
 use Spyc\Spyc as Spyc;
 use Walrus\core\entity\Route as Route;
 use Exception;
+use Reflection;
 
 /**
  * Class WalrusRoute
@@ -69,49 +70,6 @@ class WalrusRouter
         } catch (Exception $e) {
             echo $e->getMessage();
         }
-
-        die;
-
-        /*
-        // create the reflection class
-        $rc = new ReflectionClass( $cb[0] );
-
-        $args = null;
-
-        // if the first argument is a class name string,
-        // then create the controller object.
-        if (is_string($cb[0])) {
-            $cb[0] = $controller = $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
-        } else {
-            $controller = $cb[0];
-        }
-
-        // check controller action method
-        if ($controller && ! method_exists($controller, $cb[1])) {
-            throw new Exception('Controller exception');
-        }
-
-        $rps = $rc->getMethod($cb[1])->getParameters();
-
-        $vars = isset($route[3]['vars'])
-            ? $route[3]['vars']
-            : array();
-
-        $arguments = array();
-        foreach ($rps as $param) {
-            $n = $param->getName();
-            if (isset($vars[ $n ])) {
-                $arguments[] = $vars[ $n ];
-            } elseif (isset($route['default'][ $n ])
-                && $default = $route['default'][ $n ]) {
-                $arguments[] = $default;
-            } elseif (!$param->isOptional() && !$param->allowsNull()) {
-                throw new Exception('parameter is not defined.');
-            }
-        }
-
-        return call_user_func_array($cb, $arguments);
-        */
     }
 
 
@@ -161,14 +119,16 @@ class WalrusRouter
 
         $requestMethod = $checkMethod ? $_method : $_SERVER['REQUEST_METHOD'];
         $requestUrl = isset($_GET['url']) ? $_GET['url'] : '/';
-        $this->currentPath = $requestUrl;
+
 
         // strip GET variables from URL
         if (($pos = strpos($requestUrl, '?')) !== false) {
             $requestUrl =  substr($requestUrl, 0, $pos);
         }
 
-        return $this->match($requestUrl, $requestMethod);
+        $this->currentPath = '/' . $requestUrl;
+
+        return $this->match($requestMethod);
     }
 
     /**
@@ -176,7 +136,7 @@ class WalrusRouter
      * If so, return route's target
      * If called multiple times
      */
-    public function match($requestUrl, $requestMethod = 'GET')
+    public function match($requestMethod = 'GET')
     {
         foreach ($this->routes as $route) {
 
@@ -186,7 +146,7 @@ class WalrusRouter
             }
 
             // check if request url matches route regex. if not, return false.
-            if (!preg_match("@^".$route->getRegex()."*$@i", $requestUrl, $matches)) {
+            if (!preg_match("@^".$route->getRegex()."*$@i", $this->currentPath, $matches)) {
                 continue;
             }
 
@@ -279,7 +239,49 @@ class WalrusRouter
             throw new Exception('[WalrusRouting] invalid route target: "' . $route->getTarget() . '"');
         }
 
-        var_dump($route, $controller, $action);
+        $class = WalrusAutoload::getNamespace($controller);
+
+        if (!$class) {
+            throw new Exception('[WalrusRouting] Can\'t load class: ' . $controller);
+        }
+
+        $rc = new \ReflectionClass($class);
+
+        $cb = array($controller, $action);
+        $args = null;
+
+        // if the first argument is a class name string,
+        // then create the controller object.
+        if (is_string($cb[0])) {
+            $cb[0] = $controller = $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
+        } else {
+            $controller = $cb[0];
+        }
+
+        // check controller action method
+        if ($controller && ! method_exists($controller, $cb[1])) {
+            throw new Exception('Controller exception');
+        }
+
+        $rps = $rc->getMethod($cb[1])->getParameters();
+
+        $filters = $route->getParameters();
+        $vars = isset($filters) ? $filters : array();
+        $arguments = array();
+
+        foreach ($rps as $param) {
+            $n = $param->getName();
+            if (isset($vars[ $n ])) {
+                $arguments[] = $vars[ $n ];
+            } elseif (isset($route['default'][ $n ])
+                && $default = $route['default'][ $n ]) {
+                $arguments[] = $default;
+            } elseif (!$param->isOptional() && !$param->allowsNull()) {
+                throw new Exception('parameter is not defined.');
+            }
+        }
+
+        return call_user_func_array($cb, $arguments);
     }
 
     /**
@@ -296,24 +298,25 @@ class WalrusRouter
             throw new Exception("Can't find routes.yml in config directory");
         }
 
-        foreach ($routes as $route) {
-            //@TODO: search YAML parameter
-            /*
-            $method = isset($route['method']) ? strtolower($route['method']) : 'add';
-            $path = isset($route['path']) ? $route['path'] : '';
+        foreach ($routes as $name => $route) {
+
+            $path = isset($route['path']) ? $route['path'] : '/';
             $controller = isset($route['controller']) ? $route['controller'] : '';
             $action = isset($route['action']) ? $route['action'] : '';
-            $params = isset($route['params']) ? $route['params'] : array();
 
-            $methodConstant = $walrusRoutes->getRequestMethodConstant($method);
-            if ($methodConstant != 0) {
-                $params['method'] = $methodConstant;
+            $toCall = $controller . ':' . $action;
+            $params = array();
+
+            $params['name'] = $name;
+
+            if (isset($route['method']) && !empty($route['method'])) {
+                $params['methods'] = isset($route['method']) ? strtoupper($route['method']) : 'GET';
+            }
+            if (isset($route['filters']) && !empty($route['filters'])) {
+                $params['filters'] = isset($route['filters']) ? $route['filters'] : array();
             }
 
-            */
-
-            $this->map('/', 'someController:action', array('methods' => 'GET'));
+            $this->map($path, $toCall, $params);
         }
-
     }
 }
