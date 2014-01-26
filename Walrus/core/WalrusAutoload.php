@@ -11,7 +11,7 @@ namespace Walrus\core;
 class WalrusAutoload
 {
 
-    private $classesPath = array(
+    private static $classesPath = array(
         'Walrus/controllers/',
         'Walrus/models/',
         'Walrus/core/',
@@ -38,13 +38,14 @@ class WalrusAutoload
 
         if (file_exists($path)) {
             require_once($path);
+            return true;
         } else {
 
             $vendors_path = ROOT_PATH . 'vendors/' . str_replace('\\', '/', $class_with_namespace) . '.php';
 
             if (file_exists($vendors_path)) {
                 require_once($vendors_path);
-                return;
+                return true;
             }
 
             if (strrpos($class_with_namespace, "\\")) {
@@ -54,12 +55,37 @@ class WalrusAutoload
                 $class_name = $class_with_namespace;
             }
 
-            foreach ($this->classesPath as $classPath) {
+            foreach (self::$classesPath as $classPath) {
 
                 if (file_exists(ROOT_PATH . $classPath . $class_name . '.php')) {
                     require_once(ROOT_PATH . $classPath . $class_name . '.php');
-                    return;
+                    return true;
                 }
+            }
+        }
+        return false;
+    }
+
+    public static function getNamespace($class)
+    {
+        $vendors_path = ROOT_PATH . 'vendors/' . str_replace('\\', '/', $class) . '.php';
+
+        if (file_exists($vendors_path)) {
+            require_once($vendors_path);
+            return true;
+        }
+
+        if (strrpos($class, "\\")) {
+            $exploded_class = explode('\\', $class);
+            $class_name = array_pop($exploded_class);
+        } else {
+            $class_name = $class;
+        }
+
+        foreach (self::$classesPath as $classPath) {
+
+            if (file_exists(ROOT_PATH . $classPath . $class_name . '.php')) {
+                return str_replace('/', '\\', $classPath . $class_name);
             }
         }
     }
