@@ -1,3 +1,3 @@
 <h1 id="coucou">
-  Hello World!
+  <?php echo htmlspecialchars($test,ENT_QUOTES,'UTF-8'); ?>
 </h1>
