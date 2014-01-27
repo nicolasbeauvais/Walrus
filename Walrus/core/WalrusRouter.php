@@ -183,13 +183,30 @@ class WalrusRouter
                 // grab array with matches
                 $argument_keys = $argument_keys[1];
 
+                // check params validity
+                $paramsToCheck = $route->getFilters();
+
                 // loop trough parameter names, store matching value in $params array
                 foreach ($argument_keys as $key => $name) {
                     if (isset($matches[$key + 1])) {
                         $params[$name] = $matches[$key + 1];
+
+                        if (isset($paramsToCheck['require']) && isset($paramsToCheck['require'][$name])) {
+                            $regex = $paramsToCheck['require'][$name];
+
+                            //test regex pattern
+                            if (!preg_match_all('@' . $regex . '@', $matches[$key + 1], $test)) {
+
+                                //else apply default value
+                                if (isset($paramsToCheck['default']) && isset($paramsToCheck['default'][$name])) {
+                                    $params[$name] = $paramsToCheck['default'][$name];
+                                } else {
+                                    return false;
+                                }
+                            }
+                        }
                     }
                 }
-
             }
 
             $route->setParameters($params);
@@ -198,7 +215,6 @@ class WalrusRouter
         }
         return false;
     }
-
 
     /**
      * Reverse route a named route
@@ -238,7 +254,6 @@ class WalrusRouter
      */
     public function process()
     {
-        // @TODO: check method, name, filters, parameters
         $route = $this->matchCurrentRequest();
 
         if (!$route) {
