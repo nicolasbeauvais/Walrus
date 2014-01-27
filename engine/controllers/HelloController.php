@@ -1,11 +1,14 @@
 <?php
 namespace engine\controllers;
 
-class HelloController
+use Walrus\core\WalrusFrontController as WalrusFrontController;
+
+class HelloController extends WalrusFrontController
 {
+
     public function helloHome ()
     {
-        echo 'Home';
+        $this->setView('home');
     }
 
     public function doHelloWorld ($id = false)
