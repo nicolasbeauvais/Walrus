@@ -6,7 +6,6 @@
  * Created: 20:46 15/01/14
  */
 
-//@TODO: Add singleton patten
 namespace Walrus\core;
 
 use Spyc\Spyc as Spyc;
@@ -53,6 +52,33 @@ class WalrusRouter
         $this->basePath = (string) $basePath;
     }
 
+    /**
+     * The WalrusRouter unique instance for singleton.
+     */
+    protected static $instance;
+
+    /**
+     * Private construct to prevent multiples instances
+     */
+    protected function __construct()
+    {
+    }
+
+    /**
+     * Private clone to prevent multiples instances
+     */
+    protected function __clone()
+    {
+    }
+
+    public static function getInstance()
+    {
+        if (!isset(self::$instance)) {
+            self::$instance = new self;
+        }
+
+        return self::$instance;
+    }
 
     /**
      * Launch the Walrus routing.
@@ -212,7 +238,6 @@ class WalrusRouter
      */
     public function process()
     {
-        // @TODO: check method, name, filters, parameters
         $route = $this->matchCurrentRequest();
 
         if (!$route) {
