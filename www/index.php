@@ -12,6 +12,7 @@ use Walrus\core\WalrusKernel as WalrusKernel;
 //a bouger dans la config ?
 define("APP_PATH", dirname(__FILE__) . '/');
 define("ROOT_PATH", substr(dirname(__FILE__), 0, -4) . '/');
+define("FRONT_PATH", ROOT_PATH . 'www/templates' . '/');
 
 require_once('../Walrus/core/WalrusAutoload.php');
 
