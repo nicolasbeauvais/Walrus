@@ -8,7 +8,7 @@
 
 namespace Walrus\core;
 
-use MtHaml\Exception;
+use Exception;
 
 class WalrusKernel
 {
@@ -20,8 +20,10 @@ class WalrusKernel
             $WalrusRoute = WalrusRouter::getInstance();
             $WalrusRoute->execute();
         } catch (Exception $e) {
-
+            // @TODO: add Exception
         }
+
+
     }
 
     private static function bootstrap()
@@ -64,4 +66,3 @@ class WalrusKernel
         //configuration here
     }
 }
-
