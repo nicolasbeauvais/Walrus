@@ -12,8 +12,13 @@ use MtHaml;
 
 class WalrusFrontController
 {
+    private $template = '';
+
+    private $registered = array();
+
     protected function setView($view)
     {
+        // check config for templating
         $haml = new MtHaml\Environment('php');
 
         $template = FRONT_PATH . 'hello/home.haml';
@@ -29,6 +34,29 @@ class WalrusFrontController
             touch($template.'.php', filemtime($template));
         }
 
-        require($template . '.php');
+        $this->template = $template . '.php';
+        $this->execute();
+    }
+
+    protected function register($key, $var)
+    {
+        if (!isset($key) || !isset($var)) {
+            throw new Exception('[WalrusFrontController] missing argument for function register');
+        }
+
+        $this->registered[$key] = $var;
+    }
+
+    private function execute()
+    {
+        if (count($this->registered) > 0) {
+            foreach ($this->registered as $WALRUS_key => $WALRUS_value) {
+                ${$WALRUS_key} = $WALRUS_value;
+            }
+            unset($WALRUS_key);
+            unset($WALRUS_value);
+        }
+
+        require($this->template);
     }
 }
