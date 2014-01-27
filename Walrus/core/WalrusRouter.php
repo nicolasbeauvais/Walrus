@@ -183,13 +183,21 @@ class WalrusRouter
                 // grab array with matches
                 $argument_keys = $argument_keys[1];
 
+                // check params validity
+                $paramsToCheck = $route->getFilters();
+
                 // loop trough parameter names, store matching value in $params array
                 foreach ($argument_keys as $key => $name) {
                     if (isset($matches[$key + 1])) {
                         $params[$name] = $matches[$key + 1];
+
+                        if (isset($paramsToCheck['require']) && array_key_exists($name, $paramsToCheck['require'])) {
+                            $regex = $paramsToCheck['require'][$name];
+                            // @TODO: test regex pattern on url args
+                            var_dump($matches[$key + 1], $regex);
+                        }
                     }
                 }
-
             }
 
             $route->setParameters($params);
