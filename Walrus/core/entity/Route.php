@@ -88,6 +88,11 @@ class Route
         $this->name = (string) $name;
     }
 
+    public function getFilters()
+    {
+        return $this->filters;
+    }
+
     public function setFilters(array $filters)
     {
         $this->filters = $filters;
