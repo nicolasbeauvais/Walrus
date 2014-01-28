@@ -80,11 +80,10 @@ class WalrusAutoload
      */
     public static function getNamespace($class)
     {
-        $vendors_path = ROOT_PATH . 'vendors/' . str_replace('\\', '/', $class) . '.php';
+        $vendors_path = ROOT_PATH . 'vendors/' . $class . '/' . str_replace('\\', '/', $class) . '.php';
 
         if (file_exists($vendors_path)) {
-            require_once($vendors_path);
-            return true;
+            return $class . '\\' . $class;
         }
 
         if (strrpos($class, "\\")) {
