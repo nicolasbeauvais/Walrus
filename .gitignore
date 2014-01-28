@@ -5,6 +5,11 @@ Thumbs.db
 # Software
 .dropbox
 
+# Build
+node_modules/
+Gruntfile.js
+package.json
+
 # IDEs
 .buildpath
 .project

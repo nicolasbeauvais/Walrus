@@ -1,35 +1,76 @@
 <?php
+
 /**
- * Author: Walrus Team
- * "Created: 16:10 13/12/13
+ * Walrus Framework
+ * File maintened by: Nicolas Beauvais (E-Wok)
+ * Created: 16:10 13/12/13
  */
 
-namespace Walrus\core\Kernel;
+namespace Walrus\core;
 
 use ActiveRecord\Config;
 use Walrus\core\route;
+use Exception;
 
 class WalrusKernel
 {
 
+    /**
+     * Main Kernel function, start config and routing.
+     */
     public static function execute()
     {
+        //self::bootstrap();
+        try {
+            $WalrusRoute = WalrusRouter::getInstance();
+            $WalrusRoute->execute();
+        } catch (Exception $e) {
+            // @TODO: add Exception
+        }
 
-        self::bootstrap();
-
-        $mux = new route\Route();
-
-        $mux->add('/product', array('HelloController','doHelloWorld'));
-        $mux->add('/product/:id', array('HelloController','doHelloWorld'), array(
-            'require' => array('id' => '\d+', ),
-            'default' => array( 'id' => '1', )
-        ));
-        $route = $mux->dispatch('/product/1');
-        route\Executor::execute($route);
+        WalrusFrontController::execute();
     }
 
+    /**
+     * Handle configuration.
+     */
     private static function bootstrap()
     {
+        $config_file = "../config/config.yml";
+
+        if (file_exists($config_file)) {
+
+            $array_info = \Spyc::YAMLLoad($config_file);
+            // \Spyc::YAMLDump($array, 4, 60)
+
+            if ($array_info['templating']['default'] == 'haml') {
+                //installer haml
+            } elseif ($array_info['templating']['default'] == 'smarty') {
+                //installer smarty
+            } else {
+                //installer twig
+            }
+
+            if ($array_info['database']['language'] == 'MySQL') {
+                //installer MySQL
+                $dbname = $array_info['database']['name'];
+                $dbpwd = $array_info['database']['password'];
+            } else {
+                // autre db ?
+            }
+        } else {
+            $php_content = array(
+                "database" => array("language" => "MySQL",
+                                    "name" => "project",
+                                    "password" => ""),
+                "templating" => array("default" => "haml")
+            );
+
+            $yml_content = \Spyc::YAMLDump($php_content);
+
+            file_put_contents($config_file, $yml_content, FILE_APPEND);
+        }
+
         // Initializing php-activerecord
         Config::initialize(function($cfg)
         {
@@ -40,6 +81,5 @@ class WalrusKernel
                 )
             );
         });
-
     }
 }
