@@ -18,8 +18,11 @@ class WalrusFrontController
 
     protected function setView($view)
     {
-        // check config for templating
+        // @TODO: check config for templating
         $haml = new MtHaml\Environment('php');
+
+        // @TODO: get child class name
+        // @TODO: stocker les templates dans une pile ? avec leurs propre variable
 
         $template = FRONT_PATH . 'hello/home.haml';
         $hamlCode = file_get_contents($template);

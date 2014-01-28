@@ -11,6 +11,9 @@ namespace Walrus\core;
 class WalrusAutoload
 {
 
+    /**
+     * Contain all directory to watch for autoload.
+     */
     private static $classesPath = array(
         'Walrus/controllers/',
         'Walrus/models/',
@@ -22,16 +25,19 @@ class WalrusAutoload
     );
 
     /**
-     * Constructor
-     * Constant contain my full path to Model, View, Controllers and Lobrary-
-     * Direcories.
-     *
+     * Set the autoload.
      */
     public function __construct()
     {
         spl_autoload_register(array($this,'autoload'));
     }
 
+    /**
+     * Autoload method.
+     *
+     * @param $class_with_namespace
+     * @return bool
+     */
     private function autoload($class_with_namespace)
     {
         $path = ROOT_PATH . str_replace('\\', '/', $class_with_namespace) . '.php';
@@ -66,6 +72,12 @@ class WalrusAutoload
         return false;
     }
 
+    /**
+     * Return the full 'namespace path' of a given class in string format.
+     *
+     * @param $class
+     * @return bool|mixed
+     */
     public static function getNamespace($class)
     {
         $vendors_path = ROOT_PATH . 'vendors/' . str_replace('\\', '/', $class) . '.php';
