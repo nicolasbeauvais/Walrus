@@ -1,7 +1,15 @@
 <?php
 
+/**
+ * Walrus Framework
+ * File maintened by: Nicolas Beauvais (E-Wok)
+ * Created: 19:36 28/01/14
+ */
+
+
 namespace Walrus\core;
 
+use Exception;
 
 class WalrusFileManager
 {
@@ -13,34 +21,39 @@ class WalrusFileManager
     /**
      * FileManager Basics
      */
-    function __construct ($root)
+    public function __construct ($root)
     {
-        if (!is_dir($root))
-            throw new FileManagerException('"' . $root . '" isn\'t a valid folder path');
+        if (!is_dir($root)) {
+            throw new Exception('"' . $root . '" isn\'t a valid folder path');
+        }
 
-        if ($root[strlen($root) - 1] !== '/')
+        if ($root[strlen($root) - 1] !== '/') {
             $root .= '/';
+        }
 
         $this->root = $root;
         $this->currentElem = $this->makePath('');
         $this->addLog('Filemanager as been initialized with the root: ' . $root);
     }
 
-    private function makePath ($path, $type = 'root', $needToExist = TRUE)
+    private function makePath ($path, $type = 'root', $needToExist = true)
     {
-        if (!empty($path) && $path[0] == '/')
+        if (!empty($path) && $path[0] == '/') {
             $path = substr($path, 1, strlen($path));
+        }
 
-        if (!empty($path) && $path[strlen($path) - 1] !== '/' && is_dir($this->root . $path))
+        if (!empty($path) && $path[strlen($path) - 1] !== '/' && is_dir($this->root . $path)) {
             $path .= '/';
+        }
 
-        if ($type === 'root')
+        if ($type === 'root') {
             $path = $this->root . $path;
-        else if ($type === 'current')
+        } elseif ($type === 'current') {
             $path = $this->currentElem . $path;
+        }
 
-        if ($needToExist && !file_exists($path)){
-            throw new FileManagerException('"' . $path . '" isn\'t a valid element');
+        if ($needToExist && !file_exists($path)) {
+            throw new Exception('"' . $path . '" isn\'t a valid element');
         }
 
         return $path;
@@ -60,10 +73,10 @@ class WalrusFileManager
 
     public function fileDetails ()
     {
-        $fileInfo['fileSize'] = $this->FM_fileSize($this->currentElem);
-        $fileInfo['name'] = $this->FM_basename($this->currentElem);
+        $fileInfo['fileSize'] = $this->fmFilesize($this->currentElem);
+        $fileInfo['name'] = $this->fmBasename($this->currentElem);
         $fileInfo['path'] = $this->currentElem;
-        $fileInfo['lastEdit'] = date('Y-m-d H:i:s', $this->FM_filemtime($this->currentElem));
+        $fileInfo['lastEdit'] = date('Y-m-d H:i:s', $this->fmFilemtime($this->currentElem));
 
         $this->addLog('Current item infos as been required');
         return $fileInfo;
@@ -71,20 +84,17 @@ class WalrusFileManager
 
     public function deleteCurrent ()
     {
-        if (is_dir($this->currentElem))
-        {
-            $directoryStream = $this->FM_opendir($this->currentElem);
-            while($file = $this->FM_readdir($directoryStream))
-            {
-                if($file != "." && $file != "..")
-                    throw new FileManagerException('"' . $this->currentElem . '" must be empty to delete it');
+        if (is_dir($this->currentElem)) {
+            $directoryStream = $this->fmOpendir($this->currentElem);
+            while ($file = $this->fmReaddir($directoryStream)) {
+                if ($file != "." && $file != "..") {
+                    throw new Exception('"' . $this->currentElem . '" must be empty to delete it');
+                }
             }
 
-            $this->FM_rmdir($this->currentElem);
-        }
-        else
-        {
-            $this->FM_unlink($this->currentElem);
+            $this->fmRmdir($this->currentElem);
+        } else {
+            $this->fmUnlink($this->currentElem);
         }
 
         $this->setCurrentElem('');
@@ -94,13 +104,14 @@ class WalrusFileManager
 
     public function renameCurrent ($newName)
     {
-        if (strpbrk($newName, "\\/?%*:|\"<>"))
-            throw new FileManagerException('"' . $newName . '" isn\'t a valid file name');
+        if (strpbrk($newName, "\\/?%*:|\"<>")) {
+            throw new Exception('"' . $newName . '" isn\'t a valid file name');
+        }
 
         $oldPath = $this->currentElem;
-        $newPath = $this->makePath($newName, 'root', FALSE);
+        $newPath = $this->makePath($newName, 'root', false);
 
-        $this->FM_rename($oldPath, $newPath);
+        $this->fmRename($oldPath, $newPath);
         $this->setCurrentElem($newName);
 
         $this->addLog('Current item as been renamed from: ' . $oldPath . ' to:' . $newPath);
@@ -110,23 +121,26 @@ class WalrusFileManager
     public function moveCurrent ($newPath)
     {
 
-        if (!empty($newPath) && $newPath[strlen($newPath)- 1] !== '/')
+        if (!empty($newPath) && $newPath[strlen($newPath)- 1] !== '/') {
             $newPath .= '/';
+        }
 
         $fileDetails = $this->fileDetails();
         $fileName = $fileDetails['name'];
 
-        if (!is_dir($this->root . $newPath))
-            throw new FileManagerException('"' . $this->root . $newPath . '" isn\'t a valid folder for move');
+        if (!is_dir($this->root . $newPath)) {
+            throw new Exception('"' . $this->root . $newPath . '" isn\'t a valid folder for move');
+        }
 
-        if(file_exists($newPath . $fileName))
-            throw new FileManagerException('"' . $newPath . $fileName . '" already exist');
+        if (file_exists($newPath . $fileName)) {
+            throw new Exception('"' . $newPath . $fileName . '" already exist');
+        }
 
         $filePath = $newPath . $fileName;
         $oldPath = $this->currentElem;
-        $newPath = $this->makePath($filePath, 'root', FALSE);
+        $newPath = $this->makePath($filePath, 'root', false);
 
-        $this->FM_rename($oldPath, $newPath);
+        $this->fmRename($oldPath, $newPath);
         $this->setCurrentElem($filePath);
 
         $this->addLog('Current item as been moved from: ' . $oldPath . ' to:' . $newPath);
@@ -137,10 +151,11 @@ class WalrusFileManager
      * Folders
      */
 
-    public function getElements ($recursive = FALSE)
+    public function getElements ($recursive = false)
     {
-        if (!is_dir($this->currentElem))
-            throw new FileManagerException('"' . $this->currentElem . '" need to be a folder');
+        if (!is_dir($this->currentElem)) {
+            throw new Exception('"' . $this->currentElem . '" need to be a folder');
+        }
 
         $elements = $this->getElementsRecursivly($this->currentElem, $recursive);
 
@@ -150,61 +165,59 @@ class WalrusFileManager
 
     public function getFolderTree ()
     {
-        if (!is_dir($this->currentElem))
-            throw new FileManagerException('"' . $this->currentElem . '" need to be a folder');
+        if (!is_dir($this->currentElem)) {
+            throw new Exception('"' . $this->currentElem . '" need to be a folder');
+        }
 
-        $elements = $this->getElementsRecursivly($this->currentElem, TRUE, TRUE);
+        $elements = $this->getElementsRecursivly($this->currentElem, true, true);
 
         $this->addLog('Current folder folderTree as been requested');
         return $elements;
     }
 
-    private function getElementsRecursivly ($path, $recursive, $dirOnly = FALSE)
+    private function getElementsRecursivly ($path, $recursive, $dirOnly = false)
     {
-        $folderStream = $this->FM_opendir($path);
+        $folderStream = $this->fmOpendir($path);
         $elements = array();
 
-        while($file = $this->FM_readdir($folderStream)){
+        while ($file = $this->fmReaddir($folderStream)) {
 
-            if($file == "." || $file == "..")
+            if ($file == "." || $file == "..") {
                 continue;
-
-            if(is_file($path . $file) && !$dirOnly)
-            {
-                $elements[] = $file;
             }
-            else if(is_dir($path . $file))
-            {
-                if ($recursive)
+
+            if (is_file($path . $file) && !$dirOnly) {
+                $elements[] = $file;
+            } elseif (is_dir($path . $file)) {
+                if ($recursive) {
                     $elements[$file] = $this->getElementsRecursivly($path . $file . '/', $recursive, $dirOnly);
-                else
+                } else {
                     $elements[] = $file;
+                }
             }
         }
-        $this->FM_closedir($folderStream);
+        $this->fmClosedir($folderStream);
 
         return $elements;
     }
 
     public function emptyFolder ()
     {
-        if (!is_dir($this->currentElem))
-            throw new FileManagerException('"' . $this->currentElem . '" need to be a folder');
+        if (!is_dir($this->currentElem)) {
+            throw new Exception('"' . $this->currentElem . '" need to be a folder');
+        }
 
-        $elements = $this->getElements(TRUE);
+        $elements = $this->getElements(true);
 
-        foreach ($elements AS $key => $value)
-        {
-            if (is_array($value) && !empty($value))
-                throw new FileManagerException('"' . $this->currentElem . $key . '" must be empty');
-
-            if (is_dir($this->currentElem . $key))
-            {
-                $this->FM_rmdir($this->currentElem . $key);
+        foreach ($elements as $key => $value) {
+            if (is_array($value) && !empty($value)) {
+                throw new Exception('"' . $this->currentElem . $key . '" must be empty');
             }
-            else
-            {
-                $this->FM_unlink($this->currentElem . $value);
+
+            if (is_dir($this->currentElem . $key)) {
+                $this->fmRmdir($this->currentElem . $key);
+            } else {
+                $this->fmUnlink($this->currentElem . $value);
             }
         }
 
@@ -213,14 +226,16 @@ class WalrusFileManager
 
     public function folderCreate ($folder, $chmod = 0700)
     {
-        if (strpbrk($folder, "\\/?%*:|\"<>"))
-            throw new FileManagerException('"' . $folder . '" isn\'t a valid folder name');
-        if (file_exists($this->currentElem . $folder))
-            throw new FileManagerException('"' . $this->currentElem . $folder . '" already exist');
+        if (strpbrk($folder, "\\/?%*:|\"<>")) {
+            throw new Exception('"' . $folder . '" isn\'t a valid folder name');
+        }
+        if (file_exists($this->currentElem . $folder)) {
+            throw new Exception('"' . $this->currentElem . $folder . '" already exist');
+        }
 
-        $path = $this->makePath($folder, 'current', FALSE);
+        $path = $this->makePath($folder, 'current', false);
 
-        $this->FM_mkdir($path, $chmod);
+        $this->fmMkdir($path, $chmod);
 
         $this->addLog('A new folder "' . $folder . '" as been folderCreated in ' . $this->currentElem);
         return $path;
@@ -237,15 +252,17 @@ class WalrusFileManager
 
     public function uploadFile ($fileInputName)
     {
-        if (!isset($_FILES[$fileInputName]) || empty($_FILES[$fileInputName]))
-            throw new FileManagerException('invalid input name for file upload : "' . $fileInputName . '"');
+        if (!isset($_FILES[$fileInputName]) || empty($_FILES[$fileInputName])) {
+            throw new Exception('invalid input name for file upload : "' . $fileInputName . '"');
+        }
 
-        if(empty($_FILES[$fileInputName]['tmp_name']) || $_FILES[$fileInputName]['error'] != UPLOAD_ERR_OK)
-            throw new FileManagerException('an error occurred during upload : "' . $fileInputName . '"');
+        if (empty($_FILES[$fileInputName]['tmp_name']) || $_FILES[$fileInputName]['error'] != UPLOAD_ERR_OK) {
+            throw new Exception('an error occurred during upload : "' . $fileInputName . '"');
+        }
 
         $filePath = $_FILES[$fileInputName]['tmp_name'];
-        $destinationPath = $this->makePath($_FILES[$fileInputName]['name'], 'current', FALSE);
-        $this->FM_move_uploaded_file($filePath, $destinationPath);
+        $destinationPath = $this->makePath($_FILES[$fileInputName]['name'], 'current', false);
+        $this->fmMoveUploadedFile($filePath, $destinationPath);
 
         $this->addLog('File "' . $destinationPath . '" as been uploaded');
         return $destinationPath;
@@ -253,14 +270,15 @@ class WalrusFileManager
 
     public function getFileContent ()
     {
-        if (!is_file($this->currentElem))
-            throw new FileManagerException('"' . $this->currentElem . '" need to be a file');
+        if (!is_file($this->currentElem)) {
+            throw new Exception('"' . $this->currentElem . '" need to be a file');
+        }
 
-        $stream = $this->FM_fopen($this->currentElem, "rb");
-        $size = $this->FM_filesize($this->currentElem) ?: 1;
+        $stream = $this->fmFopen($this->currentElem, "rb");
+        $size = $this->fmFilesize($this->currentElem) ?: 1;
 
-        $content = $this->FM_fread($stream, $size);
-        $this->FM_fclose($stream);
+        $content = $this->fmFread($stream, $size);
+        $this->fmFclose($stream);
 
         $this->addLog('File "' . $this->currentElem . '" as been readed');
         return $content;
@@ -268,15 +286,16 @@ class WalrusFileManager
 
     public function changeFileContent ($newContent)
     {
-        if (!is_file($this->currentElem))
-            throw new FileManagerException('"' . $this->currentElem . '" need to be a file');
+        if (!is_file($this->currentElem)) {
+            throw new Exception('"' . $this->currentElem . '" need to be a file');
+        }
 
-        $this->FM_fopen($this->currentElem, "w+");
+        $this->fmFopen($this->currentElem, "w+");
 
-        if (is_writable($this->currentElem)){
-            $file = $this->FM_fopen($this->currentElem, "w");
-            $this->FM_fwrite($file, $newContent);
-            $this->FM_fclose($file);
+        if (is_writable($this->currentElem)) {
+            $file = $this->fmFopen($this->currentElem, "w");
+            $this->fmWrite($file, $newContent);
+            $this->fmFclose($file);
         }
 
         $this->addLog('File "' . $this->currentElem . '" content as been changed');
@@ -285,8 +304,9 @@ class WalrusFileManager
 
     public function addFileContent ($newContent)
     {
-        if (!is_file($this->currentElem))
-            throw new FileManagerException('"' . $this->currentElem . '" need to be a file');
+        if (!is_file($this->currentElem)) {
+            throw new Exception('"' . $this->currentElem . '" need to be a file');
+        }
 
         $content = $this->getFileContent();
         $content = $content . $newContent;
@@ -299,24 +319,26 @@ class WalrusFileManager
 
     public function downloadFile ()
     {
-        if (!is_file($this->currentElem))
-            throw new FileManagerException('"' . $this->currentElem . '" need to be a file');
+        if (!is_file($this->currentElem)) {
+            throw new Exception('"' . $this->currentElem . '" need to be a file');
+        }
 
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename=' . $this->FM_basename($this->currentElem));
-        header('Content-Length: ' . $this->FM_filesize($this->currentElem));
+        header('Content-Disposition: attachment; filename=' . $this->fmBasename($this->currentElem));
+        header('Content-Length: ' . $this->fmFilesize($this->currentElem));
 
-        $flux = $this->FM_fopen($this->currentElem, 'rb');
+        $flux = $this->fmFopen($this->currentElem, 'rb');
 
         $result = '';
-        while (!$this->FM_feof($flux))
-            $result .= $this->FM_fread($flux, 8192);
+        while (!feof($flux)) {
+            $result .= $this->fmFread($flux, 8192);
+        }
 
-        $this->FM_fclose($flux);
+        $this->fmFclose($flux);
 
-        $this->FM_ob_flush();
-        $this->FM_flush();
+        ob_flush();
+        flush();
 
         return $result;
     }
@@ -324,194 +346,203 @@ class WalrusFileManager
     /**
      * System Call
      */
-    private function FM_fileSize ($path)
+    private function fmFilesize ($path)
     {
-        if (!file_exists($path))
-            throw new systemCallException('"file: ' . $path . ' didn\'t exist"');
+        if (!file_exists($path)) {
+            throw new Exception('"file: ' . $path . ' didn\'t exist"');
+        }
 
         $fileSize = date(filesize($path));
 
-        if (!is_numeric($fileSize))
-            throw new systemCallException('"An error occurred when tried to get filesize for file: ' . $path . '"');
+        if (!is_numeric($fileSize)) {
+            throw new Exception('"An error occurred when tried to get filesize for file: ' . $path . '"');
+        }
 
         return $fileSize;
     }
 
-    private function FM_filemtime ($path)
+    private function fmFilemtime ($path)
     {
-        if (!file_exists($path))
-            throw new systemCallException('"file: ' . $path . ' didn\'t exist"');
+        if (!file_exists($path)) {
+            throw new Exception('"file: ' . $path . ' didn\'t exist"');
+        }
 
         $fileMTime = filemtime($path);
 
-        if (!$fileMTime)
-            throw new systemCallException('"An error occured when tried to get filemtime for file: ' . $path . '"');
+        if (!$fileMTime) {
+            throw new Exception('"An error occured when tried to get filemtime for file: ' . $path . '"');
+        }
 
         return $fileMTime;
     }
 
-    private function FM_basename ($path)
+    private function fmBasename ($path)
     {
-        if (!file_exists($path))
-            throw new systemCallException('"file: ' . $path . ' didn\'t exist"');
+        if (!file_exists($path)) {
+            throw new Exception('"file: ' . $path . ' didn\'t exist"');
+        }
 
         return basename($path);
     }
 
-    private function FM_opendir ($path)
+    private function fmOpendir ($path)
     {
-        if (!is_dir($path))
-            throw new systemCallException('"file: ' . $path . ' need to be a folder"');
+        if (!is_dir($path)) {
+            throw new Exception('"file: ' . $path . ' need to be a folder"');
+        }
 
         $stream = opendir($path);
 
-        if(!$stream)
-            throw new systemCallException('"An error occured when tried to open the dir : ' . $path . '"');
+        if (!$stream) {
+            throw new Exception('"An error occured when tried to open the dir : ' . $path . '"');
+        }
 
         return $stream;
     }
 
-    private function FM_readdir ($stream)
+    private function fmReaddir ($stream)
     {
         $read = readdir($stream);
 
         return $read;
     }
 
-    private function FM_closedir ($stream)
+    private function fmClosedir ($stream)
     {
         closedir($stream);
     }
 
-    private function FM_rmdir ($path)
+    private function fmRmdir ($path)
     {
-        if (!is_dir($path))
-            throw new systemCallException('"file: ' . $path . ' need to be a folder"');
+        if (!is_dir($path)) {
+            throw new Exception('"file: ' . $path . ' need to be a folder"');
+        }
 
         $rm = rmdir($path);
 
-        if(!$rm)
-            throw new systemCallException('"An error occured when tried to delete dir: ' . $path . '"');
+        if (!$rm) {
+            throw new Exception('"An error occured when tried to delete dir: ' . $path . '"');
+        }
 
         return $rm;
     }
 
-    private function FM_unlink ($path)
+    private function fmUnlink ($path)
     {
-        if (!is_file($path))
-            throw new systemCallException('"file: ' . $path . ' need to be a valid file"');
+        if (!is_file($path)) {
+            throw new Exception('"file: ' . $path . ' need to be a valid file"');
+        }
 
         $rm = unlink($path);
 
-        if(!$rm)
-            throw new systemCallException('"An error occured when tried to delete file: ' . $path . '"');
+        if (!$rm) {
+            throw new Exception('"An error occured when tried to delete file: ' . $path . '"');
+        }
 
         return $rm;
     }
 
-    private function FM_rename ($oldPath, $newPath)
+    private function fmRename ($oldPath, $newPath)
     {
-        if (!file_exists($oldPath))
-            throw new systemCallException('"file: ' . $oldPath . ' need to be a valid file"');
+        if (!file_exists($oldPath)) {
+            throw new Exception('"file: ' . $oldPath . ' need to be a valid file"');
+        }
 
-        if(file_exists($newPath))
-            throw new systemCallException('"file: ' . $oldPath . ' already exist"');
+        if (file_exists($newPath)) {
+            throw new Exception('"file: ' . $oldPath . ' already exist"');
+        }
 
         $rename = rename($oldPath, $newPath);
 
-        if(!$rename)
-            throw new systemCallException('"An error occured when tried to rename file from: ' . $oldPath
-                . ' to ' . $newPath . '"');
+        if (!$rename) {
+            throw new Exception(
+                '"An error occured when tried to rename file from: ' . $oldPath . ' to ' . $newPath . '"'
+            );
+        }
 
         return $rename;
     }
 
-    private function FM_mkdir ($path)
+    private function fmMkdir ($path)
     {
-        if (file_exists($path))
-            throw new systemCallException('file: "' . $path . '" already exist');
+        if (file_exists($path)) {
+            throw new Exception('file: "' . $path . '" already exist');
+        }
 
         $mkdir = mkdir($path);
 
-        if(!$mkdir)
-            throw new systemCallException('An error occurred when tried to create folder: "' . $path . '"');
+        if (!$mkdir) {
+            throw new Exception('An error occurred when tried to create folder: "' . $path . '"');
+        }
 
         return $mkdir;
     }
 
-    private function FM_move_uploaded_file ($name, $destination)
+    private function fmMoveUploadedFile ($name, $destination)
     {
         $moved = move_uploaded_file($name, $destination);
 
-        if (!$moved)
-            throw new systemCallException('An error occurred when tried to move uploaded file: "' . $name
-                . '" to "' . $destination . '"');
+        if (!$moved) {
+            throw new Exception(
+                'An error occurred when tried to move uploaded file: "' . $name . '" to "' . $destination . '"'
+            );
+        }
 
         return $moved;
     }
 
-    private function FM_fopen ($path, $param)
+    private function fmFopen ($path, $param)
     {
-        if (!is_file($path))
-            throw new systemCallException('"file: ' . $path . ' need to be a valid file"');
+        if (!is_file($path)) {
+            throw new Exception('"file: ' . $path . ' need to be a valid file"');
+        }
 
         $params = array('r', 'r+', 'rb', 'rb+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+');
 
-        if (!in_array($param, $params))
-            throw new systemCallException('file: "' . $path . ' need to be a valid file"');
+        if (!in_array($param, $params)) {
+            throw new Exception('file: "' . $path . ' need to be a valid file"');
+        }
 
         $fopen = fopen($path, $param);
 
-        if (!$fopen)
-            throw new systemCallException('An error occurred when tried to open file: "' . $path . '"');
+        if (!$fopen) {
+            throw new Exception('An error occurred when tried to open file: "' . $path . '"');
+        }
 
         return $fopen;
     }
 
-    private function FM_fread($stream, $size)
+    private function fmFread ($stream, $size)
     {
         $fread = fread($stream, $size);
 
-        if ($fread === FALSE)
-            throw new systemCallException('An error occurred when tried to read file');
+        if ($fread === false) {
+            throw new Exception('An error occurred when tried to read file');
+        }
 
         return $fread;
     }
 
-    private function FM_fclose ($stream)
+    private function fmFclose ($stream)
     {
         $fclose = fclose($stream);
 
-        if (!$fclose)
-            throw new systemCallException('An error occurred when tried to close file');
+        if (!$fclose) {
+            throw new Exception('An error occurred when tried to close file');
+        }
 
         return $fclose;
     }
 
-    private function FM_fwrite ($path, $content)
+    private function fmWrite ($path, $content)
     {
         $fwrite = fwrite($path, $content);
 
-        if ($fwrite === FALSE)
-            throw new systemCallException('An error occurred when tried to write in file : "' . $path . '"');
+        if ($fwrite === false) {
+            throw new Exception('An error occurred when tried to write in file : "' . $path . '"');
+        }
 
         return $fwrite;
-    }
-
-    private function FM_feof ($flux)
-    {
-        $feof = feof($flux);
-        return $feof;
-    }
-
-    private function FM_ob_flush ()
-    {
-        ob_flush();
-    }
-
-    private function FM_flush ()
-    {
-        flush();
     }
 
     /**
