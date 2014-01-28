@@ -1,6 +1,6 @@
 <div>
   <h1>
-    Template 1
+    Template 2
   </h1>
   <p>
     Variables:
@@ -8,9 +8,6 @@
   <ul>
     <li>
       <?php echo htmlspecialchars($test,ENT_QUOTES,'UTF-8'); ?>
-    </li>
-    <li>
-      <?php echo htmlspecialchars($beta,ENT_QUOTES,'UTF-8'); ?>
     </li>
   </ul>
 </div>

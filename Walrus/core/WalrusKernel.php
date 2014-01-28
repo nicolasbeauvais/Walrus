@@ -13,6 +13,9 @@ use Exception;
 class WalrusKernel
 {
 
+    /**
+     * Main Kernel function, start config and routing.
+     */
     public static function execute()
     {
         //self::bootstrap();
@@ -23,9 +26,12 @@ class WalrusKernel
             // @TODO: add Exception
         }
 
-
+        WalrusFrontController::execute();
     }
 
+    /**
+     * Handle configuration.
+     */
     private static function bootstrap()
     {
         $config_file = "../config/config.yml";
