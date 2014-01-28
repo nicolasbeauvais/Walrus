@@ -1,21 +1,29 @@
 <?php
+
 /**
- * Author: Walrus Team
- * "Created: 16:10 13/12/13
+ * Walrus Framework
+ * File maintened by: Nicolas Beauvais (E-Wok)
+ * Created: 16:10 13/12/13
  */
 
 namespace Walrus\core;
 
-use Walrus\core\route\Mux as WalrusRoute;
+use Exception;
 
 class WalrusKernel
 {
 
     public static function execute()
     {
-
         //self::bootstrap();
-        WalrusRoute::makeRoutes();
+        try {
+            $WalrusRoute = WalrusRouter::getInstance();
+            $WalrusRoute->execute();
+        } catch (Exception $e) {
+            // @TODO: add Exception
+        }
+
+
     }
 
     private static function bootstrap()
@@ -59,4 +67,3 @@ class WalrusKernel
         //configuration here
     }
 }
-
