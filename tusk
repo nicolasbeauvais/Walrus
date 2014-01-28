@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * Walrus Framework
+ * File maintened by: Nicolas Beauvais (E-Wok)
+ * Created: 13:19 28/01/14
+ */
+
+use Walrus\core\WalrusCLI as WalrusCLI;
+
+//a bouger dans la config ?
+define("ROOT_PATH", dirname(__FILE__) . '/');
+
+require_once('Walrus/core/WalrusAutoload.php');
+
+new \Walrus\core\WalrusAutoload();
+
+WalrusCLI::execute();
