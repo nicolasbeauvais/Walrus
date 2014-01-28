@@ -25,6 +25,8 @@ class WalrusKernel
         } catch (Exception $e) {
             // @TODO: add Exception
         }
+
+        WalrusFrontController::execute();
     }
 
     /**

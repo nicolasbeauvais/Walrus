@@ -8,11 +8,13 @@ class HelloController extends WalrusFrontController
 
     public function helloHome ()
     {
-        $this->register('test', 'Hello World!');
-        $this->register('beta', array('coucou', 'la vie'));
-        $this->register('gamma', $this);
+        $this->register('test', 'global work !');
 
         $this->setView('home');
+        $this->register('beta', 'template 1 specified variable work', 'home');
+
+        $this->setView('test/test');
+        $this->register('gamma', $this, 'test/test');
     }
 
     public function doHelloWorld ($id = false)
