@@ -243,12 +243,24 @@ class WalrusFileManager
 
     /**
      * Files
-     *
-     * Récupérer le contenu
-     * Changer le contenu
-     * Ajouter du contenu
-     * Télécharger
      */
+
+    public function fileCreate ($file)
+    {
+        if (strpbrk($file, "\\/?%*:|\"<>")) {
+            throw new Exception('"' . $file . '" isn\'t a valid file name');
+        }
+        if (file_exists($this->currentElem . $file)) {
+            throw new Exception('"' . $this->currentElem . $file . '" already exist');
+        }
+
+        $path = $this->makePath($file, 'current', false);
+
+        $this->fmFopen($path, 'w', true);
+
+        $this->addLog('A new file "' . $file . '" as been folderCreated in ' . $this->currentElem);
+        return $path;
+    }
 
     public function uploadFile ($fileInputName)
     {
