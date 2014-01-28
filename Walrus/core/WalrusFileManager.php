@@ -503,16 +503,16 @@ class WalrusFileManager
         return $moved;
     }
 
-    private function fmFopen ($path, $param)
+    private function fmFopen ($path, $param, $create = false)
     {
-        if (!is_file($path)) {
-            throw new Exception('"file: ' . $path . ' need to be a valid file"');
+        if (!is_file($path) && $create === false) {
+            throw new Exception('file: ' . $path . ' need to be a valid file');
         }
 
         $params = array('r', 'r+', 'rb', 'rb+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+');
 
         if (!in_array($param, $params)) {
-            throw new Exception('file: "' . $path . ' need to be a valid file"');
+            throw new Exception('Param: "' . $param . ' need to be a valid fopen parameter"');
         }
 
         $fopen = fopen($path, $param);
