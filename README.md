@@ -1,52 +1,28 @@
-#Walrus
-> _Brace Yourselves Walrus is Coming !_
-=====================
+#Welcome to Walrus
+> Simple, Lightweight and Fast. 
+> Certainly not that big whatever factory.
+
+
 
 ![Walrus](https://github.com/E-Wok/Walrus/blob/master/Walrus.png?raw=true "Walrus is comming !")
 
-### Version
-PHP > 5.3.X
+> “We need a simple PHP framework that can build web applications easily and simply without all of those features that are not necessary”
 
-####Cible
+Walrus is a framework for building web-application in a very simple way according to the Model-View-Controller (MVC) pattern.
 
-Gestion des dépendances [Composer] (http://getcomposer.org/) ([Tutoriel] (http://net.tutsplus.com/tutorials/php/easy-package-management-with-composer/?search_index=28))
+When it comes to building web applications we have plenty of choices. There must be around 30 or 40 PHP frameworks that are recognized as capable of building web applications in a proper way depending on the PHP community.
 
-Norme [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/fr/PSR-0.md)
-([Tutoriel 1] (https://github.com/php-fig/fig-standards/blob/master/accepted/fr/PSR-0.md),
-[Tutoriel 2] (http://net.tutsplus.com/tutorials/php/psr-huh/?search_index=32))
+In those nearly 40 frameworks only a bunch of them are truly used by web developers. These few also represents the core of the PHP community.
 
-Test unitaire [PHPUnit] (https://github.com/sebastianbergmann/phpunit/)
-([Tutoriel] (http://net.tutsplus.com/tutorials/php/how-to-write-testable-and-maintainable-code-in-php/?search_index=3),
-[Video] (http://net.tutsplus.com/tutorials/php/hands-on-unit-testing-with-phpunit/?search_index=1))
+Those frameworks have their own properties and usage and they do a pretty great job for most of them. They both have plenty of front and back end features.
+Besides those features they have got a lot of tutorials, videos showing how to do this particular thing or this other thing. A lots of trainings also exist helping the community to get bigger everyday.
 
-Documentation [Doxygen] (http://www.stack.nl/~dimitri/doxygen/)
+But hey, we’re all sick of learning how to do this thing in this particular framework way. It is like we have lost a part of simplicity that we needed to understand things swiftly. Differences can be interesting I mean, really, but sometimes the particularity of few framework makes us angry and we could lost time.
 
-Render: 1- [HAML] (https://code.google.com/p/phamlp/ also see http://phphaml.sourceforge.net/)
-        2- [Smarty] (http://www.smarty.net/)
-        3- [Twig] (http://twig.sensiolabs.org/)
-        4- [Mustache] (http://mustache.github.io/)
+###That is why we created Walrus.
 
-Monitoring / Perf : XDebug & [KCacheGrind] (http://kcachegrind.sourceforge.net/)
+It is simple, we wanted it to respect KISS principle, you just have to focus on what matters for your client, and we handle the rest.
 
-#####Front-End:
-Preprocessing CSS: [SASS] (http://sass-lang.com/)
-Framework javascript : [jQuery] (http://jquery.com/)
+It is lightweight, we added only what you really need to build a simple web application. We also use technologies that are already recognized by the community such as YAML or HAML.
 
-### Features :
-Lazy load
-Routage
-Helper
-Facilité la creation d'API
-Grunt
-ORM
-CLI
-ACL
-Generateur de formulaire
-Cache avec le protocol HTTP
-Instance ?
-
-
-traduction po / yaml ?
-Outil de long polling / web socket ?
-Filer ?
-Modules ?
+It is fast because it’s a client need. 
