@@ -34,36 +34,66 @@ class WalrusKernel
 
             $array_info = \Spyc::YAMLLoad($config_file);
             // \Spyc::YAMLDump($array, 4, 60)
+	    $error = false;
+	    $errorArray = array();
+	    $WalrusConfig = array();
 
-            if ($array_info['templating']['default'] == 'haml') {
-                //installer haml
-            } elseif ($array_info['templating']['default'] == 'smarty') {
-                //installer smarty
+            if (strcasecmp($array_info['templating'], 'HAML') == 0 || strcasecmp($array_info['templating'], 'Twig') == 0 || strcasecmp($array_info['templating'], 'Smarty') == 0) {
+	      $WalrusConfig['templating'] = $array_info['templating'];
             } else {
-                //installer twig
+	      $error = true;
+	      $errorArray['templating'] = "Templating must be HAML, Twig or Smarty";
             }
 
-            if ($array_info['database']['language'] == 'MySQL') {
-                //installer MySQL
-                $dbname = $array_info['database']['name'];
-                $dbpwd = $array_info['database']['password'];
+            if (strcasecmp($array_info['database']['language'], 'MySQL') == 0 || strcasecmp($array_info['database']['language'], 'SQLite') == 0 || strcasecmp($array_info['database']['language'], 'PostgreSQL') == 0 || strcasecmp($array_info['database']['language'], 'Oracle') == 0) {
+	      $WalrusConfig['dbLanguage'] = $array_info['database']['language'];
             } else {
-                // autre db ?
+	      $error = true;
+	      $errorArray['dbLanguage'] = "Database must be either MySQL, SQLite, PostgreSQL or Oracle";
             }
+
+            if ($array_info['database']['host'] != "") {
+	      $WalrusConfig['dbHost'] = $array_info['database']['host'];
+            } else {
+	      $error = true;
+	      $errorArray['dbHost'] = "Database host can't be empty (IP address)";
+            }
+
+            if ($array_info['database']['name'] != "") {
+	      $WalrusConfig['dbName'] = $array_info['database']['name'];
+            } else {
+	      $error = true;
+	      $errorArray['dbName'] = "Database name can't be empty";
+            }
+
+            if (strcasecmp($array_info['environment'], 'dev') == 0 || strcasecmp($array_info['environment'], 'prod') == 0) {
+	      $WalrusConfig['environment'] = $array_info['environment'];
+            } else {
+	      $error = true;
+	      $errorArray['environment'] = "Environment must be dev or prod";
+            }
+
+	    if ($error == true) {
+	      throw new Exception($errorArray);
+	    }
+
+	    $GLOBALS['WalrusConfig']= $WalrusConfig;
+	    $GLOBALS['errorConfig']= $errorArray;
+
         } else {
-            $php_content = array(
-		"configfile" => array("language" => "yml"),  // to deal with
-                "database" => array("language" => "MySQL",
-                                    "name" => "project",
-                                    "password" => ""),
-                "templating" => array("default" => "haml")
-            );
-
-            $yml_content = \Spyc::YAMLDump($php_content);
-
-            file_put_contents($config_file, $yml_content, FILE_APPEND);
+	  $info_content = "#Please feed those information : \n #database can be MySQL | SQLite | PostgreSQL | Oracle \n #templating can be HAML | Twig | Smarty \n #environment can be dev or prod \n #config and routing are yml files \n \n";
+	  $php_content = array(
+			       "database" => array("language" => "",
+						   "host" => "",
+						   "name" => "",
+						   "password" => ""),
+			       "templating" => "",
+			       "environment" => ""                // dev or prod
+			       );
+	  
+	  $yml_content = \Spyc::YAMLDump($php_content);
+	  
+	  file_put_contents($config_file, $info_content.$yml_content, FILE_APPEND);
         }
-
-        //configuration here
     }
 }
