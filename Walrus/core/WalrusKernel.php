@@ -6,6 +6,7 @@
 
 namespace Walrus\core\Kernel;
 
+use ActiveRecord\Config;
 use Walrus\core\route;
 
 class WalrusKernel
@@ -29,7 +30,16 @@ class WalrusKernel
 
     private static function bootstrap()
     {
+        // Initializing php-activerecord
+        Config::initialize(function($cfg)
+        {
+            $cfg->set_model_directory(ROOT_PATH . 'Walrus/models/');
+            $cfg->set_connections(
+                array(
+                    'development' => 'mysql://root:root@localhost/walrus_dev'
+                )
+            );
+        });
 
-        //configuration here
     }
 }
