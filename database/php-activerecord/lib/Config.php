@@ -41,6 +41,7 @@ class Config extends Singleton
 	 *
 	 * @var string
 	 */
+
 	private $default_connection = 'development';
 
 	/**
