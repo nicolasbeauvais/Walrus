@@ -78,11 +78,8 @@ class WalrusFrontController
      * @param $view
      * @throws \Exception
      */
-    protected function setView($view)
+    protected function setView($view, $alias = null)
     {
-        // @TODO: check config for templating
-        $haml = new MtHaml\Environment('php');
-
         if (strrpos($view, '/') === false) {
             $className = explode('\\', get_called_class());
             $controller = strtolower(str_replace('Controller', '', end($className)));
@@ -110,6 +107,9 @@ class WalrusFrontController
 
         $objTemplate = new Template();
         $objTemplate->setName($view);
+        if ($alias) {
+            $objTemplate->setAlias($alias);
+        }
         $objTemplate->setTemplate($template . '.php');
 
         self::$templates[] = $objTemplate;
