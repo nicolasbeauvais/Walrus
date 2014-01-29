@@ -6,7 +6,7 @@
  * Created: 09:13 28/01/14
  */
 
-namespace Walrus\core\entity;
+namespace Walrus\core\objects;
 
 class Skeleton
 {

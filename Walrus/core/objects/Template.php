@@ -5,10 +5,8 @@
  * File maintained by: Nicolas Beauvais (E-Wok)
  * Created: 09:13 28/01/14
  */
- 
 
-namespace Walrus\core\entity;
-
+namespace Walrus\core\objects;
 
 class Template
 {

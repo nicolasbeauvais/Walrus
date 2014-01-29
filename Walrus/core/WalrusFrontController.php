@@ -8,8 +8,8 @@
 
 namespace Walrus\core;
 
-use Walrus\core\entity\Skeleton;
-use Walrus\core\entity\Template as Template;
+use Walrus\core\objects\Skeleton;
+use Walrus\core\objects\Template;
 use MtHaml;
 use Spyc\Spyc;
 use Exception;
@@ -154,7 +154,7 @@ class WalrusFrontController
         if (count(self::$templates) > 0) {
 
             foreach (self::$templates as self::$foreach_key => self::$foreach_value) {
-                if (is_a(self::$foreach_value, 'Walrus\core\entity\Skeleton')) {
+                if (is_a(self::$foreach_value, 'Walrus\core\objects\Skeleton')) {
                     self::process(self::$foreach_value);
                 } else {
 
