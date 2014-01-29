@@ -11,8 +11,11 @@ class HelloController extends WalrusFrontController
     {
         $this->register('test', 'global work !');
 
-        $this->setView('home');
-        $this->register('beta', 'template 1 specified variable work', 'home');
+        $this->setView('home', 'coucou');
+        $this->register('beta', 'template 2 specified variable work', 'home', 'coucou');
+
+        $this->setView('home', 'alias');
+        $this->register('beta', 'template 1 specified variable work', 'home', 'alias');
 
         $this->setView('test/test');
         $this->register('gamma', $this, 'test/test');
