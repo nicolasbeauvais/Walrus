@@ -29,6 +29,6 @@ class HelloController extends WalrusFrontController
     public function doHelloWorldNew()
     {
         $this->skeleton('_skeleton_main');
-        $this->register('beta', 'coucou', 'home');
+        $this->register('beta', 'coucou', '', 'testAlias', '_skeleton_main');
     }
 }
