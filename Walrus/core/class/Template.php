@@ -20,6 +20,12 @@ class Template
     protected $name = '';
 
     /**
+     * Alias for the template
+     * @var string
+     */
+    protected $alias = '';
+
+    /**
      * Path for the template, relative to FRONT_PATH constant.
      * @var string
      */
@@ -45,6 +51,22 @@ class Template
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param mixed $alias
+     */
+    public function setAlias($alias)
+    {
+        $this->alias = $alias;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAlias()
+    {
+        return $this->alias;
     }
 
     /**
