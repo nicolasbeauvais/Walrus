@@ -205,7 +205,7 @@ class WalrusFrontController
     /**
      * Set the use of a skeleton
      */
-    public function skeleton()
+    public function skeleton($name)
     {
         //@TODO: create skeleton function
         /**
