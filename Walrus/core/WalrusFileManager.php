@@ -6,7 +6,6 @@
  * Created: 19:36 28/01/14
  */
 
-
 namespace Walrus\core;
 
 use Exception;

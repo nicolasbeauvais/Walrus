@@ -9,7 +9,7 @@
 namespace Walrus\core;
 
 use Spyc\Spyc;
-use Walrus\core\entity\Route;
+use Walrus\core\objects\Route;
 use Exception;
 use Reflection;
 

@@ -1,6 +1,12 @@
 <?php
 
-namespace Walrus\core\class;
+/**
+ * Walrus Framework
+ * File maintained by: Nicolas Beauvais (E-Wok)
+ * Created: 23:10 29/01/14
+ */
+
+namespace Walrus\core\objects;
 
 class Route
 {
