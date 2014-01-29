@@ -8,6 +8,8 @@
 
 > “We need a simple PHP framework that can build web applications easily and simply without all of those features that are not necessary”
 
+Walrus V1 is coming on february 11.
+
 Walrus is a framework for building web-application in a very simple way according to the Model-View-Controller (MVC) pattern.
 
 When it comes to building web applications we have plenty of choices. There must be around 30 or 40 PHP frameworks that are recognized as capable of building web applications in a proper way depending on the PHP community.
