@@ -144,6 +144,7 @@ class WalrusFrontController
      */
     public static function execute()
     {
+
         if (count(self::$variables) > 0) {
             foreach (self::$variables as self::$foreach_key => self::$foreach_value) {
                 ${self::$foreach_key} = self::$foreach_value;
