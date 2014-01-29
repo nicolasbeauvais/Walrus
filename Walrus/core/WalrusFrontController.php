@@ -128,4 +128,21 @@ class WalrusFrontController
             }
         }
     }
+
+    /**
+     * Set the use of a skeleton
+     */
+    public function skeleton()
+    {
+        //@TODO: create skeleton function
+        /**
+         * step 1: user create skeleton in yaml
+         * step 2: yaml is parsed and stored || singleton on skeleton entity and parse the yaml only if needed
+         * step 3: user choose a skeleton in is controller
+         * step 4: user give variable to skeleton template's
+         * step 5: display !
+         *
+         * step 6: lazy load handle :D
+         */
+    }
 }
