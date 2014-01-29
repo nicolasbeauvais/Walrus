@@ -1,0 +1,30 @@
+# skeleton_name:
+#     header:
+#         template: "module/template"
+#     body:
+#         template: "module/template"
+#     footer:
+#         template: "module/template"
+#         lazyload: "true"
+
+# Skeleton for homepage
+_skeleton_main:
+    header:
+        template: 'header/main'
+    nav:
+        template: 'nav/main'
+    body:
+        template: 'actu/home'
+    footer:
+        template: 'footer/main'
+
+# Skeleton for user profil
+_skeleton_profil:
+    header:
+        template: 'header/main'
+    nav:
+        template: 'nav/main'
+    body:
+        template: 'actu/user'
+    footer:
+        template: 'footer/main'
