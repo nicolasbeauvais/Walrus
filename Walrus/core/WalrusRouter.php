@@ -8,8 +8,8 @@
 
 namespace Walrus\core;
 
-use Spyc\Spyc as Spyc;
-use Walrus\core\entity\Route as Route;
+use Spyc\Spyc;
+use Walrus\core\entity\Route;
 use Exception;
 use Reflection;
 

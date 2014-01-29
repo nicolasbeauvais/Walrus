@@ -8,7 +8,8 @@
 
 session_start();
 
-use Walrus\core\WalrusKernel as WalrusKernel;
+use Walrus\core\WalrusKernel;
+use Walrus\core\WalrusAutoload;
 
 //a bouger dans la config ?
 define("APP_PATH", dirname(__FILE__) . '/');
@@ -17,6 +18,6 @@ define("FRONT_PATH", ROOT_PATH . 'www/templates' . '/');
 
 require_once('../Walrus/core/WalrusAutoload.php');
 
-new \Walrus\core\WalrusAutoload();
+new WalrusAutoload();
 
 WalrusKernel::execute();
