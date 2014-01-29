@@ -83,8 +83,8 @@ class WalrusKernel
 	      throw new Exception($errorArray);
 	    }
 
-	    $GLOBALS['WalrusConfig']= $WalrusConfig;
-	    $GLOBALS['errorConfig']= $errorArray;
+	    global $WalrusConfig;
+	    global $errorArray;
 
         } else {
 	  $info_content = "#Please feed those information : \n #database can be MySQL | SQLite | PostgreSQL | Oracle \n #templating can be HAML | Twig | Smarty \n #environment can be dev or prod \n #config and routing are yml files \n \n";
@@ -94,7 +94,7 @@ class WalrusKernel
 						   "name" => "",
 						   "password" => ""),
 			       "templating" => "",
-			       "environment" => ""                // dev or prod
+			       "environment" => ""
 			       );
 	  
 	  $yml_content = \Spyc::YAMLDump($php_content);
