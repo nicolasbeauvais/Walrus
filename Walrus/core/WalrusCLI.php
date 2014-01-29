@@ -2,7 +2,7 @@
 
 /**
  * Walrus Framework
- * File maintened by: Nicolas Beauvais (E-Wok)
+ * File maintained by: Nicolas Beauvais (E-Wok)
  * Created: 13:26 28/01/14
  */
 

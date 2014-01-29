@@ -2,7 +2,7 @@
 
 /**
  * Walrus Framework
- * File maintened by: Nicolas Beauvais (E-Wok)
+ * File maintained by: Nicolas Beauvais (E-Wok)
  * Created: 16:10 13/12/13
  */
 
@@ -10,7 +10,6 @@ namespace Walrus\core;
 
 use ActiveRecord\Config;
 use Walrus\core\route;
-use Spyc\Spyc;
 use Exception;
 
 class WalrusKernel
@@ -21,7 +20,7 @@ class WalrusKernel
      */
     public static function execute()
     {
-      //self::bootstrap();
+        //self::bootstrap();
         try {
             $WalrusRoute = WalrusRouter::getInstance();
             $WalrusRoute->execute();
@@ -37,8 +36,8 @@ class WalrusKernel
      */
     private static function bootstrap()
     {
-      WalrusKernel::bootstrapConfig();
-      WalrusKernel::bootstrapOrm();
+        WalrusKernel::bootstrapConfig();
+        WalrusKernel::bootstrapOrm();
     }
 
     private static function bootstrapOrm()
@@ -60,7 +59,7 @@ class WalrusKernel
 
         if (file_exists($config_file)) {
 
-            $array_info = Spyc::YAMLLoad($config_file);
+            $array_info = \Spyc::YAMLLoad($config_file);
             // \Spyc::YAMLDump($array, 4, 60)
             $error = false;
             $errorArray = array();
@@ -104,7 +103,8 @@ class WalrusKernel
                 throw new Exception($errorArray);
             }
 
-	    global $WalrusConfig;
+            $GLOBALS['WalrusConfig']= $WalrusConfig;
+            $GLOBALS['errorConfig']= $errorArray;
 
         } else {
             $info_content = "#Please feed those information : \n #database can be MySQL | SQLite | PostgreSQL | Oracle \n #templating can be HAML | Twig | Smarty \n #environment can be dev or prod \n #config and routing are yml files \n \n";
@@ -114,13 +114,12 @@ class WalrusKernel
                     "name" => "",
                     "password" => ""),
                 "templating" => "",
-                "environment" => ""
+                "environment" => ""                // dev or prod
             );
 
-            $yml_content = Spyc::YAMLDump($php_content);
+            $yml_content = \Spyc::YAMLDump($php_content);
 
             file_put_contents($config_file, $info_content.$yml_content, FILE_APPEND);
-
         }
     }
 
