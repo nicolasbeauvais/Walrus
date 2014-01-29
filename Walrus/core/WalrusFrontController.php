@@ -152,17 +152,26 @@ class WalrusFrontController
         }
 
         if (count(self::$templates) > 0) {
+
             foreach (self::$templates as self::$foreach_key => self::$foreach_value) {
+                if (is_a(self::$foreach_value, 'Walrus\core\entity\Skeleton')) {
+                    self::process(self::$foreach_value);
+                } else {
 
-                foreach (self::$foreach_value->getVariables() as self::$foreach_key_lvl2 => self::$foreach_value_lvl2) {
-                    ${self::$foreach_key_lvl2} = self::$foreach_value_lvl2;
-                }
+                    foreach (self::$foreach_value->getVariables() as
+                             self::$foreach_key_lvl2 => self::$foreach_value_lvl2) {
+                        ${self::$foreach_key_lvl2} = self::$foreach_value_lvl2;
+                    }
 
+                    // @TODO: check config for templating
+                    self::compileToYaml(substr(self::$foreach_value->getTemplate(), 0, -4));
 
-                require(self::$foreach_value->getTemplate());
+                    require(self::$foreach_value->getTemplate());
 
-                foreach (self::$foreach_value->getVariables() as self::$foreach_key_lvl2 => self::$foreach_value_lvl2) {
-                    unset(${self::$foreach_key_lvl2});
+                    foreach (self::$foreach_value->getVariables() as
+                             self::$foreach_key_lvl2 => self::$foreach_value_lvl2) {
+                        unset(${self::$foreach_key_lvl2});
+                    }
                 }
             }
         }
