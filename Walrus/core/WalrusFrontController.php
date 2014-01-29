@@ -107,17 +107,31 @@ class WalrusFrontController
      * @param null $tpl
      * @throws \Exception
      */
-    protected function register($key, $var, $tpl = null)
+    protected function register($key, $var, $tpl = null, $alias = null, $skeletonName = null)
     {
         if (!isset($key) || !isset($var)) {
             throw new Exception('[WalrusFrontController] missing argument for function register');
         }
 
-        if ($tpl) {
+        if ($skeletonName) {
+            foreach (self::$skeletons as $skeleton) {
+                if ($skeleton->getName() === $skeletonName) {
+                    foreach ($skeleton->getTemplates() as $template) {
+                        if (($tpl && $alias && $template->getName() === $tpl
+                            && $alias && $template->getAlias() === $alias)
+                            || ($tpl && !$alias && $template->getName() === $tpl)
+                            || (!$tpl && ($alias && $template->getAlias() === $alias))) {
+                            $template->addVariable($key, $var);
+                        }
+                    }
+                }
+            }
+        } elseif ($tpl) {
             foreach (self::$templates as $template) {
                 if ($template->getName() === $tpl) {
-                    $template->addVariable($key, $var);
-                    return;
+                    if (!$alias || ($alias && $template->getAlias() === $alias)) {
+                        $template->addVariable($key, $var);
+                    }
                 }
             }
         } else {
