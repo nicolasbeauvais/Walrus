@@ -33,10 +33,44 @@ class WalrusFrontController
     private static $variables = array();
 
 
-    private static $foreach_key = '';
-    private static $foreach_value = '';
-    private static $foreach_key_lvl2 = '';
-    private static $foreach_value_lvl2 = '';
+    /**
+     * Contain skeleton if they have been requested
+     * @var string
+     */
+    private static $skeletons = array();
+
+    /**
+     * @var mixed
+     */
+    private static $foreach_key;
+    /**
+     * @var mixed
+     */
+    private static $foreach_value;
+    /**
+     * @var mixed
+     */
+    private static $foreach_key_lvl2;
+    /**
+     * @var mixed
+     */
+    private static $foreach_value_lvl2;
+    /**
+     * @var mixed
+     */
+    private static $foreach_skeleton_key;
+    /**
+     * @var mixed
+     */
+    private static $foreach_skeleton_value;
+    /**
+     * @var mixed
+     */
+    private static $foreach_skeleton_key_lvl2;
+    /**
+     * @var mixed
+     */
+    private static $foreach_skeleton_value_lvl2;
 
     /**
      * Add a template to the stack.
