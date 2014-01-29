@@ -8,8 +8,10 @@
 
 namespace Walrus\core;
 
+use Walrus\core\entity\Skeleton;
 use Walrus\core\entity\Template as Template;
 use MtHaml;
+use Spyc\Spyc;
 use Exception;
 
 class WalrusFrontController
