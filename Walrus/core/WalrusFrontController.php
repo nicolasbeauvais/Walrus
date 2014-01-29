@@ -207,15 +207,78 @@ class WalrusFrontController
      */
     public function skeleton($name)
     {
-        //@TODO: create skeleton function
-        /**
-         * step 1: user create skeleton in yaml
-         * step 2: yaml is parsed and stored || singleton on skeleton entity and parse the yaml only if needed
-         * step 3: user choose a skeleton in is controller
-         * step 4: user give variable to skeleton template's
-         * step 5: display !
-         *
-         * step 6: lazy load handle :D
-         */
+
+        if (count(self::$skeletons) === 0) {
+            $this->loadSkeletons();
+        }
+
+        foreach (self::$skeletons as $skeleton) {
+            if ($skeleton->getName() === $name) {
+                self::$templates[] = $skeleton;
+                break;
+            }
+        }
+    }
+
+    /**
+     * Load skeletons from skeleton.yml
+     */
+    private function loadSkeletons()
+    {
+        $skeleton_yaml = "../config/skeleton.yml";
+
+        if (!file_exists($skeleton_yaml)) {
+            throw new Exception('[WalrusFrontController] skeleton.yml doesn\'t exist in config/ directory');
+        }
+
+        $skeletons = Spyc::YAMLLoad($skeleton_yaml);
+
+        foreach ($skeletons as $skeletonName => $skeleton) {
+
+            $templates = array();
+
+            foreach ($skeleton as $name => $value) {
+
+                $template = FRONT_PATH . $value['template'] . '.haml';
+
+                $objTemplate = new Template();
+                $objTemplate->setName($name);
+                $objTemplate->setTemplate($template . '.php');
+                if (isset($value['alias'])) {
+                    $objTemplate->setAlias($value['alias']);
+                }
+
+                $templates[] = $objTemplate;
+            }
+
+            $objSkeleton = new Skeleton();
+            $objSkeleton->setName($skeletonName);
+            $objSkeleton->setTemplate($templates);
+
+            self::$skeletons[] = $objSkeleton;
+        }
+    }
+
+    /**
+     * Compile yaml file
+     */
+    private static function compileToYaml ($template)
+    {
+        $haml = new MtHaml\Environment('php');
+
+        if (!file_exists($template)) {
+            throw new Exception('[WalrusFrontController] requested template does not exist: ' . $template);
+        }
+
+        // @TODO: use WalrusFileManager
+        $hamlCode = file_get_contents($template);
+
+        if (!file_exists($template . '.php') || filemtime($template . '.php') != filemtime($template)) {
+            $phpCode = $haml->compileString($hamlCode, $template);
+            $tempnam = tempnam(dirname($template), basename($template));
+            file_put_contents($tempnam, $phpCode);
+            rename($tempnam, $template.'.php');
+            touch($template.'.php', filemtime($template));
+        }
     }
 }
