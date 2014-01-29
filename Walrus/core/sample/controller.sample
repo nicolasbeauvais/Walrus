@@ -1,0 +1,10 @@
+<?php
+
+namespace engine\controllers;
+
+use Walrus\core\WalrusFrontController as WalrusFrontController;
+
+class %name%Controller extends WalrusFrontController
+{
+
+}

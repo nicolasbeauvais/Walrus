@@ -55,7 +55,7 @@ class WalrusFrontController
             throw new Exception('[WalrusFrontController] requested template does not exist: ' . $template);
         }
 
-
+        // @TODO: use WalrusFileManager
         $hamlCode = file_get_contents($template);
 
         if (!file_exists($template . '.php') || filemtime($template . '.php') != filemtime($template)) {
