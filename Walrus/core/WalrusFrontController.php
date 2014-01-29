@@ -88,22 +88,6 @@ class WalrusFrontController
             $template = FRONT_PATH . $view . '.haml';
         }
 
-        if (!file_exists($template)) {
-            throw new Exception('[WalrusFrontController] requested template does not exist: ' . $template);
-        }
-
-        // @TODO: use WalrusFileManager
-        $hamlCode = file_get_contents($template);
-
-        if (!file_exists($template . '.php') || filemtime($template . '.php') != filemtime($template)) {
-
-            $phpCode = $haml->compileString($hamlCode, $template);
-
-            $tempnam = tempnam(dirname($template), basename($template));
-            file_put_contents($tempnam, $phpCode);
-            rename($tempnam, $template.'.php');
-            touch($template.'.php', filemtime($template));
-        }
 
         $objTemplate = new Template();
         $objTemplate->setName($view);
