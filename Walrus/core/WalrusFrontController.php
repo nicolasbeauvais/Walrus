@@ -14,6 +14,10 @@ use MtHaml;
 use Spyc\Spyc;
 use Exception;
 
+/**
+ * Class WalrusFrontController
+ * @package Walrus\core
+ */
 class WalrusFrontController
 {
     /**
