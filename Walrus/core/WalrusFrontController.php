@@ -178,6 +178,31 @@ class WalrusFrontController
     }
 
     /**
+     * child process for execute
+     */
+    private static function process()
+    {
+        foreach (self::$foreach_value->getTemplates() as self::$foreach_skeleton_key => self::$foreach_skeleton_value) {
+
+            foreach (self::$foreach_skeleton_value->getVariables() as
+                     self::$foreach_skeleton_key_lvl2 => self::$foreach_skeleton_value_lvl2) {
+                ${self::$foreach_skeleton_key_lvl2} = self::$foreach_skeleton_value_lvl2;
+            }
+
+            // @TODO: check config for templating
+            self::compileToYaml(substr(self::$foreach_skeleton_value->getTemplate(), 0, -4));
+
+            require(self::$foreach_skeleton_value->getTemplate());
+
+            foreach (self::$foreach_skeleton_value->getVariables() as
+                     self::$foreach_skeleton_key_lvl2 => self::$foreach_skeleton_value_lvl2) {
+                unset(${self::$foreach_skeleton_key_lvl2});
+            }
+        }
+    }
+
+
+    /**
      * Set the use of a skeleton
      */
     public function skeleton()
