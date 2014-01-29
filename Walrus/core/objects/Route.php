@@ -1,6 +1,6 @@
 <?php
 
-namespace Walrus\core\entity;
+namespace Walrus\core\class;
 
 class Route
 {
