@@ -21,7 +21,7 @@ class WalrusAutoload
         'Walrus/core/entity',
         'engine/controllers/',
         'engine/models/',
-        'vendors/',
+        'vendor/',
     );
 
     /**
@@ -47,7 +47,7 @@ class WalrusAutoload
             return true;
         } else {
 
-            $vendors_path = ROOT_PATH . 'vendors/' . str_replace('\\', '/', $class_with_namespace) . '.php';
+            $vendors_path = ROOT_PATH . 'vendor/' . str_replace('\\', '/', $class_with_namespace) . '.php';
 
             if (file_exists($vendors_path)) {
                 require_once($vendors_path);
@@ -80,7 +80,7 @@ class WalrusAutoload
      */
     public static function getNamespace($class)
     {
-        $vendors_path = ROOT_PATH . 'vendors/' . $class . '/' . str_replace('\\', '/', $class) . '.php';
+        $vendors_path = ROOT_PATH . 'vendor/' . $class . '/' . str_replace('\\', '/', $class) . '.php';
 
         if (file_exists($vendors_path)) {
             return $class . '\\' . $class;
