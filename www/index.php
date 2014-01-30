@@ -11,7 +11,6 @@ session_start();
 use Walrus\core\WalrusKernel;
 use Walrus\core\WalrusAutoload;
 
-// @TODO: check for css/js files
 define("APP_PATH", dirname(__FILE__) . '/');
 define("ROOT_PATH", substr(dirname(__FILE__), 0, -4) . '/');
 define("FRONT_PATH", ROOT_PATH . 'www/templates' . '/');
