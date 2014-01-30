@@ -51,11 +51,17 @@ class WalrusFrontController
      */
     private static $templating = array();
 
-    // @TODO: refactor
+    /**
+     * Safe foreach value handler
+     * @var mixed
+     */
     private static $foreach_value;
+
+    /**
+     * Safe foreach key handler
+     * @var mixed
+     */
     private static $foreach_key;
-    private static $foreach_skeleton_value;
-    private static $foreach_skeleton_key;
 
     /**
      * Init templating variables.
@@ -133,42 +139,18 @@ class WalrusFrontController
         if (count(self::$templates) > 0) {
 
             foreach (self::$templates as self::$foreach_key => self::$foreach_value) {
-                if (is_a(self::$foreach_value, 'Walrus\core\objects\Skeleton')) {
-                    self::process(self::$foreach_value);
-                } else {
-                    switch ($GLOBALS['WalrusConfig']['templating']) {
-                        case 'haml':
-                            self::compileToYaml(substr(self::$foreach_skeleton_value->getTemplate(), 0, -4));
-                            require(self::$foreach_skeleton_value->getTemplate());
-                            break;
-                        case 'smarty':
-                            self::$smarty->display(self::$foreach_skeleton_value->getTemplate());
-                            break;
-                    }
+                switch ($GLOBALS['WalrusConfig']['templating']) {
+                    case 'haml':
+                        self::compileToYaml(substr(self::$foreach_value->getTemplate(), 0, -4));
+                        require(self::$foreach_value->getTemplate());
+                        break;
+                    case 'smarty':
+                        self::$smarty->display(self::$foreach_value->getTemplate());
+                        break;
                 }
             }
         }
     }
-
-    /**
-     * child process for execute
-     */
-    private static function process()
-    {
-        foreach (self::$foreach_value->getTemplates() as self::$foreach_skeleton_key => self::$foreach_skeleton_value) {
-
-            switch ($GLOBALS['WalrusConfig']['templating']) {
-                case 'haml':
-                    self::compileToYaml(substr(self::$foreach_skeleton_value->getTemplate(), 0, -4));
-                    require(self::$foreach_skeleton_value->getTemplate());
-                    break;
-                case 'smarty':
-                    self::$smarty->display(self::$foreach_skeleton_value->getTemplate());
-                    break;
-            }
-        }
-    }
-
 
     /**
      * Set the use of a skeleton.
@@ -182,7 +164,9 @@ class WalrusFrontController
 
         foreach (self::$skeletons as $skeleton) {
             if ($skeleton->getName() === $name) {
-                self::$templates[] = $skeleton;
+                foreach ($skeleton->getTemplates() as $template) {
+                    self::$templates[] = $template;
+                }
                 break;
             }
         }
