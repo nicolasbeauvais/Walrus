@@ -10,6 +10,7 @@ namespace Walrus\core;
 
 use ActiveRecord\Config;
 use Walrus\core\route;
+use Spyc\Spyc;
 use Exception;
 
 class WalrusKernel
@@ -60,8 +61,7 @@ class WalrusKernel
 
         if (file_exists($config_file)) {
 
-            $array_info = \Spyc::YAMLLoad($config_file);
-            // \Spyc::YAMLDump($array, 4, 60)
+            $array_info = Spyc::YAMLLoad($config_file);
             $error = false;
             $errorArray = array();
             $WalrusConfig = array();
@@ -104,8 +104,7 @@ class WalrusKernel
                 throw new Exception($errorArray);
             }
 
-            $GLOBALS['WalrusConfig']= $WalrusConfig;
-            $GLOBALS['errorConfig']= $errorArray;
+            global $WalrusConfig;
 
         } else {
             $info_content = "#Please feed those information : \n #database can be MySQL | SQLite | PostgreSQL | Oracle \n #templating can be HAML | Twig | Smarty \n #environment can be dev or prod \n #config and routing are yml files \n \n";
@@ -115,12 +114,13 @@ class WalrusKernel
                     "name" => "",
                     "password" => ""),
                 "templating" => "",
-                "environment" => ""                // dev or prod
+                "environment" => ""
             );
 
-            $yml_content = \Spyc::YAMLDump($php_content);
+            $yml_content = Spyc::YAMLDump($php_content);
 
             file_put_contents($config_file, $info_content.$yml_content, FILE_APPEND);
+
         }
     }
 
