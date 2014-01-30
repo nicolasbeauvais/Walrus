@@ -1,0 +1,121 @@
+[
+    {
+        "name": "phing/phing",
+        "version": "2.6.1",
+        "version_normalized": "2.6.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/phingofficial/phing.git",
+            "reference": "3f7d71bf561bafea39087250f777b349438cc32e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/phingofficial/phing/zipball/3f7d71bf561bafea39087250f777b349438cc32e",
+            "reference": "3f7d71bf561bafea39087250f777b349438cc32e",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.0"
+        },
+        "time": "2013-08-26 21:13:03",
+        "bin": [
+            "bin/phing"
+        ],
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "classes/phing/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "include-path": [
+            "classes"
+        ],
+        "license": [
+            "LGPL3"
+        ],
+        "authors": [
+            {
+                "name": "Michiel Rook",
+                "email": "mrook@php.net"
+            },
+            {
+                "name": "Phing Community",
+                "homepage": "http://www.phing.info/trac/wiki/Development/Contributors"
+            }
+        ],
+        "description": "PHing Is Not GNU make; it's a PHP project build system or build tool based on Apache Ant.",
+        "homepage": "http://www.phing.info/",
+        "keywords": [
+            "build",
+            "task",
+            "tool"
+        ]
+    },
+    {
+        "name": "propel/propel1",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/propelorm/Propel.git",
+            "reference": "e53ccc89ece77aa71e939ad7b31a2afdfdfc8265"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/propelorm/Propel/zipball/e53ccc89ece77aa71e939ad7b31a2afdfdfc8265",
+            "reference": "e53ccc89ece77aa71e939ad7b31a2afdfdfc8265",
+            "shasum": ""
+        },
+        "require": {
+            "phing/phing": "~2.4",
+            "php": ">=5.2.4"
+        },
+        "require-dev": {
+            "pear-pear.php.net/pear_packagefilemanager2": "@stable"
+        },
+        "time": "2014-01-14 07:55:29",
+        "bin": [
+            "generator/bin/propel-gen",
+            "generator/bin/propel-gen.bat"
+        ],
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.7-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "classmap": [
+                "runtime/lib",
+                "generator/lib"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "include-path": [
+            "runtime/lib",
+            "generator/lib"
+        ],
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "William Durand",
+                "email": "william.durand1@gmail.com",
+                "homepage": "http://www.willdurand.fr"
+            }
+        ],
+        "description": "Propel is an open-source Object-Relational Mapping (ORM) for PHP5.",
+        "homepage": "http://www.propelorm.org/",
+        "keywords": [
+            "Active Record",
+            "database",
+            "mapping",
+            "orm",
+            "persistence"
+        ]
+    }
+]
