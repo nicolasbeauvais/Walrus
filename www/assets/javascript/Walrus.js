@@ -55,3 +55,5 @@ var Walrus = {};
     document.onclick = Walrus.catchLinks;
 
 })(Walrus);
+
+console.log('test');
