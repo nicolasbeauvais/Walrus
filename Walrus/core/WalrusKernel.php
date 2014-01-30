@@ -42,15 +42,7 @@ class WalrusKernel
 
     private static function bootstrapOrm()
     {
-        // Initializing php-activerecord
-        Config::initialize(function ($cfg) {
-            $cfg->set_model_directory(ROOT_PATH . 'Walrus/models/');
-            $cfg->set_connections(
-                array(
-                    'development' => 'mysql://root:root@localhost/walrus_dev'
-                )
-            );
-        });
+
     }
 
     private static function bootstrapConfig()

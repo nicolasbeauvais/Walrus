@@ -22,7 +22,6 @@ class WalrusAutoload
         'engine/controllers/',
         'engine/models/',
         'vendors/',
-        "database/php-activerecord/lib/"
     );
 
     /**

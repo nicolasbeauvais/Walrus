@@ -5,11 +5,9 @@
  * Created: 11:35 29/01/14
  */
 
-namespace Walrus\models;
+namespace engine\models;
 
-use ActiveRecord;
-
-class User extends ActiveRecord\Model
+class User
 {
-    public $user;
+
 }
