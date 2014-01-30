@@ -1,0 +1,14 @@
+#Please feed those information : 
+ #database can be MySQL | SQLite | PostgreSQL | Oracle 
+ #templating can be HAML | Twig | Smarty 
+ #environment can be dev or prod 
+ #config and routing are yml files 
+ 
+---
+database:
+  language: "mysql"
+  host: "localhost"
+  name: "root"
+  password: ""
+templating: "haml"
+environment: "dev"
