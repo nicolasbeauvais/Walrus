@@ -2,6 +2,9 @@
 .DS_Store
 Thumbs.db
 
+#vendors
+www/templates_c/
+
 # Software
 .dropbox
 
