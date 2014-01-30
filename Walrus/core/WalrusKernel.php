@@ -70,14 +70,14 @@ class WalrusKernel
             $environment = array('dev', 'prod');
 
             if (in_array(strtolower($array_info['templating']), $templating)) {
-                $WalrusConfig['templating'] = $array_info['templating'];
+                $WalrusConfig['templating'] = strtolower($array_info['templating']);
             } else {
                 $error = true;
                 $errorArray['templating'] = "Templating must be HAML, Twig or Smarty";
             }
 
             if (in_array(strtolower($array_info['database']['language']), $databases)) {
-                $WalrusConfig['dbLanguage'] = $array_info['database']['language'];
+                $WalrusConfig['dbLanguage'] = strtolower($array_info['database']['language']);
             } else {
                 $error = true;
                 $errorArray['dbLanguage'] = "Database must be either MySQL, SQLite, PostgreSQL or Oracle";
@@ -97,7 +97,7 @@ class WalrusKernel
                 $errorArray['dbName'] = "Database name can't be empty";
             }
             if (in_array(strtolower($array_info['environment']), $environment)) {
-                $WalrusConfig['environment'] = $array_info['environment'];
+                $WalrusConfig['environment'] = strtolower($array_info['environment']);
             } else {
                 $error = true;
                 $errorArray['environment'] = "Environment must be dev or prod";
@@ -107,7 +107,7 @@ class WalrusKernel
                 throw new Exception($errorArray);
             }
 
-            global $WalrusConfig;
+            $GLOBALS['WalrusConfig'] = $WalrusConfig;
 
         } else {
             $info_content = "
@@ -129,8 +129,6 @@ class WalrusKernel
             $yml_content = Spyc::YAMLDump($php_content);
 
             file_put_contents($config_file, $info_content.$yml_content, FILE_APPEND);
-
         }
     }
-
 }
