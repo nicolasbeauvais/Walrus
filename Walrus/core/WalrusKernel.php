@@ -21,10 +21,9 @@ class WalrusKernel
      */
     public static function execute()
     {
-        //self::bootstrap();
+        self::bootstrap();
         try {
             $WalrusRouter = WalrusRouter::getInstance();
-
             $WalrusRouter->execute();
         } catch (Exception $e) {
             // @TODO: add Exception
@@ -66,14 +65,18 @@ class WalrusKernel
             $errorArray = array();
             $WalrusConfig = array();
 
-            if (strcasecmp($array_info['templating'], 'HAML') == 0 || strcasecmp($array_info['templating'], 'Twig') == 0 || strcasecmp($array_info['templating'], 'Smarty') == 0) {
+            $templating = array('haml', 'twig', 'smarty');
+            $databases = array('mysql', 'sqlite', 'postgresql', 'oracle');
+            $environment = array('dev', 'prod');
+
+            if (in_array(strtolower($array_info['templating']), $templating)) {
                 $WalrusConfig['templating'] = $array_info['templating'];
             } else {
                 $error = true;
                 $errorArray['templating'] = "Templating must be HAML, Twig or Smarty";
             }
 
-            if (strcasecmp($array_info['database']['language'], 'MySQL') == 0 || strcasecmp($array_info['database']['language'], 'SQLite') == 0 || strcasecmp($array_info['database']['language'], 'PostgreSQL') == 0 || strcasecmp($array_info['database']['language'], 'Oracle') == 0) {
+            if (in_array(strtolower($array_info['database']['language']), $databases)) {
                 $WalrusConfig['dbLanguage'] = $array_info['database']['language'];
             } else {
                 $error = true;
@@ -93,7 +96,7 @@ class WalrusKernel
                 $error = true;
                 $errorArray['dbName'] = "Database name can't be empty";
             }
-            if (strcasecmp($array_info['environment'], 'dev') == 0 || strcasecmp($array_info['environment'], 'prod') == 0) {
+            if (in_array(strtolower($array_info['environment']), $environment)) {
                 $WalrusConfig['environment'] = $array_info['environment'];
             } else {
                 $error = true;
@@ -107,7 +110,13 @@ class WalrusKernel
             global $WalrusConfig;
 
         } else {
-            $info_content = "#Please feed those information : \n #database can be MySQL | SQLite | PostgreSQL | Oracle \n #templating can be HAML | Twig | Smarty \n #environment can be dev or prod \n #config and routing are yml files \n \n";
+            $info_content = "
+            #Please feed those information : \n
+            #database can be MySQL | SQLite | PostgreSQL | Oracle \n
+            #templating can be HAML | Twig | Smarty \n
+            #environment can be dev or prod \n
+            #config and routing are yml files \n \n";
+
             $php_content = array(
                 "database" => array("language" => "",
                     "host" => "",
