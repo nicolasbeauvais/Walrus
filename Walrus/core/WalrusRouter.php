@@ -255,7 +255,6 @@ class WalrusRouter
     public function process()
     {
         $route = $this->matchCurrentRequest();
-
         if (!$route) {
             $url = isset($_GET['url']) ? $_GET['url'] : '/';
             throw new Exception('[WalrusRouting] undefined route: ' . $url);

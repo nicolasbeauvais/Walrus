@@ -4,25 +4,7 @@
 #     array('methods' => 'GET', 'name' => 'users_edit', 'filters' => array('id' => '(\d+)'))
 # );
 
-_hello:
-    method: 'get'
-    path:   'hello/:id/:test'
-    controller:   'HelloController'
-    action: 'doHelloWorld'
-    filters:
-        require:
-            id: '\d+'
-            test: '\w+'
-        default:
-            id: 1
-
 _home:
     path:   ''
-    controller:   'HelloController'
-    action: 'helloHome'
-
-
-_helloNew:
-    path:   'helloNew'
-    controller:   'HelloController'
-    action: 'doHelloWorldNew'
+    controller:   'HomeController'
+    action: 'run'

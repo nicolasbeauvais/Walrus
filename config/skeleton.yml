@@ -11,7 +11,6 @@
 _skeleton_main:
     header:
         template: 'header/main'
-        alias: 'testAlias'
     nav:
         template: 'nav/main'
     body:

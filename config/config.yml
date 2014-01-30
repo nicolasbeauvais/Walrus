@@ -10,5 +10,5 @@ database:
   host: "localhost"
   name: "root"
   password: ""
-templating: "haml"
+templating: "smarty"
 environment: "dev"
