@@ -94,7 +94,7 @@ class WalrusRouter
         try {
             $this->process();
         } catch (Exception $e) {
-            echo $e->getMessage();
+            // @TODO: catch message
         }
     }
 
@@ -257,7 +257,8 @@ class WalrusRouter
         $route = $this->matchCurrentRequest();
 
         if (!$route) {
-            throw new Exception('[WalrusRouting] undefined route: ' . isset($_GET['url']) ? $_GET['url'] : '/');
+            $url = isset($_GET['url']) ? $_GET['url'] : '/';
+            throw new Exception('[WalrusRouting] undefined route: ' . $url);
         }
 
         // sanitize ?
