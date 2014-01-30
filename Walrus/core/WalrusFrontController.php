@@ -11,8 +11,11 @@ namespace Walrus\core;
 use Walrus\core\objects\Skeleton;
 use Walrus\core\objects\Template;
 use MtHaml;
+use Smarty;
 use Spyc\Spyc;
 use Exception;
+
+// @TODO: Rework all front controlleur variables asignment
 
 /**
  * Class WalrusFrontController
@@ -38,6 +41,30 @@ class WalrusFrontController
      * @var string
      */
     private static $skeletons = array();
+
+    /**
+     * Smarty class
+     * @var mixed
+     */
+    private static $smarty;
+
+    /**
+     * Store the templating langage
+     * @var mixed
+     */
+    private static $templating = false;
+
+    /**
+     * The template extension before parsing
+     * @var string
+     */
+    private static $template_to_parse = '';
+
+    /**
+     * The template extension after parsing
+     * @var string
+     */
+    private static $template_parsed = '';
 
     /**
      * @var mixed
@@ -80,12 +107,13 @@ class WalrusFrontController
      */
     protected function setView($view, $alias = null)
     {
+        self::config();
         if (strrpos($view, '/') === false) {
             $className = explode('\\', get_called_class());
             $controller = strtolower(str_replace('Controller', '', end($className)));
-            $template = FRONT_PATH . $controller . '/' . $view . '.haml';
+            $template = FRONT_PATH . $controller . '/' . $view . self::$templateToParse;
         } else {
-            $template = FRONT_PATH . $view . '.haml';
+            $template = FRONT_PATH . $view . self::$templateToParse;
         }
 
 
@@ -94,7 +122,11 @@ class WalrusFrontController
         if ($alias) {
             $objTemplate->setAlias($alias);
         }
-        $objTemplate->setTemplate($template . '.php');
+        if ($GLOBALS['WalrusConfig']['templating'] == 'haml') {
+            $objTemplate->setTemplate($template . '.php');
+        } else {
+            $objTemplate->setTemplate($template);
+        }
 
         self::$templates[] = $objTemplate;
     }
@@ -144,27 +176,48 @@ class WalrusFrontController
      */
     public static function execute()
     {
+        if ($GLOBALS['WalrusConfig']['templating'] == 'smarty') {
+            self::$smarty = new Smarty();
+        }
 
         if (count(self::$variables) > 0) {
             foreach (self::$variables as self::$foreach_key => self::$foreach_value) {
                 ${self::$foreach_key} = self::$foreach_value;
+
+                if ($GLOBALS['WalrusConfig']['templating'] == 'smarty') {
+
+                    self::$smarty->assign(self::$foreach_key, self::$foreach_value);
+                }
             }
         }
 
         if (count(self::$templates) > 0) {
 
+            // @TODO: parse variables for smarty
             foreach (self::$templates as self::$foreach_key => self::$foreach_value) {
                 if (is_a(self::$foreach_value, 'Walrus\core\objects\Skeleton')) {
                     self::process(self::$foreach_value);
                 } else {
 
-                    foreach (self::$foreach_value->getVariables() as
-                             self::$foreach_key_lvl2 => self::$foreach_value_lvl2) {
-                        ${self::$foreach_key_lvl2} = self::$foreach_value_lvl2;
-                    }
+                    switch ($GLOBALS['WalrusConfig']['templating']) {
+                        case 'haml':
+                            foreach (self::$foreach_value->getVariables() as
+                                     self::$foreach_key_lvl2 => self::$foreach_value_lvl2) {
+                                ${self::$foreach_key_lvl2} = self::$foreach_value_lvl2;
+                            }
+                            self::compileToYaml(substr(self::$foreach_skeleton_value->getTemplate(), 0, -4));
+                            require(self::$foreach_skeleton_value->getTemplate());
+                            break;
+                        case 'smarty':
 
-                    // @TODO: check config for templating
-                    self::compileToYaml(substr(self::$foreach_value->getTemplate(), 0, -4));
+                            foreach (self::$foreach_value->getVariables() as
+                                     self::$foreach_key_lvl2 => self::$foreach_value_lvl2) {
+                                self::$smarty->assign(self::$foreach_key_lvl2, self::$foreach_value_lvl2);
+                            }
+
+                            self::$smarty->display(self::$foreach_skeleton_value->getTemplate());
+                            break;
+                    }
 
                     require(self::$foreach_value->getTemplate());
 
@@ -189,10 +242,15 @@ class WalrusFrontController
                 ${self::$foreach_skeleton_key_lvl2} = self::$foreach_skeleton_value_lvl2;
             }
 
-            // @TODO: check config for templating
-            self::compileToYaml(substr(self::$foreach_skeleton_value->getTemplate(), 0, -4));
-
-            require(self::$foreach_skeleton_value->getTemplate());
+            switch ($GLOBALS['WalrusConfig']['templating']) {
+                case 'haml':
+                    self::compileToYaml(substr(self::$foreach_skeleton_value->getTemplate(), 0, -4));
+                    require(self::$foreach_skeleton_value->getTemplate());
+                    break;
+                case 'smarty':
+                    self::$smarty->display(self::$foreach_skeleton_value->getTemplate());
+                    break;
+            }
 
             foreach (self::$foreach_skeleton_value->getVariables() as
                      self::$foreach_skeleton_key_lvl2 => self::$foreach_skeleton_value_lvl2) {
@@ -227,6 +285,8 @@ class WalrusFrontController
     {
         $skeleton_yaml = "../config/skeleton.yml";
 
+        self::config();
+
         if (!file_exists($skeleton_yaml)) {
             throw new Exception('[WalrusFrontController] skeleton.yml doesn\'t exist in config/ directory');
         }
@@ -239,11 +299,17 @@ class WalrusFrontController
 
             foreach ($skeleton as $name => $value) {
 
-                $template = FRONT_PATH . $value['template'] . '.haml';
+                $template = FRONT_PATH . $value['template'] . self::$template_to_parse;
 
                 $objTemplate = new Template();
                 $objTemplate->setName($name);
-                $objTemplate->setTemplate($template . '.php');
+
+                if ($GLOBALS['WalrusConfig']['templating'] == 'haml') {
+                    $objTemplate->setTemplate($template . '.php');
+                } else {
+                    $objTemplate->setTemplate($template);
+                }
+
                 if (isset($value['alias'])) {
                     $objTemplate->setAlias($value['alias']);
                 }
@@ -256,6 +322,28 @@ class WalrusFrontController
             $objSkeleton->setTemplate($templates);
 
             self::$skeletons[] = $objSkeleton;
+        }
+    }
+
+    /**
+     * Configuration for the front controler
+     */
+    private static function config ()
+    {
+        if (self::$templating) {
+            return;
+        }
+        self::$templating = $GLOBALS['WalrusConfig']['templating'];
+
+        switch (self::$templating) {
+            case 'haml':
+                self::$template_to_parse = '.haml';
+                self::$template_parsed = '.haml.php';
+                break;
+            case 'smarty':
+                self::$template_to_parse = '.tpl';
+                self::$template_parsed = '.tpl';
+                break;
         }
     }
 

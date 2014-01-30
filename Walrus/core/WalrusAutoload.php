@@ -22,6 +22,7 @@ class WalrusAutoload
         'engine/controllers/',
         'engine/models/',
         'vendors/',
+        'vendors/Smarty/',
         "database/php-activerecord/lib/"
     );
 
