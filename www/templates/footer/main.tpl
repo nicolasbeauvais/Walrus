@@ -1,1 +1,1 @@
-<script src="./assests/javascript/Walrus.js"></script>
+<script src="./assets/javascript/Walrus.js"></script>

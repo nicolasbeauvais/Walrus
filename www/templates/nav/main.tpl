@@ -1,5 +1,5 @@
 <nav>
-    <h1>Walrus framework micro-blogging demo</h1>
+    <h1>Walrus demo</h1>
     <ul>
         <li>Home</li>
         <li>Profil</li>
