@@ -11,7 +11,7 @@ namespace Walrus\core;
 use Spyc\Spyc;
 use Walrus\core\objects\Route;
 use Exception;
-use Reflection;
+use ReflectionClass;
 
 /**
  * Class WalrusRoute
@@ -240,7 +240,7 @@ class WalrusRouter
             $param_keys = $param_keys[1];
 
             // loop trough parameter names, store matching value in $params array
-            foreach ($param_keys as $i => $key) {
+            foreach ($param_keys as $key) {
                 if (isset($params[$key])) {
                     $url = preg_replace("/:(\w+)/", $params[$key], $url, 1);
                 }
@@ -265,14 +265,14 @@ class WalrusRouter
             $_POST[] = array();
         }
 
-        $toCall = explode(':', $route->getTarget());
+        $cb = explode(':', $route->getTarget());
 
-        if (count($toCall) === 2) {
-            $controller = $toCall[0];
+        if (count($cb) === 2) {
+            $controller = $cb[0];
             if (empty($controller)) {
                 throw new Exception('[WalrusRouting] empty route controller');
             }
-            $action = $toCall[1];
+            $action = $cb[1];
             if (empty($action)) {
                 throw new Exception('[WalrusRouting] empty route action');
             }
@@ -286,21 +286,15 @@ class WalrusRouter
             throw new Exception('[WalrusRouting] Can\'t load class: ' . $controller);
         }
 
-        $rc = new \ReflectionClass($class);
+        $rc = new ReflectionClass($class);
 
-        $cb = array($controller, $action);
         $args = null;
 
-        // if the first argument is a class name string,
-        // then create the controller object.
-        if (is_string($cb[0])) {
-            $cb[0] = $controller = $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
-        } else {
-            $controller = $cb[0];
-        }
+        // Create the controller object.
+        $cb[0] = $rc->newInstance();
 
         // check controller action method
-        if ($controller && ! method_exists($controller, $cb[1])) {
+        if ($cb[0] && ! method_exists($cb[0], $cb[1])) {
             throw new Exception('Controller exception');
         }
 
