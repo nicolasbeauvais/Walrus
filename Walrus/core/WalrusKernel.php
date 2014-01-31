@@ -38,7 +38,7 @@ class WalrusKernel
     private static function bootstrap()
     {
         WalrusKernel::bootstrapConfig();
-        WalrusKernel::bootstrapOrm();
+        //WalrusKernel::bootstrapOrm();
     }
 
     private static function bootstrapOrm()
