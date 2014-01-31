@@ -13,6 +13,8 @@ _skeleton_main:
         template: 'header/main'
     nav:
         template: 'nav/main'
+    user:
+        template: 'user/bar'
     body:
         template: 'actu/home'
     footer:
