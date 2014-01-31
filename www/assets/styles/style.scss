@@ -1,3 +1,239 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600);
+
+//Meyer CSS reset
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,
+em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,
+table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,
+nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;
+vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}
+body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,
+q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}textarea:focus, input:focus{outline: 0;}
+
+@mixin display-inline-block () {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+
+$image: '../images/';
+
+/* Background color's */
+$main: #3e90ca;
+$dark_grey: #212a31;
+$light_grey: #dbe4eb;
+$blue_grey: #8093a2;
+$border: #ececec;
+$hover: #f6fbff;
+
+/* Font color's */
+$title: #4f5d66;
+$text: #70818b;
+$light_text: #d1d1d1;
+$light_blue_text: #c0e2fb;
+
+/* Body */
 body {
-  color: #0d3349;
+  font-family: 'Open Sans';
+}
+
+/* Grid */
+.grid {
+  max-width: 1000px;
+  min-width: 800px;
+  display: block;
+  padding: 0 20px;
+  margin: auto;
+}
+
+/* General */
+.clear {
+  clear: both;
+}
+
+/* Menu */
+#top {
+  height: 68px;
+  background-color: $main;
+  h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 68px;
+    margin-right: 20px;
+    @include display-inline-block;
+  }
+  #menu, #connect {
+    @include display-inline-block;
+    line-height: 68px;
+    color: $light_blue_text;
+    li {
+      @include display-inline-block;
+      margin-right: 10px;
+      cursor: pointer;
+      &.actual {
+        color: #ffffff;
+      }
+    }
+  }
+  #connect {
+    float: right;
+    margin-right: 20px;
+    color: #ffffff;
+    li {
+      margin-right: 0;
+      margin-left: 10px;
+    }
+  }
+}
+
+#userBar {
+  height: 104px;
+  background-color: $dark_grey;
+  .info {
+    color: $blue_grey;
+    font-size: 14px;
+  }
+  .user {
+    @include display-inline-block;
+    line-height: 104px;
+    height: 104px;
+    padding-right: 63px;
+    border-right: 1px solid $blue_grey;
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 25px;
+      line-height: 104px;
+      vertical-align: middle;
+      margin-right: 20px;
+    }
+    &>span {
+      @include display-inline-block;
+      line-height: 0;
+      vertical-align: middle;
+    }
+    .profil {
+      @include display-inline-block;
+      line-height: 18px;
+      .h3 {
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 15px;
+      }
+      .info {
+        @include display-inline-block;
+        line-height: 15px;
+        vertical-align: middle;
+      }
+    }
+  }
+  .infos {
+    padding: 0 40px;
+    @include display-inline-block;
+    height: 104px;
+    line-height: 104px;
+    .stat {
+      @include display-inline-block;
+      text-align: center;
+      vertical-align: middle;
+      margin: 0 20px;
+      line-height: 16px;
+      position: relative;
+      .value {
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 22px;
+        line-height: 22px;
+      }
+      .info {
+        line-height: 14px;
+      }
+      &:before {
+        content: '';
+        @include display-inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 5px;
+        background-color: $blue_grey;
+        line-height: 104px;
+        vertical-align: middle;
+        position: absolute;
+        left: -22px;
+        top: 50%;
+      }
+      &:first-child {
+        &:before {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+/* Container */
+#container {
+  #content {
+    @include display-inline-block;
+    float: left;
+    width: 70%;
+    h2 {
+      color: $title;
+      font-size: 26px;
+      font-weight: 600;
+      margin: 40px 0;
+    }
+  }
+  #messageContainer {
+    .msg {
+      height: 95px;
+      position: relative;
+      border-bottom: 1px solid $border;
+      padding: 10px 0;
+      &:hover {
+        background-color: $hover;
+      }
+      &:first-child {
+        border-top: 1px solid $border;
+      }
+      .avatar {
+        @include display-inline-block;
+        border-radius: 50px;
+        margin: 12px 25px 12px 0;
+        float: left;
+      }
+      .msgContent {
+        @include display-inline-block;
+        float:right;
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-left: 95px;
+        margin-top: 17px;
+        .name {
+          font-weight: 600;
+          color: $title;
+        }
+        .pseudo {
+          color: $light_text;
+        }
+        p.message {
+          @include display-inline-block;
+          color: $text;
+          margin: 10px 0;
+          font-size: 14px;
+        }
+        .time {
+          color: $light_text;
+          font-weight: 300;
+          font-size: 13px;
+        }
+      }
+    }
+  }
+  #sidebar {
+    @include display-inline-block;
+    float: right;
+    width: 30%;
+    background-color: #f1f1f1;
+  }
 }
