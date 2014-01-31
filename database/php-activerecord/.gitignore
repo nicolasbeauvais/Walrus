@@ -1,8 +1,0 @@
-.project
-.buildpath
-.settings
-*.log
-test/*.db
-*.swp
-vendor/*
-composer.lock
