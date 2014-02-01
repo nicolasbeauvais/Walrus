@@ -87,14 +87,14 @@ class WalrusRouter
     public function execute()
     {
         $this->setBasePath('/');
-
-        //@TODO: check config for YAML / PHP mode
         $this->getRoutesFromYAML();
 
         try {
             $this->process();
         } catch (Exception $e) {
             // @TODO: catch message
+            header("Status: 404 Not Found");
+            header('HTTP/1.0 404 Not Found');
         }
     }
 
