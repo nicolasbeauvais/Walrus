@@ -7,6 +7,7 @@
 
 var Walrus = {};
 
+// @TODO: change url on ajax nav
 (function (Walrus) {
 
     'use strict';
@@ -24,7 +25,7 @@ var Walrus = {};
         for (treeExplorer; treeExplorer > 0; treeExplorer -= 1) {//fake faster while
 
             //handle body, html, document
-            if (elem === null) { break;}
+            if (elem === null) { break; }
 
             //if we found a link
             if (elem.localName === 'a') {
@@ -36,24 +37,61 @@ var Walrus = {};
 
                         attribute = attributes[attribute];
                         if (attribute.localName === 'href') {
-                            console.log(attribute.value);
+                            if (Walrus.isntExternal(attribute.value)) {
+                                Walrus.ajaxNavigation(event, attribute.value);
+                                break;
+                            } else { return; }
+
                         }
+                        return;
                     }
                 }
 
-             } else {
+            } else {
                 elem = elem.parentNode;
                 treeExplorer += 1;
             }
         }
 
-
         event.preventDefault();
+    };
+
+    Walrus.isntExternal = function (url) {
+        var local = location.href.replace(/^((https?:)?\/\/)?(www\.)?(\.)?/gi, '').split('/')[0];
+        url = url.replace(/^((https?:)?\/\/)?(www\.)?(\.)?/gi, '').split('/')[0];
+        return local === (url === '' ? local : url);
+    };
+
+    Walrus.ajaxNavigation = function (event, url) {
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.send();
+
+        request.onload = function () {
+            var resp,
+                node,
+                container,
+                allChilds,
+                i;
+
+            document.getElementById('container').innerHTML = '';
+
+            resp = this.response;
+            node = document.createElement('div');
+            node.innerHTML = resp;
+            allChilds = node.childNodes;
+            i = allChilds.length - 1;
+
+            for (i; i > 0; i -= 1) {
+                if (allChilds[i].id && allChilds[i].id === "container") { container = allChilds[i]; }
+            }
+
+            document.getElementById('container').innerHTML = container.innerHTML;
+            event.preventDefault();
+        };
     };
 
     //Event Listener
     document.onclick = Walrus.catchLinks;
 
 })(Walrus);
-
-console.log('test');
