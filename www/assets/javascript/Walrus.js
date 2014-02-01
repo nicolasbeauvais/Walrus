@@ -7,7 +7,6 @@
 
 var Walrus = {};
 
-// @TODO: change url on ajax nav
 (function (Walrus) {
 
     'use strict';
@@ -79,6 +78,10 @@ var Walrus = {};
             resp = this.response;
             node = document.createElement('div');
             node.innerHTML = resp;
+
+            document.title = node.getElementsByTagName('title')[0].innerText;
+            window.history.pushState({"html": resp.innerHTML, "pageTitle": document.title}, '', document.URL += url);
+
             allChilds = node.childNodes;
             i = allChilds.length - 1;
 
