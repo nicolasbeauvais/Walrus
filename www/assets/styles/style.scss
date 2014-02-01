@@ -8,12 +8,14 @@ nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:
 vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}
 body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,
 q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}textarea:focus, input:focus{outline: 0;}
+a{text-decoration:none;}a:link, a:visited, a:hover, a:active {color: #000;}
 
 @mixin display-inline-block () {
   display: inline-block;
   *display: inline;
   *zoom: 1;
 }
+
 
 $image: '../images/';
 
@@ -65,12 +67,14 @@ body {
   #menu, #connect {
     @include display-inline-block;
     line-height: 68px;
-    color: $light_blue_text;
     li {
       @include display-inline-block;
       margin-right: 10px;
       cursor: pointer;
-      &.actual {
+      a {
+        color: $light_blue_text;
+      }
+      &.actual a {
         color: #ffffff;
       }
     }
