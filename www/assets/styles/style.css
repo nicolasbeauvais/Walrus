@@ -34,6 +34,12 @@ table {
 textarea:focus, input:focus {
   outline: 0; }
 
+a {
+  text-decoration: none; }
+
+a:link, a:visited, a:hover, a:active {
+  color: #000; }
+
 /* Background color's */
 /* Font color's */
 /* Body */
@@ -69,15 +75,16 @@ body {
     display: inline-block;
     *display: inline;
     *zoom: 1;
-    line-height: 68px;
-    color: #c0e2fb; }
+    line-height: 68px; }
     #top #menu li, #top #connect li {
       display: inline-block;
       *display: inline;
       *zoom: 1;
       margin-right: 10px;
       cursor: pointer; }
-      #top #menu li.actual, #top #connect li.actual {
+      #top #menu li a, #top #connect li a {
+        color: #c0e2fb; }
+      #top #menu li.actual a, #top #connect li.actual a {
         color: #ffffff; }
   #top #connect {
     float: right;
