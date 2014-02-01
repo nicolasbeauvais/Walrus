@@ -8,3 +8,8 @@ _home:
     path:   ''
     controller:   'HomeController'
     action: 'run'
+
+_me:
+    path: 'me'
+    controller: 'UserController'
+    action: 'run'
