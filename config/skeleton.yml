@@ -21,11 +21,13 @@ _skeleton_main:
         template: 'footer/main'
 
 # Skeleton for user profil
-_skeleton_profil:
+_skeleton_user:
     header:
         template: 'header/main'
     nav:
         template: 'nav/main'
+    user:
+        template: 'user/bar'
     body:
         template: 'actu/user'
     footer:
