@@ -94,7 +94,66 @@ var Walrus = {};
         };
     };
 
+    Walrus.bootstrap = function () {
+        //Lazy load
+        Walrus.checkLazy();
+    };
+
+    Walrus.checkLazy = function () {
+        var nodes,
+            nodesLength,
+            request;
+
+        nodes = Walrus.getByData('lazyload');
+        nodesLength = nodes.length;
+
+        if (nodesLength < 1) { return; }
+        for (nodesLength; nodesLength > 0; nodesLength -= 1) {
+            request = new XMLHttpRequest();
+            request.open('GET', nodes[nodesLength - 1].data, true);
+            request.send();
+
+            request.onload = Walrus.appendLazy(nodes[nodesLength - 1].elem);
+        }
+    };
+
+    Walrus.appendLazy = function (node) {
+
+        var callback = function () {
+            var data = this.response;
+            node.innerHTML = data;
+            node.removeAttribute('data-lazyload');
+        };
+
+        return callback;
+    };
+
+    Walrus.getByData = function (data) {
+        var matches,
+            allDom,
+            i,
+            node,
+            nodeData;
+
+        matches = [];
+        allDom = document.getElementsByTagName("*");
+        i = allDom.length - 1;
+
+        for (i; i > 0; i -= 1) {
+            node = allDom[i];
+            if (node.getAttribute('data-' + data)) {
+                nodeData = {};
+                nodeData.elem = node;
+                nodeData.data = node.getAttribute('data-' + data);
+                matches.push(nodeData);
+            }
+        }
+
+        return matches;
+    };
+
     //Event Listener
     document.onclick = Walrus.catchLinks;
+    window.onload = Walrus.bootstrap;
 
 }(Walrus));
