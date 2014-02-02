@@ -13,3 +13,8 @@ _me:
     path: 'me'
     controller: 'UserController'
     action: 'run'
+
+_sidebar_home:
+    path: 'sidebar/home'
+    controller: 'SidebarController'
+    action: 'home'
