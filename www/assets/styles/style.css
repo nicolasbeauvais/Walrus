@@ -182,7 +182,8 @@ body {
   *display: inline;
   *zoom: 1;
   float: left;
-  width: 70%; }
+  width: 70%;
+  border-right: 1px solid #ececec; }
   #container #content h2 {
     color: #4f5d66;
     font-size: 26px;
