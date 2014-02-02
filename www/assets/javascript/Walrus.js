@@ -80,7 +80,7 @@ var Walrus = {};
             node.innerHTML = resp;
 
             document.title = node.getElementsByTagName('title')[0].innerText;
-            window.history.pushState({"html": resp.innerHTML, "pageTitle": document.title}, '', document.URL += url);
+            window.history.pushState({"html": resp.innerHTML, "pageTitle": document.title}, '', url);
 
             allChilds = node.childNodes;
             i = allChilds.length - 1;
@@ -97,4 +97,4 @@ var Walrus = {};
     //Event Listener
     document.onclick = Walrus.catchLinks;
 
-})(Walrus);
+}(Walrus));
