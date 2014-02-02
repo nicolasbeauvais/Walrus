@@ -177,18 +177,21 @@ body {
         display: none; }
 
 /* Container */
+#container h2 {
+  color: #4f5d66;
+  font-size: 26px;
+  font-weight: 600;
+  margin: 40px 0; }
 #container #content {
   display: inline-block;
   *display: inline;
   *zoom: 1;
   float: left;
-  width: 70%;
+  width: -webkit-calc(100% - 300px);
+  width: -moz-calc(100% - 300px);
+  width: calc(100% - 300px);
+  margin-right: -1px;
   border-right: 1px solid #ececec; }
-  #container #content h2 {
-    color: #4f5d66;
-    font-size: 26px;
-    font-weight: 600;
-    margin: 40px 0; }
 #container #messageContainer .msg {
   height: 95px;
   position: relative;
@@ -226,7 +229,8 @@ body {
       *zoom: 1;
       color: #70818b;
       margin: 10px 0;
-      font-size: 14px; }
+      font-size: 14px;
+      padding-right: 5px; }
     #container #messageContainer .msg .msgContent .time {
       color: #d1d1d1;
       font-weight: 300;
@@ -236,5 +240,42 @@ body {
   *display: inline;
   *zoom: 1;
   float: right;
-  width: 30%;
-  background-color: #f1f1f1; }
+  min-width: 300px; }
+  #container #sidebar h2 {
+    text-indent: 20px;
+    margin-bottom: 0;
+    padding-bottom: 40px; }
+  #container #sidebar #userToFollow {
+    border-bottom: 1px solid #ececec;
+    border-top: 1px solid #ececec; }
+    #container #sidebar #userToFollow .user {
+      position: relative;
+      height: 70px;
+      padding: 5px 0; }
+      #container #sidebar #userToFollow .user .avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+        position: absolute;
+        top: 10px;
+        left: 20px; }
+      #container #sidebar #userToFollow .user .infos .name {
+        position: absolute;
+        top: 18px;
+        left: 80px;
+        color: #4f5d66;
+        font-weight: 600; }
+      #container #sidebar #userToFollow .user .infos .pseudo {
+        position: absolute;
+        top: 35px;
+        left: 80px;
+        color: #d1d1d1; }
+  #container #sidebar #copyright {
+    font-family: 'arial';
+    color: #4f5d66;
+    padding-left: 20px;
+    width: 280px;
+    margin-top: 20px; }
+    #container #sidebar #copyright span {
+      font-weight: bold;
+      line-height: 30px; }

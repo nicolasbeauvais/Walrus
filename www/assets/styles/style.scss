@@ -176,17 +176,20 @@ body {
 
 /* Container */
 #container {
+  h2 {
+    color: $title;
+    font-size: 26px;
+    font-weight: 600;
+    margin: 40px 0;
+  }
   #content {
     @include display-inline-block;
     float: left;
-    width: 70%;
+    width: -webkit-calc(100% - 300px);
+    width: -moz-calc(100% - 300px);
+    width: calc(100% - 300px);
+    margin-right: -1px;
     border-right: 1px solid $border;
-    h2 {
-      color: $title;
-      font-size: 26px;
-      font-weight: 600;
-      margin: 40px 0;
-    }
   }
   #messageContainer {
     .msg {
@@ -226,6 +229,7 @@ body {
           color: $text;
           margin: 10px 0;
           font-size: 14px;
+          padding-right: 5px;
         }
         .time {
           color: $light_text;
@@ -238,7 +242,54 @@ body {
   #sidebar {
     @include display-inline-block;
     float: right;
-    width: 30%;
-    background-color: #f1f1f1;
+    min-width: 300px;
+    h2 {
+      text-indent: 20px;
+      margin-bottom: 0;
+      padding-bottom: 40px;
+    }
+    #userToFollow {
+      border-bottom: 1px solid $border;
+      border-top: 1px solid $border;
+      .user {
+        position: relative;
+        height: 70px;
+        padding: 5px 0;
+        .avatar {
+          width: 50px;
+          height: 50px;
+          border-radius: 50px;
+          position: absolute;
+          top: 10px;
+          left: 20px;
+        }
+        .infos {
+          .name {
+            position: absolute;
+            top: 18px;
+            left: 80px;
+            color: $title;
+            font-weight: 600;
+          }
+          .pseudo {
+            position: absolute;
+            top: 35px;
+            left: 80px;
+            color: $light_text;
+          }
+        }
+      }
+    }
+    #copyright {
+      font-family: 'arial';
+      color: $title;
+      padding-left: 20px;
+      width: 280px;
+      margin-top: 20px;
+      span {
+        font-weight: bold;
+        line-height: 30px;
+      }
+    }
   }
 }
