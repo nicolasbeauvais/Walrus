@@ -180,6 +180,7 @@ body {
     @include display-inline-block;
     float: left;
     width: 70%;
+    border-right: 1px solid $border;
     h2 {
       color: $title;
       font-size: 26px;
