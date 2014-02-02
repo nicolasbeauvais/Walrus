@@ -96,6 +96,6 @@
 
         </div>
     </div>
-    <div id="sidebar" data-lazyload="Sidebar:home"></div>
+    <div id="sidebar" data-lazyload="sidebar/home"></div>
     <div class="clear"></div>
 </div>
