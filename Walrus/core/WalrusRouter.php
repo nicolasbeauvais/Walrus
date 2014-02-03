@@ -95,6 +95,7 @@ class WalrusRouter
             // @TODO: catch message
             header("Status: 404 Not Found");
             header('HTTP/1.0 404 Not Found');
+            die();
         }
     }
 
@@ -129,6 +130,10 @@ class WalrusRouter
             if (!isset($this->namedRoutes[$route->getName()])) {
                 $this->namedRoutes[$route->getName()] = $route;
             }
+        }
+
+        if (isset($args['acl'])) {
+            $route->setAcl($args['acl']);
         }
 
         $this->routes[] = $route;
@@ -265,6 +270,13 @@ class WalrusRouter
             $_POST[] = array();
         }
 
+        if ($route->getAcl() && (!isset($_SESSION['acl']) || $route->getAcl() != $_SESSION['acl'])) {
+            // @TODO: real 403 error
+            header("Status: 403 Not Found");
+            header('HTTP/1.0 403 Not Found');
+            die();
+        }
+
         $cb = explode(':', $route->getTarget());
 
         if (count($cb) === 2) {
@@ -349,6 +361,9 @@ class WalrusRouter
             }
             if (isset($route['filters']) && !empty($route['filters'])) {
                 $params['filters'] = isset($route['filters']) ? $route['filters'] : array();
+            }
+            if (isset($route['acl']) && !empty($route['acl'])) {
+                $params['acl'] = isset($route['acl']) ? $route['acl'] : '';
             }
 
             $this->map($path, $toCall, $params);
