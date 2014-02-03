@@ -12,4 +12,9 @@ class HomeController extends WalrusFrontController
         $this->register('test', 'COUCOU', '', 'testAlias');
         $this->skeleton('_skeleton_main');
     }
+
+    public function admin ()
+    {
+        $this->skeleton('_skeleton_main');
+    }
 }
