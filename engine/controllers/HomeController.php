@@ -16,5 +16,6 @@ class HomeController extends WalrusFrontController
     public function admin ()
     {
         $this->skeleton('_skeleton_main');
+        $this->controller('route')->test();
     }
 }
