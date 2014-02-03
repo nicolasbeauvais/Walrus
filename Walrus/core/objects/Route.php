@@ -8,6 +8,10 @@
 
 namespace Walrus\core\objects;
 
+/**
+ * Class Route
+ * @package Walrus\core\objects
+ */
 class Route
 {
 
@@ -47,11 +51,23 @@ class Route
     */
     private $parameters = array();
 
+    /**
+     * The acl of this route
+     * @var string
+     */
+    private $acl = false;
+
+    /**
+     * @return string
+     */
     public function getUrl()
     {
         return $this->url;
     }
 
+    /**
+     * @param $url
+     */
     public function setUrl($url)
     {
         $url = (string) $url;
@@ -64,52 +80,83 @@ class Route
         $this->url = $url;
     }
 
+    /**
+     * @return mixed
+     */
     public function getTarget()
     {
         return $this->target;
     }
 
+    /**
+     * @param $target
+     */
     public function setTarget($target)
     {
         $this->target = $target;
     }
 
+    /**
+     * @return array
+     */
     public function getMethods()
     {
         return $this->methods;
     }
 
+    /**
+     * @param array $methods
+     */
     public function setMethods(array $methods)
     {
         $this->methods = $methods;
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @param $name
+     */
     public function setName($name)
     {
         $this->name = (string) $name;
     }
 
+    /**
+     * @return array
+     */
     public function getFilters()
     {
         return $this->filters;
     }
 
+    /**
+     * @param array $filters
+     */
     public function setFilters(array $filters)
     {
         $this->filters = $filters;
     }
 
+    /**
+     * @return mixed
+     */
     public function getRegex()
     {
         // @TODO: optional condition /(:id)
         return preg_replace_callback("/:(\w+)/", array(&$this, 'substituteFilter'), $this->url);
     }
 
+    /**
+     * @param $matches
+     * @return string
+     */
     private function substituteFilter($matches)
     {
         if (isset($matches[1]) && isset($this->filters[$matches[1]])) {
@@ -119,13 +166,35 @@ class Route
         return "([\w-]+)";
     }
 
+    /**
+     * @return array
+     */
     public function getParameters()
     {
         return $this->parameters;
     }
 
+    /**
+     * @param array $parameters
+     */
     public function setParameters(array $parameters)
     {
         $this->parameters = $parameters;
+    }
+
+    /**
+     * @param mixed $acl
+     */
+    public function setAcl($acl)
+    {
+        $this->acl = $acl;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAcl()
+    {
+        return $this->acl;
     }
 }
