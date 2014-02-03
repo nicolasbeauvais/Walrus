@@ -275,4 +275,22 @@ class WalrusFrontController
         header('Location: ' . $url);
         die();
     }
+
+    /**
+     * Get the result of a route in a soft or hard way
+     */
+    protected function get($url, $soft = true)
+    {
+        if ($soft) {
+            return $this->getHard($url);
+        } else {
+            return $this->getSoft($url);
+        }
+    }
+
+    private function getHard($url)
+    {
+        $content = file_get_contents($url);
+        return $content;
+    }
 }
