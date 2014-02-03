@@ -63,6 +63,12 @@ class WalrusFrontController
      */
     private static $foreach_key;
 
+
+    /**
+     * Array of instancied controllers
+     */
+    private $controllers;
+
     /**
      * Init templating variables.
      */
@@ -236,5 +242,28 @@ class WalrusFrontController
             rename($tempnam, $template.'.php');
             touch($template.'.php', filemtime($template));
         }
+    }
+
+    /**
+     * Return an instance of a controller
+     */
+    protected function controller($controller)
+    {
+        $controllerClass = ucwords(strtolower($controller)) . 'Controller';
+
+        if (isset($this->controllers[$controllerClass])) {
+            return $this->controllers[$controllerClass];
+        }
+
+        $controllerClassWithNamespace =  WalrusAutoload::getNamespace($controllerClass);
+
+        if (!$controllerClassWithNamespace) {
+            throw new Exception('[WalrusFrontController] request unexistant controller: ' . $controllerClass);
+        }
+
+        $controllerInstance = new $controllerClassWithNamespace();
+        $this->controllers[$controllerClass] = $controllerInstance;
+
+        return $controllerInstance;
     }
 }
