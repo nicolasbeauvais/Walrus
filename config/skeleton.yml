@@ -5,7 +5,6 @@
 #         template: "module/template"
 #     footer:
 #         template: "module/template"
-#         lazyload: "true"
 
 # Skeleton for homepage
 _skeleton_main:
