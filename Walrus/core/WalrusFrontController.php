@@ -266,4 +266,13 @@ class WalrusFrontController
 
         return $controllerInstance;
     }
+
+    /**
+     * Redirect the current route
+     */
+    protected function go($url)
+    {
+        header('Location: ' . $url);
+        die();
+    }
 }
