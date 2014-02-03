@@ -1,8 +1,4 @@
-# $this->map(
-#     '/contact/',
-#     array('controller' => 'someController', 'action' => 'contactAction'),
-#     array('methods' => 'GET', 'name' => 'users_edit', 'filters' => array('id' => '(\d+)'))
-# );
+# Routes
 
 _home:
     path:   ''
@@ -18,3 +14,9 @@ _sidebar_home:
     path: 'sidebar/home'
     controller: 'SidebarController'
     action: 'home'
+
+_admin:
+    path: 'admin'
+    controller: 'HomeController'
+    action: 'admin'
+    acl: 'admin'
