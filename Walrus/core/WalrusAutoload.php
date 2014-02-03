@@ -90,5 +90,7 @@ class WalrusAutoload
                 return str_replace('/', '\\', $classPath . $class_name);
             }
         }
+
+        return false;
     }
 }
