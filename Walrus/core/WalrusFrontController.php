@@ -86,7 +86,7 @@ class WalrusFrontController
      * @param $view
      * @throws \Exception
      */
-    protected function setView($view)
+    protected function setView($view, $acl = false)
     {
         if (strrpos($view, '/') === false) {
             $className = explode('\\', get_called_class());
@@ -94,6 +94,10 @@ class WalrusFrontController
             $template = FRONT_PATH . $controller . '/' . $view . self::$templating[0];
         } else {
             $template = FRONT_PATH . $view . self::$templating[0];
+        }
+
+        if ($acl && (!isset($_SESSION['acl']) || $acl != $_SESSION['acl'])) {
+            return;
         }
 
         $objTemplate = new Template();
