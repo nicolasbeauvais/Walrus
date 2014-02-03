@@ -99,4 +99,3 @@ class Template
         return $this->variables;
     }
 }
-

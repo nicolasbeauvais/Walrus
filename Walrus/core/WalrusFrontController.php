@@ -197,6 +197,10 @@ class WalrusFrontController
 
                 $template = FRONT_PATH . $value['template'] . self::$templating[0];
 
+                if (isset($value['acl']) && (!isset($_SESSION['acl']) || $value['acl'] != $_SESSION['acl'])) {
+                    continue;
+                }
+
                 $objTemplate = new Template();
                 $objTemplate->setName($name);
                 $objTemplate->setTemplate($template . self::$templating[1]);
