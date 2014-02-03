@@ -271,9 +271,8 @@ class WalrusRouter
         }
 
         if ($route->getAcl() && (!isset($_SESSION['acl']) || $route->getAcl() != $_SESSION['acl'])) {
-            // @TODO: real 403 error
-            header("Status: 403 Not Found");
-            header('HTTP/1.0 403 Not Found');
+            header("Status: 403 Forbidden");
+            header('HTTP/1.0 403 Forbidden');
             die();
         }
 
