@@ -225,39 +225,38 @@ class WalrusFileManager
 
     public function folderCreate ($folder, $chmod = 0700)
     {
-        if (strpbrk($folder, "\\/?%*:|\"<>")) {
-            throw new Exception('"' . $folder . '" isn\'t a valid folder name');
+        if (strpbrk($folderName, "\\/?%*:|\"<>")) {
+            throw new Exception('"' . $folderName . '" isn\'t a valid folder name');
         }
-        if (file_exists($this->currentElem . $folder)) {
-            throw new Exception('"' . $this->currentElem . $folder . '" already exist');
+        if (file_exists($this->currentElem . $folderName)) {
+            throw new Exception('"' . $this->currentElem . $folderName . '" already exist');
         }
 
-        $path = $this->makePath($folder, 'current', false);
+        $path = $this->makePath($folderName, 'current', false);
 
         $this->fmMkdir($path, $chmod);
 
-        $this->addLog('A new folder "' . $folder . '" as been folderCreated in ' . $this->currentElem);
+        $this->addLog('A new folder "' . $folderName . '" as been folderCreated in ' . $this->currentElem);
         return $path;
     }
 
     /**
      * Files
      */
-
-    public function fileCreate ($file)
+    public function fileCreate ($fileName, $param = 'w')
     {
-        if (strpbrk($file, "\\/?%*:|\"<>")) {
-            throw new Exception('"' . $file . '" isn\'t a valid file name');
+        if (strpbrk($fileName, "\\/?%*:|\"<>")) {
+            throw new Exception('"' . $fileName . '" isn\'t a valid file name');
         }
-        if (file_exists($this->currentElem . $file)) {
-            throw new Exception('"' . $this->currentElem . $file . '" already exist');
+        if (file_exists($this->currentElem . $fileName)) {
+            throw new Exception('"' . $this->currentElem . $fileName . '" already exist');
         }
 
-        $path = $this->makePath($file, 'current', false);
+        $path = $this->makePath($fileName, 'current', false);
 
-        $this->fmFopen($path, 'w', true);
+        $this->fmFopen($path, $param, true);
 
-        $this->addLog('A new file "' . $file . '" as been folderCreated in ' . $this->currentElem);
+        $this->addLog('A new file "' . $fileName . '" as been folderCreated in ' . $this->currentElem);
         return $path;
     }
 
