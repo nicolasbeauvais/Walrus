@@ -13,6 +13,7 @@ use Walrus\core\objects\Template;
 use MtHaml;
 use Smarty;
 use Spyc\Spyc;
+use ReflectionClass;
 use Exception;
 
 /**
@@ -297,6 +298,26 @@ class WalrusFrontController
     {
         header('Location: ' . $url);
         die();
+    }
+
+
+    /**
+     * Reroute to a new controller.
+     *
+     * the reroute action clean all the WalrusFrontController.
+     * the controller / action don't need to be accessible with classic routing.
+     *
+     * @param string $controller a controller name
+     * @param string $action an action of the controller
+     * @param array $param an array of the parameter to pass to the controller
+     *
+     * @throws Exception
+     */
+    protected function reroute($controller, $action, $param = array())
+    {
+        // @TODO: clean the FrontController
+        WalrusRouter::reroute($controller, $action, $param = array());
+        // @TODO: execute the front controller and die
     }
 
     /**
