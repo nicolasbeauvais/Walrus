@@ -19,12 +19,12 @@ class WalrusAutoload
      * Contain all directory to watch for autoload.
      */
     private static $classesPath = array(
+        'engine/controllers/',
+        'engine/models/',
         'Walrus/controllers/',
         'Walrus/models/',
         'Walrus/core/',
-        'Walrus/core/class',
-        'engine/controllers/',
-        'engine/models/',
+        'Walrus/core/objects',
         'vendor/',
     );
 
