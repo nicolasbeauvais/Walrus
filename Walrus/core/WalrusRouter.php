@@ -359,6 +359,44 @@ class WalrusRouter
     }
 
     /**
+     * Reroute to a new controller.
+     *
+     * Reroute from a controller / action couple in string format.
+     * There is no params test on this function, use it carefully.
+     *
+     * @param string $controller a controller name
+     * @param string $action an action of the controller
+     * @param array $param an array of the parameter to pass to the controller
+     *
+     * @throws Exception
+     */
+    public static function reroute($controller, $action, $param = array())
+    {
+        $controllerClass = ucwords(strtolower($controller)) . 'Controller';
+
+        $class = WalrusAutoload::getNamespace($controllerClass);
+
+        if (!$class) {
+            throw new Exception('[WalrusFrontController] Can\'t load controller: ' . $controller);
+        }
+
+        $cb[] = array();
+        $cb[0] = $controller;
+        $cb[1] = $action;
+        $rc = new ReflectionClass($class);
+
+        // Create the controller object.
+        $cb[0] = $rc->newInstance();
+
+        // check controller action method
+        if ($cb[0] && ! method_exists($cb[0], $cb[1])) {
+            throw new Exception('Controller exception');
+        }
+
+        call_user_func_array($cb, $param);
+    }
+
+    /**
      * Special Walrus router.
      * Make use of pux with YAML functionality.
      *
