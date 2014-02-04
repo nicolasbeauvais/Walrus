@@ -34,12 +34,6 @@ class Template
     protected $template = '';
 
     /**
-     * Variables of the template
-     * @var array
-     */
-    protected $variables = array();
-
-    /**
      * @param string $name
      */
     public function setName($name)
@@ -85,21 +79,5 @@ class Template
     public function getTemplate()
     {
         return $this->template;
-    }
-
-    /**
-     * @param array $variables
-     */
-    public function addVariable($key, $value)
-    {
-        $this->variables[$key] = $value;
-    }
-
-    /**
-     * @return array
-     */
-    public function getVariables()
-    {
-        return $this->variables;
     }
 }
