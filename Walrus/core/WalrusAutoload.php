@@ -2,7 +2,7 @@
 
 /**
  * Walrus Framework
- * File maintened by: Nicolas Beauvais (E-Wok)
+ * File maintained by: Nicolas Beauvais (E-Wok)
  * Created: 21:00 15/01/14
  */
 
@@ -18,7 +18,7 @@ class WalrusAutoload
         'Walrus/controllers/',
         'Walrus/models/',
         'Walrus/core/',
-        'Walrus/core/entity',
+        'Walrus/core/class',
         'engine/controllers/',
         'engine/models/',
         'vendor/',
@@ -43,30 +43,19 @@ class WalrusAutoload
         $path = ROOT_PATH . str_replace('\\', '/', $class_with_namespace) . '.php';
 
         if (file_exists($path)) {
-            require_once($path);
+            include_once($path);
             return true;
         } else {
+
+            if (!strrpos($class_with_namespace, "\\")) {
+                $class_with_namespace = $class_with_namespace . '\\' . $class_with_namespace;
+            }
 
             $vendors_path = ROOT_PATH . 'vendor/' . str_replace('\\', '/', $class_with_namespace) . '.php';
 
             if (file_exists($vendors_path)) {
-                require_once($vendors_path);
+                include_once($vendors_path);
                 return true;
-            }
-
-            if (strrpos($class_with_namespace, "\\")) {
-                $exploded_class = explode('\\', $class_with_namespace);
-                $class_name = array_pop($exploded_class);
-            } else {
-                $class_name = $class_with_namespace;
-            }
-
-            foreach (self::$classesPath as $classPath) {
-
-                if (file_exists(ROOT_PATH . $classPath . $class_name . '.php')) {
-                    require_once(ROOT_PATH . $classPath . $class_name . '.php');
-                    return true;
-                }
             }
         }
         return false;
@@ -99,5 +88,7 @@ class WalrusAutoload
                 return str_replace('/', '\\', $classPath . $class_name);
             }
         }
+
+        return false;
     }
 }

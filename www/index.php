@@ -2,24 +2,40 @@
 
 /**
  * Walrus Framework
- * File maintened by: Nicolas Beauvais (E-Wok)
+ * File maintained by: Nicolas Beauvais (E-Wok)
  * Created: 14:48 13/12/13
  */
 
 session_start();
 
-require('../vendor/RedBean/rb.php');
+use Walrus\core\WalrusKernel;
+use Walrus\core\WalrusAutoload;
 
+/**
+ * Declaration for the $_ENV global variable.
+ * $_ENV is filed with configuration info in WalrusKernel,
+ * and routing info in WalrusROuter
+ */
+$_ENV['Walrus'] = array();
 
-use Walrus\core\WalrusKernel as WalrusKernel;
+/**
+ * Require constant
+ */
+require_once('../config/env.php');
 
-//a bouger dans la config ?
-define("APP_PATH", dirname(__FILE__) . '/');
-define("ROOT_PATH", substr(dirname(__FILE__), 0, -4) . '/');
-define("FRONT_PATH", ROOT_PATH . 'www/templates' . '/');
+require_once('../vendor/RedBean/rb.php');
 
+/**
+ * Require WalrusAutoload
+ */
 require_once('../Walrus/core/WalrusAutoload.php');
 
-new \Walrus\core\WalrusAutoload();
+/**
+ * Launch WalrusAUtoload, ready to go.
+ */
+new WalrusAutoload();
 
+/**
+ * Launch WalrusKernel
+ */
 WalrusKernel::execute();
