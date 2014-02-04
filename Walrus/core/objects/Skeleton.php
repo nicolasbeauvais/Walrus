@@ -28,12 +28,6 @@ class Skeleton
     protected $templates = array();
 
     /**
-     * Variables of the template
-     * @var array
-     */
-    protected $variables = array();
-
-    /**
      * @param string $name
      */
     public function setName($name)
@@ -50,7 +44,7 @@ class Skeleton
     }
 
     /**
-     * @param array $template
+     * @param array $templates
      */
     public function setTemplate($templates)
     {
@@ -72,21 +66,4 @@ class Skeleton
     {
         return $this->templates;
     }
-
-    /**
-     * @param array $variables
-     */
-    public function addVariable($key, $value)
-    {
-        $this->variables[$key] = $value;
-    }
-
-    /**
-     * @return array
-     */
-    public function getVariables()
-    {
-        return $this->variables;
-    }
 }
-
