@@ -8,6 +8,10 @@
 
 namespace Walrus\core\objects;
 
+/**
+ * Class Skeleton
+ * @package Walrus\core\objects
+ */
 class Skeleton
 {
 
