@@ -328,4 +328,31 @@ class WalrusFrontController
         $content = file_get_contents($url);
         return $content;
     }
+
+    /**
+     * @param $url
+     */
+    private function getSoft($url)
+    {
+        $test = new WalrusFrontController();
+        var_dump($test->getTemplate());
+        die;
+    }
+
+    /**
+     * Soft rerouting:
+     *
+     * 1. Stocké tout WalrusFrontController dans une pile.
+     * 2. Récupéré la route via WalrusRouter
+     * 3. Appeller le controller de la route
+     * 4. Executer WalrusFrontController pour récupéré le DOM ?
+     * 5. Restauré le dernier element de la pile de WalrusFrontController
+     * 6. continue
+     *
+     * @return array
+     */
+    public function getTemplate()
+    {
+        return self::$templates;
+    }
 }
