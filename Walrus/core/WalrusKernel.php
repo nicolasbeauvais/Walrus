@@ -42,7 +42,7 @@ class WalrusKernel
 
     private static function bootstrapOrm()
     {
-
+        // R::setup('mysql:host=localhost;dbname=mydatabase', 'root', 'root');
     }
 
     private static function bootstrapConfig()
