@@ -8,6 +8,9 @@
 
 session_start();
 
+require('../vendor/RedBean/rb.php');
+
+
 use Walrus\core\WalrusKernel as WalrusKernel;
 
 //a bouger dans la config ?
