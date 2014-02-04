@@ -10,15 +10,44 @@ namespace Walrus\core;
 
 use Exception;
 
+/**
+ * Class WalrusFileManager
+ * @package Walrus\core
+ */
 class WalrusFileManager
 {
 
+    /**
+     * Contain the work directory for the file manager
+     *
+     * @var string
+     */
     private $root;
+
+    /**
+     * The current element used by the file manager.
+     *
+     * The current element is relative to the root path.
+     *
+     * @var string
+     */
     private $currentElem;
+
+    /**
+     * An array with all action donne by the file manager.
+     *
+     * @var array
+     */
     private $logs;
 
     /**
-     * FileManager Basics
+     * Constructor of the filemanager.
+     *
+     * __construct set the private $root variable, and set the current element to it.
+     *
+     * @param string $root
+     *
+     * @throws Exception in case the root path isn't valid
      */
     public function __construct ($root)
     {
@@ -35,6 +64,16 @@ class WalrusFileManager
         $this->addLog('Filemanager as been initialized with the root: ' . $root);
     }
 
+    /**
+     * Format a given path with several parameters.
+     *
+     * @param string $path
+     * @param string $type
+     * @param bool   $needToExist
+     *
+     * @return string
+     * @throws Exception in case the path isn't a valid element
+     */
     private function makePath ($path, $type = 'root', $needToExist = true)
     {
         if (!empty($path) && $path[0] == '/') {
@@ -58,18 +97,34 @@ class WalrusFileManager
         return $path;
     }
 
-    /**
-     * General
-     */
 
-    public function setCurrentElem ($elem)
+    /**
+     * Set the current elem.
+     * This need to be an existing element, all filemanager action are relative to the current element,
+     * by default the current element have the $root path for value.
+     *
+     * @param string $elemPathRelativeToRoot a valid file path
+     *
+     * @return string the path of the current element
+     */
+    public function setCurrentElem ($elemPathRelativeToRoot)
     {
-        $this->currentElem = $this->makePath($elem);
+        $this->currentElem = $this->makePath($elemPathRelativeToRoot);
         $this->addLog('Current item as been set: ' . $this->currentElem);
 
         return $this->currentElem;
     }
 
+    /**
+     * Return an array with the info of the current file.
+     * Infos are:
+     * filesize -> in date format
+     * name -> basename of the file
+     * path -> path of the current elem, relative to $root
+     * lastEdit -> last date the file was edited
+     *
+     * @return array
+     */
     public function fileDetails ()
     {
         $fileInfo['fileSize'] = $this->fmFilesize($this->currentElem);
@@ -81,6 +136,11 @@ class WalrusFileManager
         return $fileInfo;
     }
 
+    /**
+     * Delete the current file.
+     *
+     * @throws Exception
+     */
     public function deleteCurrent ()
     {
         if (is_dir($this->currentElem)) {
@@ -101,6 +161,16 @@ class WalrusFileManager
         $this->addLog('Current item as been deleted');
     }
 
+    /**
+     * Rename the current file.
+     *
+     * $newName must be a valid file name.
+     *
+     * @param $newName
+     *
+     * @return string
+     * @throws Exception if $newName isn't a valid file name
+     */
     public function renameCurrent ($newName)
     {
         if (strpbrk($newName, "\\/?%*:|\"<>")) {
@@ -117,6 +187,14 @@ class WalrusFileManager
         return $newPath;
     }
 
+    /**
+     * Move the current file to the specified path.
+     *
+     * @param $newPath
+     *
+     * @return string
+     * @throws Exception if the new path isn't valid
+     */
     public function moveCurrent ($newPath)
     {
 
@@ -147,9 +225,15 @@ class WalrusFileManager
     }
 
     /**
-     * Folders
+     * Return an array of the elements in currentItem.
+     *
+     * Can be recursive, currentItem must be a folder.
+     *
+     * @param bool $recursive
+     *
+     * @return array
+     * @throws Exception
      */
-
     public function getElements ($recursive = false)
     {
         if (!is_dir($this->currentElem)) {
@@ -162,6 +246,14 @@ class WalrusFileManager
         return $elements;
     }
 
+    /**
+     * Return an array of all directory in currentItem.
+     *
+     * Always recursive, similar to getElements but fr directories only.
+     *
+     * @return array
+     * @throws Exception
+     */
     public function getFolderTree ()
     {
         if (!is_dir($this->currentElem)) {
@@ -174,6 +266,15 @@ class WalrusFileManager
         return $elements;
     }
 
+    /**
+     * Recursive function to explore folder tree.
+     *
+     * @param      $path
+     * @param      $recursive
+     * @param bool $dirOnly
+     *
+     * @return array
+     */
     private function getElementsRecursivly ($path, $recursive, $dirOnly = false)
     {
         $folderStream = $this->fmOpendir($path);
@@ -200,6 +301,11 @@ class WalrusFileManager
         return $elements;
     }
 
+    /**
+     * Empty the currentItem if it's a folder.
+     *
+     * @throws Exception if current elem isn't a directory
+     */
     public function emptyFolder ()
     {
         if (!is_dir($this->currentElem)) {
@@ -223,7 +329,18 @@ class WalrusFileManager
         $this->addLog('Current folder as been emptied');
     }
 
-    public function folderCreate ($folder, $chmod = 0700)
+    /**
+     * Create a new folder in the currentElement if it is a directory.
+     *
+     * The directory to create need to have a valid directory name.
+     *
+     * @param string $folderName created directory name
+     * @param int    $chmod
+     *
+     * @throws Exception in case the $folderName isn't valid
+     * @return string
+     */
+    public function folderCreate ($folderName, $chmod = 0700)
     {
         if (strpbrk($folderName, "\\/?%*:|\"<>")) {
             throw new Exception('"' . $folderName . '" isn\'t a valid folder name');
@@ -241,7 +358,13 @@ class WalrusFileManager
     }
 
     /**
-     * Files
+     * Create a file, by default with the 'w' fopen() param.
+     *
+     * @param string $fileName the name of the file to create
+     * @param string $param a valid paramater for the fopen() function
+     *
+     * @throws Exception
+     * @return string
      */
     public function fileCreate ($fileName, $param = 'w')
     {
@@ -260,6 +383,18 @@ class WalrusFileManager
         return $path;
     }
 
+    /**
+     * Function to handle file upload.
+     *
+     * This function use the $_FILES super global with the HTML artibute of your file input
+     * to handle an upload, the file will be uploaded to the currentElem path, the currentElem
+     * must be a folder.
+     *
+     * @param string $fileInputName the name attribute of the input file (HTML)
+     *
+     * @return string
+     * @throws Exception if the $_FILES superglobal can't be found or if the upload failed
+     */
     public function uploadFile ($fileInputName)
     {
         if (!isset($_FILES[$fileInputName]) || empty($_FILES[$fileInputName])) {
@@ -278,6 +413,14 @@ class WalrusFileManager
         return $destinationPath;
     }
 
+    /**
+     * Return the content of a file.
+     *
+     * The currentElem must be a valid file to read.
+     *
+     * @return string
+     * @throws Exception if the currentElem isn't a file
+     */
     public function getFileContent ()
     {
         if (!is_file($this->currentElem)) {
@@ -294,6 +437,16 @@ class WalrusFileManager
         return $content;
     }
 
+    /**
+     * Change all the content of a file with a new content.
+     *
+     * The old content of the file is erased. The currentElem must be a valid file.
+     *
+     * @param string $newContent the new content to put on the file
+     *
+     * @return string
+     * @throws Exception if the currentElem isn't a valid file
+     */
     public function changeFileContent ($newContent)
     {
         if (!is_file($this->currentElem)) {
@@ -312,6 +465,16 @@ class WalrusFileManager
         return $this->getFileContent();
     }
 
+    /**
+     * Add a new content at the end of the file.
+     *
+     * The old file content is preserved.
+     *
+     * @param string $newContent the new content to put at the end of the file.
+     *
+     * @return string
+     * @throws Exception if the currentElem isn't a valid file
+     */
     public function addFileContent ($newContent)
     {
         if (!is_file($this->currentElem)) {
@@ -327,6 +490,14 @@ class WalrusFileManager
         return $this->getFileContent();
     }
 
+    /**
+     * Launch a download of the current file.
+     *
+     * The currentElem must be a valid file
+     *
+     * @return string the value of the file to download
+     * @throws Exception if the currentElem isn't a valid file
+     */
     public function downloadFile ()
     {
         if (!is_file($this->currentElem)) {
@@ -354,7 +525,12 @@ class WalrusFileManager
     }
 
     /**
-     * System Call
+     * Handler function
+     *
+     * @param $path
+     *
+     * @return bool|string
+     * @throws Exception
      */
     private function fmFilesize ($path)
     {
@@ -371,6 +547,14 @@ class WalrusFileManager
         return $fileSize;
     }
 
+    /**
+     * Handler function
+     *
+     * @param $path
+     *
+     * @return int
+     * @throws Exception
+     */
     private function fmFilemtime ($path)
     {
         if (!file_exists($path)) {
@@ -386,6 +570,14 @@ class WalrusFileManager
         return $fileMTime;
     }
 
+    /**
+     * Handler function
+     *
+     * @param $path
+     *
+     * @return string
+     * @throws Exception
+     */
     private function fmBasename ($path)
     {
         if (!file_exists($path)) {
@@ -395,6 +587,14 @@ class WalrusFileManager
         return basename($path);
     }
 
+    /**
+     * Handler function
+     *
+     * @param $path
+     *
+     * @return resource
+     * @throws Exception
+     */
     private function fmOpendir ($path)
     {
         if (!is_dir($path)) {
@@ -410,6 +610,13 @@ class WalrusFileManager
         return $stream;
     }
 
+    /**
+     * Handler function
+     *
+     * @param $stream
+     *
+     * @return string
+     */
     private function fmReaddir ($stream)
     {
         $read = readdir($stream);
@@ -417,11 +624,24 @@ class WalrusFileManager
         return $read;
     }
 
+    /**
+     * Handler function
+     *
+     * @param $stream
+     */
     private function fmClosedir ($stream)
     {
         closedir($stream);
     }
 
+    /**
+     * Handler function
+     *
+     * @param $path
+     *
+     * @return bool
+     * @throws Exception
+     */
     private function fmRmdir ($path)
     {
         if (!is_dir($path)) {
@@ -437,6 +657,14 @@ class WalrusFileManager
         return $rm;
     }
 
+    /**
+     * Handler function
+     *
+     * @param $path
+     *
+     * @return bool
+     * @throws Exception
+     */
     private function fmUnlink ($path)
     {
         if (!is_file($path)) {
@@ -452,6 +680,15 @@ class WalrusFileManager
         return $rm;
     }
 
+    /**
+     * Handler function
+     *
+     * @param $oldPath
+     * @param $newPath
+     *
+     * @return bool
+     * @throws Exception
+     */
     private function fmRename ($oldPath, $newPath)
     {
         if (!file_exists($oldPath)) {
@@ -473,6 +710,14 @@ class WalrusFileManager
         return $rename;
     }
 
+    /**
+     * Handler function
+     *
+     * @param $path
+     *
+     * @return bool
+     * @throws Exception
+     */
     private function fmMkdir ($path)
     {
         if (file_exists($path)) {
@@ -488,6 +733,15 @@ class WalrusFileManager
         return $mkdir;
     }
 
+    /**
+     * Handler function
+     *
+     * @param $name
+     * @param $destination
+     *
+     * @return bool
+     * @throws Exception
+     */
     private function fmMoveUploadedFile ($name, $destination)
     {
         $moved = move_uploaded_file($name, $destination);
@@ -501,6 +755,16 @@ class WalrusFileManager
         return $moved;
     }
 
+    /**
+     * Handler function
+     *
+     * @param string $path
+     * @param string $param
+     * @param bool   $create
+     *
+     * @return resource
+     * @throws Exception
+     */
     private function fmFopen ($path, $param, $create = false)
     {
         if (!is_file($path) && $create === false) {
@@ -522,6 +786,15 @@ class WalrusFileManager
         return $fopen;
     }
 
+    /**
+     * Handler function
+     *
+     * @param $stream
+     * @param $size
+     *
+     * @return string
+     * @throws Exception
+     */
     private function fmFread ($stream, $size)
     {
         $fread = fread($stream, $size);
@@ -533,6 +806,14 @@ class WalrusFileManager
         return $fread;
     }
 
+    /**
+     * Handler function
+     *
+     * @param $stream
+     *
+     * @return bool
+     * @throws Exception
+     */
     private function fmFclose ($stream)
     {
         $fclose = fclose($stream);
@@ -544,6 +825,15 @@ class WalrusFileManager
         return $fclose;
     }
 
+    /**
+     * Handler function
+     *
+     * @param $path
+     * @param $content
+     *
+     * @return int
+     * @throws Exception
+     */
     private function fmWrite ($path, $content)
     {
         $fwrite = fwrite($path, $content);
@@ -556,15 +846,21 @@ class WalrusFileManager
     }
 
     /**
-     * Log tools
+     * Add a log line to the log array.
+     *
+     * @param string $message
      */
-
     private function addLog ($message)
     {
         $this->logs[] = array('datetime' => date("Y-m-d H:i:s"),
                               'message' => $message);
     }
 
+    /**
+     * Return the complete array of the WalrusFileManager log.
+     *
+     * @return array
+     */
     public function getLogs ()
     {
         return $this->logs;
