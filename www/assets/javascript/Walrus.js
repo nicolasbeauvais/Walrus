@@ -21,7 +21,7 @@ var Walrus = {};
         elem = event.srcElement;
         treeExplorer = 1;
 
-        for (treeExplorer; treeExplorer > 0; treeExplorer -= 1) {//fake faster while
+        for (treeExplorer; treeExplorer > 0; treeExplorer -= 1) {
 
             //handle body, html, document
             if (elem === null) { break; }
