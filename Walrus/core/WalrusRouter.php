@@ -257,7 +257,7 @@ class WalrusRouter
     /**
      * Match routes, make verification on controller and action.
      */
-    public function process()
+    private function process()
     {
         $route = $this->matchCurrentRequest();
         if (!$route) {
