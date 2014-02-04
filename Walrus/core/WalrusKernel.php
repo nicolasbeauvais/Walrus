@@ -12,6 +12,7 @@ use Walrus\core\route;
 use Spyc\Spyc;
 use Exception;
 
+
 class WalrusKernel
 {
 
@@ -37,12 +38,12 @@ class WalrusKernel
     private static function bootstrap()
     {
         WalrusKernel::bootstrapConfig();
-        //WalrusKernel::bootstrapOrm();
+        WalrusKernel::bootstrapOrm();
     }
 
     private static function bootstrapOrm()
     {
-        // R::setup('mysql:host=localhost;dbname=mydatabase', 'root', 'root');
+        \R::setup(RDBMS.':host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PWD);
     }
 
     private static function bootstrapConfig()
