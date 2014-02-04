@@ -90,6 +90,7 @@ var Walrus = {};
             }
 
             document.getElementById('container').innerHTML = container.innerHTML;
+            Walrus.bootstrap();
             event.preventDefault();
         };
     };
