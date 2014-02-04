@@ -89,8 +89,14 @@ class WalrusFrontController
     /**
      * Add a template to the stack.
      *
-     * @param $view
-     * @throws \Exception
+     * Add a template to the template stack with ACL or not,
+     * the stack is displayed by WalrusFrontController::execute()
+     * at the end of Walrus execution.
+     *
+     * @param $view the template to add on templates stack
+     * @param $acl
+     *
+     * @throws Exception
      */
     protected function setView($view, $acl = false)
     {
@@ -113,11 +119,14 @@ class WalrusFrontController
     }
 
     /**
-     * Variables to be add in templates
+     * Add a variable for front.
+     *
+     * All variables are given to all template (HAML|Smarty).
      *
      * @param $key
      * @param $var
-     * @throws \Exception
+     *
+     * @throws Exception
      */
     protected function register($key, $var)
     {
@@ -130,6 +139,8 @@ class WalrusFrontController
 
     /**
      * Display all templates in the stack order.
+     *
+     * Execute is called by WalrusKernel as the last process of Walrus.
      */
     public static function execute()
     {
@@ -163,7 +174,12 @@ class WalrusFrontController
     }
 
     /**
-     * Set the use of a skeleton.
+     * Add each template off a skeleton to the template stack.
+     *
+     * Skeleton's template are pushed to the template stack in the order they're
+     * written in the skeleton.yml file.
+     *
+     * @param string $name the key of a skeleton defined in config/skeleton.yml
      */
     public function skeleton($name)
     {
@@ -245,7 +261,12 @@ class WalrusFrontController
     }
 
     /**
-     * Return an instance of a controller
+     * Return an instance of the specified controller
+     *
+     * @param string $controller
+     *
+     * @return Class the specofied controller class
+     * @throws Exception if the controller doesn't exist
      */
     protected function controller($controller)
     {
@@ -268,7 +289,9 @@ class WalrusFrontController
     }
 
     /**
-     * Redirect the current route
+     * Redirect the current route to the specified url.
+     *
+     * @param string $url
      */
     protected function go($url)
     {
@@ -277,7 +300,12 @@ class WalrusFrontController
     }
 
     /**
-     * Get the result of a route in a soft or hard way
+     * Get the result of a route in a soft or hard way.
+     *
+     * @param string $url.
+     * @param boolean $soft.
+     *
+     * @return string.
      */
     protected function get($url, $soft = true)
     {
@@ -288,6 +316,13 @@ class WalrusFrontController
         }
     }
 
+    /**
+     * Get page with file get content.
+     *
+     * @param $url.
+     *
+     * @return string.
+     */
     private function getHard($url)
     {
         $content = file_get_contents($url);
