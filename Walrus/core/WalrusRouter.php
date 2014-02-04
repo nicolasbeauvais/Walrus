@@ -329,8 +329,6 @@ class WalrusRouter
 
         $rc = new ReflectionClass($class);
 
-        $args = null;
-
         // Create the controller object.
         $cb[0] = $rc->newInstance();
 
