@@ -13,6 +13,10 @@ use Spyc\Spyc;
 use Exception;
 
 
+/**
+ * Class WalrusKernel
+ * @package Walrus\core
+ */
 class WalrusKernel
 {
 
@@ -41,11 +45,17 @@ class WalrusKernel
         WalrusKernel::bootstrapOrm();
     }
 
+    /**
+     *
+     */
     private static function bootstrapOrm()
     {
         \R::setup(RDBMS.':host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PWD);
     }
 
+    /**
+     * @throws Exception
+     */
     private static function bootstrapConfig()
     {
         $config_file = "../config/config.yml";
@@ -124,4 +134,3 @@ class WalrusKernel
         }
     }
 }
-
