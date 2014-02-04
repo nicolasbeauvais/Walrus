@@ -9,6 +9,6 @@ class RouteController extends WalrusFrontController
 
     public function test()
     {
-        echo 'Hello World';
+        $this->setView('sidebar/home');
     }
 }
