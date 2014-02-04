@@ -310,9 +310,9 @@ class WalrusFrontController
     protected function get($url, $soft = true)
     {
         if ($soft) {
-            return $this->getHard($url);
-        } else {
             return $this->getSoft($url);
+        } else {
+            return $this->getHard($url);
         }
     }
 
