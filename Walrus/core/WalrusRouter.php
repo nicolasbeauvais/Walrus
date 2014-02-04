@@ -2,16 +2,16 @@
 
 /**
  * Walrus Framework
- * File maintened by: Nicolas Beauvais (E-Wok)
+ * File maintained by: Nicolas Beauvais (E-Wok)
  * Created: 20:46 15/01/14
  */
 
 namespace Walrus\core;
 
-use Spyc\Spyc as Spyc;
-use Walrus\core\entity\Route as Route;
+use Spyc\Spyc;
+use Walrus\core\objects\Route;
 use Exception;
-use Reflection;
+use ReflectionClass;
 
 /**
  * Class WalrusRoute
@@ -87,14 +87,15 @@ class WalrusRouter
     public function execute()
     {
         $this->setBasePath('/');
-
-        //@TODO: check config for YAML / PHP mode
         $this->getRoutesFromYAML();
 
         try {
             $this->process();
         } catch (Exception $e) {
-            echo $e->getMessage();
+            // @TODO: catch message
+            header("Status: 404 Not Found");
+            header('HTTP/1.0 404 Not Found');
+            die();
         }
     }
 
@@ -129,6 +130,10 @@ class WalrusRouter
             if (!isset($this->namedRoutes[$route->getName()])) {
                 $this->namedRoutes[$route->getName()] = $route;
             }
+        }
+
+        if (isset($args['acl'])) {
+            $route->setAcl($args['acl']);
         }
 
         $this->routes[] = $route;
@@ -240,7 +245,7 @@ class WalrusRouter
             $param_keys = $param_keys[1];
 
             // loop trough parameter names, store matching value in $params array
-            foreach ($param_keys as $i => $key) {
+            foreach ($param_keys as $key) {
                 if (isset($params[$key])) {
                     $url = preg_replace("/:(\w+)/", $params[$key], $url, 1);
                 }
@@ -252,12 +257,12 @@ class WalrusRouter
     /**
      * Match routes, make verification on controller and action.
      */
-    public function process()
+    private function process()
     {
         $route = $this->matchCurrentRequest();
-
         if (!$route) {
-            throw new Exception('[WalrusRouting] undefined route: ' . isset($_GET['url']) ? $_GET['url'] : '/');
+            $url = isset($_GET['url']) ? $_GET['url'] : '/';
+            throw new Exception('[WalrusRouting] undefined route: ' . $url);
         }
 
         // sanitize ?
@@ -265,14 +270,20 @@ class WalrusRouter
             $_POST[] = array();
         }
 
-        $toCall = explode(':', $route->getTarget());
+        if ($route->getAcl() && (!isset($_SESSION['acl']) || $route->getAcl() != $_SESSION['acl'])) {
+            header("Status: 403 Forbidden");
+            header('HTTP/1.0 403 Forbidden');
+            die();
+        }
 
-        if (count($toCall) === 2) {
-            $controller = $toCall[0];
+        $cb = explode(':', $route->getTarget());
+
+        if (count($cb) === 2) {
+            $controller = $cb[0];
             if (empty($controller)) {
                 throw new Exception('[WalrusRouting] empty route controller');
             }
-            $action = $toCall[1];
+            $action = $cb[1];
             if (empty($action)) {
                 throw new Exception('[WalrusRouting] empty route action');
             }
@@ -286,21 +297,15 @@ class WalrusRouter
             throw new Exception('[WalrusRouting] Can\'t load class: ' . $controller);
         }
 
-        $rc = new \ReflectionClass($class);
+        $rc = new ReflectionClass($class);
 
-        $cb = array($controller, $action);
         $args = null;
 
-        // if the first argument is a class name string,
-        // then create the controller object.
-        if (is_string($cb[0])) {
-            $cb[0] = $controller = $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
-        } else {
-            $controller = $cb[0];
-        }
+        // Create the controller object.
+        $cb[0] = $rc->newInstance();
 
         // check controller action method
-        if ($controller && ! method_exists($controller, $cb[1])) {
+        if ($cb[0] && ! method_exists($cb[0], $cb[1])) {
             throw new Exception('Controller exception');
         }
 
@@ -355,6 +360,9 @@ class WalrusRouter
             }
             if (isset($route['filters']) && !empty($route['filters'])) {
                 $params['filters'] = isset($route['filters']) ? $route['filters'] : array();
+            }
+            if (isset($route['acl']) && !empty($route['acl'])) {
+                $params['acl'] = isset($route['acl']) ? $route['acl'] : '';
             }
 
             $this->map($path, $toCall, $params);

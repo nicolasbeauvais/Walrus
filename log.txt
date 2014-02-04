@@ -1,0 +1,27 @@
+
+[Error] -> "Dat fake error" || [class] -> WalrusException || [line] -> 37 || [date] -> 12:48:59 30/01/2014
+[Error] -> "Dat fake error" || [class] -> WalrusException || [line] -> 37 || [date] -> 12:49:00 30/01/2014
+[Error] -> "Dat fake error" || [class] -> WalrusException || [line] -> 37 || [date] -> 12:49:00 30/01/2014
+[Error] -> "Dat fake error" || [class] -> WalrusException || [line] -> 37 || [date] -> 12:49:00 30/01/2014
+[Error] -> "Dat fake error" || [class] -> WalrusException || [line] -> 37 || [date] -> 12:49:00 30/01/2014
+[Error] -> "Dat fake error" || [class] -> WalrusException || [line] -> 37 || [date] -> 12:49:01 30/01/2014
+[Error] -> "Dat fake error" || [class] -> WalrusException || [line] -> 37 || [date] -> 12:49:01 30/01/2014
+[Error] -> "Dat fake error" || [class] -> WalrusException || [line] -> 37 || [date] -> 12:49:01 30/01/2014
+[Error] -> "Dat fake error" || [class] -> WalrusException || [line] -> 37 || [date] -> 12:49:01 30/01/2014
+[Error] -> "Dat fake error" || [class] -> WalrusException || [line] -> 37 || [date] -> 12:49:02 30/01/2014
+[Error] -> "Dat fake error" || [class] -> WalrusException || [line] -> 37 || [date] -> 12:49:02 30/01/2014
+[Error] -> "Dat fake error" || [class] -> WalrusException || [line] -> 37 || [date] -> 12:49:02 30/01/2014
+12:55:15 30/01/2014 | [line] -> 37 | [class] -> WalrusException | [Error] -> "Dat fake error"
+12:55:48 30/01/2014 | [line] -> 37 | [class] -> WalrusException | [Error] -> "Dat fake error"
+12:55:48 30/01/2014 | [line] -> 37 | [class] -> WalrusException | [Error] -> "Dat fake error"
+12:55:48 30/01/2014 | [line] -> 37 | [class] -> WalrusException | [Error] -> "Dat fake error"
+12:55:48 30/01/2014 | [line] -> 37 | [class] -> WalrusException | [Error] -> "Dat fake error"
+12:55:48 30/01/2014 | [line] -> 37 | [class] -> WalrusException | [Error] -> "Dat fake error"
+12:55:48 30/01/2014 | [line] -> 37 | [class] -> WalrusException | [Error] -> "Dat fake error"
+12:55:49 30/01/2014 | [line] -> 37 | [class] -> WalrusException | [Error] -> "Dat fake error"
+12:55:49 30/01/2014 | [line] -> 37 | [class] -> WalrusException | [Error] -> "Dat fake error"
+12:55:49 30/01/2014 | [line] -> 37 | [class] -> WalrusException | [Error] -> "Dat fake error"
+12:55:49 30/01/2014 | [line] -> 37 | [class] -> WalrusException | [Error] -> "Dat fake error"
+12:55:49 30/01/2014 | [line] -> 37 | [class] -> WalrusException | [Error] -> "Dat fake error"
+12:55:49 30/01/2014 | [line] -> 37 | [class] -> WalrusException | [Error] -> "Dat fake error"
+14:26:54 30/01/2014 | [line] -> 29 | [class] -> WalrusException | [Error] -> "Dat fake error"

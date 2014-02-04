@@ -1,28 +1,22 @@
-# $this->map(
-#     '/contact/',
-#     array('controller' => 'someController', 'action' => 'contactAction'),
-#     array('methods' => 'GET', 'name' => 'users_edit', 'filters' => array('id' => '(\d+)'))
-# );
-
-_hello:
-    method: 'get'
-    path:   'hello/:id/:test'
-    controller:   'HelloController'
-    action: 'doHelloWorld'
-    filters:
-        require:
-            id: '\d+'
-            test: '\w+'
-        default:
-            id: 1
+# Routes
 
 _home:
     path:   ''
-    controller:   'HelloController'
-    action: 'helloHome'
+    controller:   'HomeController'
+    action: 'run'
 
+_me:
+    path: 'me'
+    controller: 'UserController'
+    action: 'run'
 
-_helloNew:
-    path:   'helloNew'
-    controller:   'HelloController'
-    action: 'doHelloWorldNew'
+_sidebar_home:
+    path: 'sidebar/home'
+    controller: 'SidebarController'
+    action: 'home'
+
+_admin:
+    path: 'admin'
+    controller: 'HomeController'
+    action: 'admin'
+    acl: 'admin'
