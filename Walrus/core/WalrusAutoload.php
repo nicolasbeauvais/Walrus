@@ -8,6 +8,10 @@
 
 namespace Walrus\core;
 
+/**
+ * Class WalrusAutoload
+ * @package Walrus\core
+ */
 class WalrusAutoload
 {
 
@@ -35,7 +39,10 @@ class WalrusAutoload
     /**
      * Autoload method.
      *
-     * @param $class_with_namespace
+     * The autoload try to load the class with the given namespace as PSR-0 namespace
+     * correspond to directory path. Else, the autoload try to load the class as a vendor.
+     *
+     * @param string $class_with_namespace
      * @return bool
      */
     private function autoload($class_with_namespace)
@@ -64,8 +71,10 @@ class WalrusAutoload
     /**
      * Return the full 'namespace path' of a given class in string format.
      *
-     * @param $class
-     * @return bool|mixed
+     * The class MUST be in one of the directory path listed in the $classesPath attribute.
+     *
+     * @param string $class the class name
+     * @return bool|string
      */
     public static function getNamespace($class)
     {
