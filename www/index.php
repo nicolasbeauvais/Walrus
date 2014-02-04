@@ -11,12 +11,29 @@ session_start();
 use Walrus\core\WalrusKernel;
 use Walrus\core\WalrusAutoload;
 
-define("APP_PATH", dirname(__FILE__) . '/');
-define("ROOT_PATH", substr(dirname(__FILE__), 0, -4) . '/');
-define("FRONT_PATH", ROOT_PATH . 'www/templates' . '/');
+/**
+ * Declaration for the $_ENV global variable.
+ * $_ENV is filed with configuration info in WalrusKernel,
+ * and routing info in WalrusROuter
+ */
+$_ENV['Walrus'] = array();
 
+/**
+ * Require constant
+ */
+require_once('../config/env.php');
+
+/**
+ * Require WalrusAutoload
+ */
 require_once('../Walrus/core/WalrusAutoload.php');
 
+/**
+ * Launch WalrusAUtoload, ready to go.
+ */
 new WalrusAutoload();
 
+/**
+ * Launch WalrusKernel
+ */
 WalrusKernel::execute();
