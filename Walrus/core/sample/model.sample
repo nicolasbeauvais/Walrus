@@ -1,0 +1,9 @@
+<?php
+
+namespace engine\models;
+
+
+class %name%
+{
+
+}
