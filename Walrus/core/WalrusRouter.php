@@ -45,7 +45,7 @@ class WalrusRouter
 
     /**
      * Set the base url - gets prepended to all route url's.
-     * @param string $base_url
+     * @param string $basePath
      */
     public function setBasePath($basePath)
     {
@@ -54,6 +54,7 @@ class WalrusRouter
 
     /**
      * The WalrusRouter unique instance for singleton.
+     * @var WalrusRouter
      */
     protected static $instance;
 
@@ -71,6 +72,10 @@ class WalrusRouter
     {
     }
 
+    /**
+     * Main function to call to get an instance of WalrusRouter.
+     * @return WalrusRouter
+     */
     public static function getInstance()
     {
         if (!isset(self::$instance)) {
@@ -99,6 +104,23 @@ class WalrusRouter
         }
     }
 
+    /**
+     * Soft Walrus routing.
+     * Used by Walrus routing for get soft
+     */
+    public function softExecute()
+    {
+        $this->setBasePath('/');
+
+        try {
+            $this->process();
+        } catch (Exception $e) {
+            // @TODO: catch message
+            header("Status: 404 Not Found");
+            header('HTTP/1.0 404 Not Found');
+            die();
+        }
+    }
 
     /**
      * Route factory method.
@@ -163,9 +185,13 @@ class WalrusRouter
     }
 
     /**
-     * Match given request url and request method and see if a route has been defined for it
+     * Match given request url and request method and see if a route has been defined for it.
      * If so, return route's target
      * If called multiple times
+     *
+     * @param string $requestMethod The type of methode for the route.
+     *
+     * @return Route|false
      */
     public function match($requestMethod = 'GET')
     {
@@ -222,10 +248,12 @@ class WalrusRouter
     }
 
     /**
-     * Reverse route a named route
+     * Reverse route a named route.
      *
-     * @param string $route_name The name of the route to reverse route.
-     * @param array $params Optional array of parameters to use in URL
+     * @param string $routeName The name of the route to reverse route.
+     * @param array $params Optional array of parameters to use in URL.
+     *
+     * @throws Exception
      * @return string The url to the route
      */
     public function generate($routeName, array $params = array())
@@ -256,6 +284,8 @@ class WalrusRouter
 
     /**
      * Match routes, make verification on controller and action.
+     *
+     * @throws Exception
      */
     private function process()
     {
@@ -333,6 +363,8 @@ class WalrusRouter
     /**
      * Special Walrus router.
      * Make use of pux with YAML functionality.
+     *
+     * @throws Exception
      */
     public function getRoutesFromYAML()
     {
