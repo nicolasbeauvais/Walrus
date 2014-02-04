@@ -107,4 +107,12 @@ class WalrusCLI
         }
 
     }
+
+    /**
+     * Create a new Model with the input the user gave.
+     */
+    private static function createModel ($name)
+    {
+
+    }
 }
