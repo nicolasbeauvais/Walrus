@@ -8,6 +8,10 @@
 
 namespace Walrus\core\objects;
 
+/**
+ * Class Template
+ * @package Walrus\core\objects
+ */
 class Template
 {
 
