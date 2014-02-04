@@ -9,6 +9,7 @@ var Walrus = {};
 
 (function (Walrus) {
 
+    // walrus is a ninja
     'use strict';
 
     Walrus.catchLinks = function (event) {
@@ -95,11 +96,6 @@ var Walrus = {};
         };
     };
 
-    Walrus.bootstrap = function () {
-        //Lazy load
-        Walrus.checkLazy();
-    };
-
     Walrus.checkLazy = function () {
         var nodes,
             nodesLength,
@@ -153,8 +149,29 @@ var Walrus = {};
         return matches;
     };
 
-    //Event Listener
-    document.onclick = Walrus.catchLinks;
-    window.onload = Walrus.bootstrap;
+    Walrus.config = {};
+
+    /**
+     * Walrus.js constructor.
+     *
+     * attributes:
+     *
+     * ajaxNavigation: true|false
+     * lazyLoad: true|false
+     *
+     * @param {Object} config
+     */
+    Walrus.init = function (config) {
+
+        Walrus.config = config;
+
+        if (Walrus.config.ajaxNavigation) { document.onclick = Walrus.catchLinks; }
+
+        window.onload = Walrus.bootstrap;
+    };
+
+    Walrus.bootstrap = function () {
+        if (Walrus.config.lazyLoad) { Walrus.checkLazy(); }
+    };
 
 }(Walrus));
