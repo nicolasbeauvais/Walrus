@@ -93,6 +93,9 @@ class WalrusFrontController
                 self::$templating[0] = '.tpl';
                 self::$templating[1] = '';
                 break;
+            case 'php':
+                self::$templating[0] = '.php';
+                self::$templating[1] = '';
         }
     }
 
@@ -178,6 +181,8 @@ class WalrusFrontController
                     case 'smarty':
                         self::$smarty->display(self::$foreach_value->getTemplate());
                         break;
+                    default:
+                        require(self::$foreach_value->getTemplate());
                 }
             }
         }
