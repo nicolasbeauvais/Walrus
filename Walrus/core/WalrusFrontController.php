@@ -66,6 +66,14 @@ class WalrusFrontController
 
 
     /**
+     * Store frontController instance as a stack
+     *
+     * @var \Walrus\core\objects\FrontController
+     */
+    private $frontController;
+
+
+    /**
      * Array of instancied controllers
      */
     private $controllers;
@@ -316,26 +324,9 @@ class WalrusFrontController
     protected function reroute($controller, $action, $param = array())
     {
         $this->uload();
-        WalrusRouter::reroute($controller, $action, $param = array());
+        WalrusRouter::reroute($controller, $action, $param);
         self::execute();
         die;
-    }
-
-    /**
-     * Get the result of a route in a soft or hard way.
-     *
-     * @param string $url.
-     * @param boolean $soft.
-     *
-     * @return string.
-     */
-    protected function get($url, $soft = true)
-    {
-        if ($soft) {
-            return $this->getSoft($url);
-        } else {
-            return $this->getHard($url);
-        }
     }
 
     /**
@@ -345,20 +336,36 @@ class WalrusFrontController
      *
      * @return string.
      */
-    private function getHard($url)
+    protected function getHard($url)
     {
         $content = file_get_contents($url);
         return $content;
     }
 
     /**
-     * @param $url
+     * Process a new controller and return his content.
+     *
+     * the reroute action doesn't clean WalrusFrontController.
+     * All your previously stored template / skeleton and variables
+     * are restored.
+     * the controller / action don't need to be accessible with classic routing.
+     *
+     * @param string $controller a controller name
+     * @param string $action an action of the controller
+     * @param array $param an array of the parameter to pass to the controller
+     *
+     * @throws Exception
      */
-    private function getSoft($url)
+    protected function getSoft($controller, $action, $param = array())
     {
-        $test = new WalrusFrontController();
-        var_dump($test->getTemplate());
-        die;
+        // @TODO: sauvegarder l'instance courrante de la classe
+        $this->uload();
+        WalrusRouter::reroute($controller, $action, $param);
+        // @TODO: executé dans une variable et non dans le DOM
+        self::execute();
+        // @TODO: restaurer l'instance courrante de la classe
+        // @TODO: Retourner une string
+        // ne pas die;
     }
 
     /**
@@ -383,11 +390,11 @@ class WalrusFrontController
      */
     private function uload()
     {
+        // @TODO: parse the class attribute instead ?
         self::$templates = array();
         self::$variables = array();
         self::$smarty = new Smarty();
         self::$foreach_value = null;
         self::$foreach_key = null;
-        $this->controllers = null;
     }
 }
