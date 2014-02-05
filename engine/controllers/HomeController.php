@@ -17,7 +17,6 @@ class HomeController extends WalrusFrontController
     {
         $this->skeleton('_skeleton_main');
         //$this->controller('route')->test();
-        $this->reroute('route', 'testRoute');
-        $this->skeleton('_skeleton_main');
+        $content = $this->getSoft('route', 'testRoute');
     }
 }

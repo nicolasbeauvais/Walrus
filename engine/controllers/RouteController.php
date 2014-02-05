@@ -14,6 +14,6 @@ class RouteController extends WalrusFrontController
 
     public function testRoute()
     {
-        echo 'EPIC WIN';
+        $this->skeleton('_skeleton_main');
     }
 }

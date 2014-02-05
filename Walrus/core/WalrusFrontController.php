@@ -355,34 +355,20 @@ class WalrusFrontController
      * @param string $action an action of the controller
      * @param array $param an array of the parameter to pass to the controller
      *
+     * @return string the content made by the getted controller
      * @throws Exception
      */
     protected function getSoft($controller, $action, $param = array())
     {
         $this->stackFrontController();
         $this->uload();
+        ob_start();
         WalrusRouter::reroute($controller, $action, $param);
-        // @TODO: executé dans une variable et non dans le DOM
         self::execute();
+        $content = ob_get_contents();
+        ob_end_clean();
         $this->unstackFrontController();
-        // @TODO: Retourner une string
-    }
-
-    /**
-     * Soft rerouting:
-     *
-     * 1. Stocké tout WalrusFrontController dans une pile.
-     * 2. Récupéré la route via WalrusRouter
-     * 3. Appeller le controller de la route
-     * 4. Executer WalrusFrontController pour récupéré le DOM ?
-     * 5. Restauré le dernier element de la pile de WalrusFrontController
-     * 6. continue
-     *
-     * @return array
-     */
-    public function getTemplate()
-    {
-        return self::$templates;
+        return $content;
     }
 
     /**
