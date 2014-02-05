@@ -362,17 +362,19 @@ class WalrusFrontController
     {
         $this->stackFrontController();
         $this->uload();
+        
         ob_start();
         WalrusRouter::reroute($controller, $action, $param);
         self::execute();
         $content = ob_get_contents();
         ob_end_clean();
         $this->unstackFrontController();
+
         return $content;
     }
 
     /**
-     *
+     * Add the current state of the FrontController to the stack.
      */
     private function stackFrontController()
     {
@@ -383,6 +385,9 @@ class WalrusFrontController
         $this->frontController[] = $objFrontController;
     }
 
+    /**
+     * Remove the last stored state of the FrontController from the stack.
+     */
     private function unstackFrontController()
     {
         $objFrontController = array_pop($this->frontController);
