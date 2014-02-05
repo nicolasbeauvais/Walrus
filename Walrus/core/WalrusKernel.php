@@ -67,7 +67,7 @@ class WalrusKernel
             $errorArray = array();
             $WalrusConfig = array();
 
-            $templating = array('haml', 'twig', 'smarty');
+            $templating = array('haml', 'smarty', 'php');
             $databases = array('mysql', 'sqlite', 'postgresql', 'oracle');
             $environment = array('dev', 'prod');
 
