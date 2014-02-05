@@ -10,6 +10,10 @@ namespace Walrus\core;
 
 use Exception;
 
+/**
+ * Class WalrusCLI
+ * @package Walrus\core
+ */
 class WalrusCLI
 {
     /**
@@ -38,6 +42,11 @@ class WalrusCLI
         }
     }
 
+    /**
+     * Give explanation about tusk command.
+     *
+     * In case no command are recognized, the tusk man is displayed.
+     */
     private static function help()
     {
         // @TODO: create man
@@ -45,6 +54,11 @@ class WalrusCLI
         echo "\n";
     }
 
+    /**
+     * Create a controller and a directory in template.
+     *
+     * @param $name the controller name
+     */
     private static function createController ($name)
     {
         if (strpbrk($name, "\\/?%*:|\"<>")) {

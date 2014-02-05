@@ -362,7 +362,7 @@ class WalrusFrontController
     {
         $this->stackFrontController();
         $this->uload();
-        
+
         ob_start();
         WalrusRouter::reroute($controller, $action, $param);
         self::execute();
