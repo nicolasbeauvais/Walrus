@@ -50,7 +50,11 @@ class WalrusKernel
      */
     private static function bootstrapOrm()
     {
-        \R::setup(RDBMS.':host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PWD);
+        R::setup(
+            $GLOBALS['WalrusConfig']['dbLanguage'] . ':host=' . $GLOBALS['WalrusConfig']['dbHost'] . ';dbname=' . $GLOBALS['WalrusConfig']['dbDatabase'],
+            $GLOBALS['WalrusConfig']['dbName'],
+            $GLOBALS['WalrusConfig']['dbPassword']
+        );
     }
 
     /**
