@@ -8,6 +8,7 @@
 database:
   language: "mysql"
   host: "localhost"
+  database: "walrus"
   name: "root"
   password: ""
 templating: "smarty"

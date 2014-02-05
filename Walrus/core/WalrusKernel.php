@@ -10,8 +10,8 @@ namespace Walrus\core;
 
 use Walrus\core\route;
 use Spyc\Spyc;
+use R;
 use Exception;
-
 
 /**
  * Class WalrusKernel
@@ -92,12 +92,24 @@ class WalrusKernel
                 $errorArray['dbHost'] = "Database host can't be empty (IP address)";
             }
 
+            if ($array_info['database']['database'] != "") {
+                $WalrusConfig['dbDatabase'] = $array_info['database']['database'];
+            } else {
+                $error = true;
+                $errorArray['dbDatabase'] = "Database can't be empty";
+            }
+
             if ($array_info['database']['name'] != "") {
                 $WalrusConfig['dbName'] = $array_info['database']['name'];
             } else {
                 $error = true;
                 $errorArray['dbName'] = "Database name can't be empty";
             }
+
+            if (isset($array_info['database']['password'])) {
+                $WalrusConfig['dbPassword'] = $array_info['database']['password'];
+            }
+
             if (in_array(strtolower($array_info['environment']), $environment)) {
                 $WalrusConfig['environment'] = strtolower($array_info['environment']);
             } else {
