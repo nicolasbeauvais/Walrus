@@ -20,3 +20,8 @@ _admin:
     controller: 'HomeController'
     action: 'admin'
     acl: 'admin'
+
+_config:
+    path: 'config'
+    controller: 'ConfigController'
+    action: 'config'
