@@ -105,6 +105,8 @@ class WalrusFrontController
      * Add a template to the template stack with ACL or not,
      * the stack is displayed by WalrusFrontController::execute()
      * at the end of Walrus execution.
+     * setView as a very special treatment for all template called from
+     * a Walrus core controller
      *
      * @param $view the template to add on templates stack
      * @param $acl
@@ -113,8 +115,9 @@ class WalrusFrontController
      */
     protected function setView($view, $acl = false)
     {
+        $className = explode('\\', get_called_class());
+
         if (strrpos($view, '/') === false) {
-            $className = explode('\\', get_called_class());
             $controller = strtolower(str_replace('Controller', '', end($className)));
             $template = FRONT_PATH . $controller . '/' . $view . self::$templating[0];
         } else {
@@ -126,6 +129,13 @@ class WalrusFrontController
         }
 
         $objTemplate = new Template();
+
+        if ($className[0] === 'Walrus') {
+            $template = isset($controller) ? ROOT_PATH . 'Walrus/templates/' . $controller . '/' . $view . '.php'
+                : ROOT_PATH . 'Walrus/templates/' . $view . '.php';
+            $objTemplate->setIsWalrus(true);
+        }
+
         $objTemplate->setName($view);
         $objTemplate->setTemplate($template . self::$templating[1]);
         self::$templates[] = $objTemplate;
@@ -173,6 +183,10 @@ class WalrusFrontController
         if (count(self::$templates) > 0) {
 
             foreach (self::$templates as self::$foreach_key => self::$foreach_value) {
+                if (self::$foreach_value->getIsWalrus()) {
+                    require(self::$foreach_value->getTemplate());
+                    continue;
+                }
                 switch ($GLOBALS['WalrusConfig']['templating']) {
                     case 'haml':
                         self::compileToYaml(substr(self::$foreach_value->getTemplate(), 0, -4));
