@@ -2,6 +2,7 @@
 
 namespace engine\models;
 
+use R;
 
 class %name%
 {
