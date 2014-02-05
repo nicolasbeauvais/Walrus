@@ -10,6 +10,7 @@ namespace Walrus\core;
 
 use Walrus\core\objects\Skeleton;
 use Walrus\core\objects\Template;
+use Walrus\core\objects\FrontController;
 use MtHaml;
 use Smarty;
 use Spyc\Spyc;
@@ -68,7 +69,7 @@ class WalrusFrontController
     /**
      * Store frontController instance as a stack
      *
-     * @var \Walrus\core\objects\FrontController
+     * @var array
      */
     private $frontController;
 
@@ -358,14 +359,13 @@ class WalrusFrontController
      */
     protected function getSoft($controller, $action, $param = array())
     {
-        // @TODO: sauvegarder l'instance courrante de la classe
+        $this->stackFrontController();
         $this->uload();
         WalrusRouter::reroute($controller, $action, $param);
         // @TODO: executé dans une variable et non dans le DOM
         self::execute();
-        // @TODO: restaurer l'instance courrante de la classe
+        $this->unstackFrontController();
         // @TODO: Retourner une string
-        // ne pas die;
     }
 
     /**
@@ -386,15 +386,30 @@ class WalrusFrontController
     }
 
     /**
+     *
+     */
+    private function stackFrontController()
+    {
+        $objFrontController = new FrontController();
+        $objFrontController->setTemplates(self::$templates);
+        $objFrontController->setVariables(self::$variables);
+
+        $this->frontController[] = $objFrontController;
+    }
+
+    private function unstackFrontController()
+    {
+        $objFrontController = array_pop($this->frontController);
+        self::$templates = $objFrontController->getTemplates();
+        self::$variables = $objFrontController->getVariables();
+    }
+
+    /**
      * Reset all variables from the WalrusFrontController class.
      */
     private function uload()
     {
-        // @TODO: parse the class attribute instead ?
         self::$templates = array();
         self::$variables = array();
-        self::$smarty = new Smarty();
-        self::$foreach_value = null;
-        self::$foreach_key = null;
     }
 }
