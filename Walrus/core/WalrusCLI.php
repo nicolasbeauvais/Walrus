@@ -31,6 +31,9 @@ class WalrusCLI
                 case 'createController':
                     self::createController($param);
                     break;
+                case 'createModel':
+                    self::createModel($param);
+                    break;
                 default:
                     self::help();// @TODO: display an intelligent help ?
             }
@@ -113,6 +116,34 @@ class WalrusCLI
      */
     private static function createModel ($name)
     {
+        if (strpbrk($name, "\\/?%*:|\"<>")) {
+            echo $name . ' isn\'t a valid model name.' . "\n";
+            return;
+        }
+        if (preg_match('/[A-Z]/', $name) === 0) {
+            $name = ucfirst($name);
+        }
 
+        $filer = new WalrusFileManager(ROOT_PATH);
+
+        if (!file_exists(ROOT_PATH . 'engine/models/' . $name . '.php')) {
+            // @TODO: catch isn't working ?
+            try {
+                $filer->setCurrentElem('Walrus/core/sample/model.sample');
+                $model = $filer->getFileContent();
+                $model = str_replace('%name%', $name, $model);
+
+                $filer->setCurrentElem('engine/models');
+                $filer->fileCreate($name . '.php');
+                $filer->setCurrentElem('engine/models/' . $name . '.php');
+                $filer->changeFileContent($model);
+                echo 'New model created in engine/models with the name ' . $name . '.php' . "\n";
+            } catch (Exception $e) {
+                echo 'Exception: ' . $e->getMessage() . "\n";
+                return;
+            }
+        } else {
+            echo $name . '.php already exist' . "\n";
+        }
     }
 }
