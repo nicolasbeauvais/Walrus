@@ -34,6 +34,14 @@ class Template
     protected $template = '';
 
     /**
+     * Walrus core template are always in php templating.
+     *
+     * Walrus core tempalte deserve a special treatment as they are in .php templating
+     * even if you use smarty or haml
+     */
+    protected $isWalrus = false;
+
+    /**
      * @param string $name
      */
     public function setName($name)
@@ -80,4 +88,22 @@ class Template
     {
         return $this->template;
     }
+
+    /**
+     * @param boolean $isWalrus
+     */
+    public function setIsWalrus($isWalrus)
+    {
+        $this->isWalrus = $isWalrus;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIsWalrus()
+    {
+        return $this->isWalrus;
+    }
+
+
 }
