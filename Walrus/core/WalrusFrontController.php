@@ -65,7 +65,6 @@ class WalrusFrontController
      */
     private static $foreach_key;
 
-
     /**
      * Store frontController instance as a stack
      *
@@ -73,6 +72,10 @@ class WalrusFrontController
      */
     private $frontController;
 
+    /**
+     * Array of instancied controllers
+     */
+    private $models;
 
     /**
      * Array of instancied controllers
@@ -315,6 +318,34 @@ class WalrusFrontController
         $this->controllers[$controllerClass] = $controllerInstance;
 
         return $controllerInstance;
+    }
+
+    /**
+     * Return an instance of the specified model
+     *
+     * @param string $model
+     *
+     * @throws \Exception if the model doesn't exist
+     * @return Class the specified model class
+     */
+    protected function model($model)
+    {
+        $modelClass = ucwords(strtolower($model));
+
+        if (isset($this->models[$modelClass])) {
+            return $this->models[$modelClass];
+        }
+
+        $modelClassWithNamespace =  WalrusAutoload::getNamespace($modelClass);
+
+        if (!$modelClassWithNamespace) {
+            throw new Exception('[WalrusFrontController] request unexistant model: ' . $modelClass);
+        }
+
+        $modelInstance = new $modelClassWithNamespace();
+        $this->models[$modelClass] = $modelInstance;
+
+        return $modelInstance;
     }
 
     /**
