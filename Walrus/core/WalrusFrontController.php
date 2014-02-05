@@ -315,9 +315,10 @@ class WalrusFrontController
      */
     protected function reroute($controller, $action, $param = array())
     {
-        // @TODO: clean the FrontController
+        $this->uload();
         WalrusRouter::reroute($controller, $action, $param = array());
-        // @TODO: execute the front controller and die
+        self::execute();
+        die;
     }
 
     /**
@@ -375,5 +376,18 @@ class WalrusFrontController
     public function getTemplate()
     {
         return self::$templates;
+    }
+
+    /**
+     * Reset all variables from the WalrusFrontController class.
+     */
+    private function uload()
+    {
+        self::$templates = array();
+        self::$variables = array();
+        self::$smarty = new Smarty();
+        self::$foreach_value = null;
+        self::$foreach_key = null;
+        $this->controllers = null;
     }
 }
