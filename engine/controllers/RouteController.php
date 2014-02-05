@@ -11,4 +11,9 @@ class RouteController extends WalrusFrontController
     {
         $this->setView('sidebar/home');
     }
+
+    public function testRoute()
+    {
+        echo 'EPIC WIN';
+    }
 }
