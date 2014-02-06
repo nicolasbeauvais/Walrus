@@ -1,15 +1,22 @@
-#Please feed those information : 
- #database can be MySQL | SQLite | PostgreSQL | Oracle 
- #templating can be HAML | Twig | Smarty 
- #environment can be dev or prod 
- #config and routing are yml files 
- 
----
-database:
-  language: "mysql"
-  host: "localhost"
-  database: "walrus"
-  name: "root"
-  password: ""
+# Walrus Framework configuration
+
+# RDBMS: mysql|SQLite|PostgreSQL|Oracle
+RDBMS: "mysql"
+
+# RDBMS host
+host: "localhost"
+
+# Database name
+database: "walrus"
+
+# Database connexion user name
+name: "root"
+
+# Database connexion password
+password: ""
+
+# Templating language: haml|smarty|php
 templating: "smarty"
+
+# Environment: dev|prod
 environment: "dev"
