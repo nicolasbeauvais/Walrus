@@ -48,7 +48,7 @@ class WalrusKernel
     }
 
     /**
-     *
+     * Initialisation of the RedBean orm.
      */
     private static function bootstrapOrm()
     {
@@ -57,10 +57,14 @@ class WalrusKernel
             $_ENV['W']['name'],
             $_ENV['W']['password']
         );
+
+        if ($_ENV['W']['environment'] == "prod") {
+            R::freeze(true);
+        }
     }
 
     /**
-     * @throws Exception
+     * Verify Walrus configuration and set it.
      */
     private static function bootstrapConfig()
     {
