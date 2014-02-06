@@ -14,6 +14,6 @@
 </div>
 
 <div id="copyright">
-    <span>&copy; Walurs framework.</span><br/>
+    <span>&copy; Walrus framework.</span><br/>
     This website is a demo for the Walrus PHP framework
 </div>
