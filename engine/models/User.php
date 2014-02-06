@@ -14,8 +14,34 @@ class User
     public function signup()
     {
         $user = R::dispense('users');
-        $user->name = $_POST['name'];
-        $user->pseudo = $_POST['pseudo'];
+
+        $pseudo_exist = $users = R::find(
+            'users',
+            ' pseudo = :pseudo',
+            array(
+                'pseudo' => $_POST['pseudo']
+            )
+        );
+
+        $name_exist = $users = R::find(
+            'users',
+            ' name = :name',
+            array(
+                'name' => $_POST['name']
+            )
+        );
+        if (!$name_exist) {
+            $user->name = $_POST['name'];
+        } else {
+            // @TODO: Message d'erreur a afficher
+        }
+
+        if (!$pseudo_exist) {
+            $user->pseudo = $_POST['pseudo'];
+        } else {
+            // @TODO: Message d'erreur a afficher
+        }
+        
         $user->password = hash("sha256", 'salt' . $_POST['password']);
         $user->acl = 'user';
         R::store($user);
