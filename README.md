@@ -28,3 +28,22 @@ It is simple, we wanted it to respect KISS principle, you just have to focus on 
 It is lightweight, we added only what you really need to build a simple web application. We also use technologies that are already recognized by the community such as YAML or HAML.
 
 It is fast because it’s a client need. 
+
+###Architecture
+
+* Walrus/ - All the files of WalrusFramework
+* config/
+  * config.yml - This is where all your database configs needs to go
+  * env.php - All environment variables
+  * routes.yml - All your routes
+  * skeleton.yml - This is where you indicate the different parts of your views. Cf. Skeleton
+* engine/
+  * controllers -  Your own controllers go here
+  * models - Your own models go here
+* vendor/ -  Your vendors go here, few are already included in order to get Walrus working
+* www/
+  * assets/ -  All your images, javascript and styles files
+  * templates/ - Your templates here.
+  * index.php - Entry point of your application
+* tusk - Walrus Command Line Interface (CLI)
+    
