@@ -25,14 +25,14 @@ class WalrusKernel
      */
     public static function execute()
     {
-        self::bootstrap();
-        try {
-            $WalrusRouter = WalrusRouter::getInstance();
-            $WalrusRouter->execute();
-        } catch (Exception $e) {
-            // @TODO: add Exception
+        if (self::bootstrap()) {
+            try {
+                $WalrusRouter = WalrusRouter::getInstance();
+                $WalrusRouter->execute();
+            } catch (Exception $e) {
+                // @TODO: add Exception
+            }
         }
-
         WalrusFrontController::execute();
     }
 
@@ -41,8 +41,10 @@ class WalrusKernel
      */
     private static function bootstrap()
     {
-        WalrusKernel::bootstrapConfig();
-        WalrusKernel::bootstrapOrm();
+        if ($config = WalrusKernel::bootstrapConfig()) {
+            WalrusKernel::bootstrapOrm();
+        }
+        return $config;
     }
 
     /**
@@ -51,110 +53,30 @@ class WalrusKernel
     private static function bootstrapOrm()
     {
         R::setup(
-            $GLOBALS['WalrusConfig']['dbLanguage'] . ':host=' . $GLOBALS['WalrusConfig']['dbHost'] . ';dbname=' . $GLOBALS['WalrusConfig']['dbName'],
-            $GLOBALS['WalrusConfig']['dbUser'],
-            $GLOBALS['WalrusConfig']['password']
+            $_ENV['W']['RDBMS'] . ':host=' . $_ENV['W']['host'] . ';dbname=' . $_ENV['W']['database'],
+            $_ENV['W']['name'],
+            $_ENV['W']['password']
         );
     }
 
     /**
      * @throws Exception
      */
-    private static function bootstrapConfig($configInfo = null)
+    private static function bootstrapConfig()
     {
-        $config_file = "../config/config.yml";
+        $config_file = "../config/config.yml";;
 
         if (file_exists($config_file)) {
+            $configs = Spyc::YAMLLoad($config_file);
 
-            $array_info = Spyc::YAMLLoad($config_file);
-            $error = false;
-            $errorArray = array();
-            $WalrusConfig = array();
-
-            $templating = array('haml', 'smarty', 'php');
-            $databases = array('mysql', 'sqlite', 'postgresql', 'oracle');
-            $environment = array('dev', 'prod');
-
-            if (in_array(strtolower($array_info['templating']), $templating)) {
-                $WalrusConfig['templating'] = strtolower($array_info['templating']);
-            } else {
-                $error = true;
-                $errorArray['templating'] = "Templating must be HAML, Twig or Smarty";
+            foreach ($configs as $key => $option) {
+                $_ENV['W'][$key] = $option;
             }
-
-            if (in_array(strtolower($array_info['database']['language']), $databases)) {
-                $WalrusConfig['dbLanguage'] = strtolower($array_info['database']['language']);
-            } else {
-                $error = true;
-                $errorArray['dbLanguage'] = "Database must be either MySQL, SQLite, PostgreSQL or Oracle";
-            }
-
-            if ($array_info['database']['host'] != "") {
-                $WalrusConfig['dbHost'] = $array_info['database']['host'];
-            } else {
-                $error = true;
-                $errorArray['dbHost'] = "Database host can't be empty (IP address)";
-            }
-
-            if ($array_info['database']['name'] != "") {
-                $WalrusConfig['dbName'] = $array_info['database']['database'];
-            } else {
-                $error = true;
-                $errorArray['dbName'] = "Database can't be empty";
-            }
-
-            if ($array_info['database']['user'] != "") {
-                $WalrusConfig['dbUser'] = $array_info['database']['name'];
-            } else {
-                $error = true;
-                $errorArray['dbUser'] = "User name can't be empty";
-            }
-
-            if (isset($array_info['database']['password'])) {
-                $WalrusConfig['password'] = $array_info['database']['password'];
-            }
-
-            if (in_array(strtolower($array_info['environment']), $environment)) {
-                $WalrusConfig['environment'] = strtolower($array_info['environment']);
-            } else {
-                $error = true;
-                $errorArray['environment'] = "Environment must be dev or prod";
-            }
-
-            if ($error == true) {
-                throw new Exception($errorArray);
-            }
-
-            $GLOBALS['WalrusConfig'] = $WalrusConfig;
-
-        } elseif ($configInfo != null) {
-            $info_content = "
-            #Please feed those information : \n
-            #database can be MySQL | SQLite | PostgreSQL | Oracle \n
-            #templating can be HAML | Twig | Smarty | PHP \n
-            #environment can be dev or prod \n
-            #config and routing are yml files \n \n";
-
-	    if ($configInfo['password'] != null)
-	      $pwd = $configInfo['password'];
-	    else
-	      $pwd = "";
-
-            $php_content = array(
-                "database" => array("language" => $configInfo['dbLanguage'],
-                    "host" => $configInfo['dbHost'],
-                    "name" => $configInfo['dbName'],
-                    "user" => $configInfo['dbUser'],
-                    "password" => $pwd),
-                "templating" => $configInfo['templating'],
-                "environment" => $configInfo['environment']
-            );
-
-            $yml_content = Spyc::YAMLDump($php_content);
-
-            file_put_contents($config_file, $info_content.$yml_content, FILE_APPEND);
+            return true;
         } else {
-	  $this->setView('config');	  
-	}
+            $_ENV['W']['templating'] = 'php';
+            WalrusRouter::reroute('config', 'config');
+            return false;
+        }
     }
 }
