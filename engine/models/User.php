@@ -23,25 +23,13 @@ class User
             )
         );
 
-        $name_exist = $users = R::find(
-            'users',
-            ' name = :name',
-            array(
-                'name' => $_POST['name']
-            )
-        );
-        if (!$name_exist) {
-            $user->name = $_POST['name'];
-        } else {
-            // @TODO: Message d'erreur a afficher
-        }
-
         if (!$pseudo_exist) {
             $user->pseudo = $_POST['pseudo'];
         } else {
             // @TODO: Message d'erreur a afficher
         }
-        
+
+        $user->name = $_POST['name'];
         $user->password = hash("sha256", 'salt' . $_POST['password']);
         $user->acl = 'user';
         R::store($user);
