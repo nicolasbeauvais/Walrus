@@ -7,13 +7,13 @@ RDBMS: "mysql"
 host: "localhost"
 
 # Database name
-database: "walrus"
+database: "walrus_dev"
 
 # Database connexion user name
 name: "root"
 
 # Database connexion password
-password: ""
+password: "root"
 
 # Templating language: haml|smarty|php
 templating: "smarty"
