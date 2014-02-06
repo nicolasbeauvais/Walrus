@@ -4,9 +4,8 @@
             <img src="./assets/images/avatar.png" class="avatar">
             <span>
                 <span class="profil">
-                    <span class="h3">John D.</span>
+                    <span class="h3">@{$currentUser}</span>
                     <br/>
-                    <span class="info">View my profile page</span>
                 </span>
             </span>
         </div>
