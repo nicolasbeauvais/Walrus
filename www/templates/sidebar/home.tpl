@@ -2,45 +2,15 @@
 
 <div id="userToFollow">
 
-    <div class="user">
-        <img src="./assets/images/avatar.png" class="avatar">
-        <div class="infos">
-            <span class="name">Nicolas Beauvais</span>
-            <span class="pseudo">@w3Nicolas</span>
+    {foreach $users as $user}
+        <div class="user">
+            <img src="./assets/images/avatar.png" class="avatar">
+            <div class="infos">
+                <span class="name">{$user->name}</span>
+                <span class="pseudo">@{$user->pseudo}</span>
+            </div>
         </div>
-    </div>
-
-    <div class="user">
-        <img src="./assets/images/avatar.png" class="avatar">
-        <div class="infos">
-            <span class="name">Nicolas Beauvais</span>
-            <span class="pseudo">@w3Nicolas</span>
-        </div>
-    </div>
-
-    <div class="user">
-        <img src="./assets/images/avatar.png" class="avatar">
-        <div class="infos">
-            <span class="name">Nicolas Beauvais</span>
-            <span class="pseudo">@w3Nicolas</span>
-        </div>
-    </div>
-
-    <div class="user">
-        <img src="./assets/images/avatar.png" class="avatar">
-        <div class="infos">
-            <span class="name">Nicolas Beauvais</span>
-            <span class="pseudo">@w3Nicolas</span>
-        </div>
-    </div>
-
-    <div class="user">
-        <img src="./assets/images/avatar.png" class="avatar">
-        <div class="infos">
-            <span class="name">Nicolas Beauvais</span>
-            <span class="pseudo">@w3Nicolas</span>
-        </div>
-    </div>
+    {/foreach}
 </div>
 
 <div id="copyright">

@@ -10,5 +10,8 @@ class SidebarController extends WalrusFrontController
     public function home ()
     {
         $this->setView('home');
+
+        $users = $this->model('user')->getLasts();
+        $this->register('users', $users);
     }
 }

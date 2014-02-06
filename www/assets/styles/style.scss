@@ -56,6 +56,8 @@ body {
 #top {
   height: 68px;
   background-color: $main;
+  position: relative;
+  z-index: 10;
   h1 {
     font-size: 22px;
     font-weight: 600;
@@ -90,6 +92,7 @@ body {
   }
 }
 
+/* Userbar */
 #userBar {
   height: 104px;
   background-color: $dark_grey;
@@ -136,6 +139,7 @@ body {
     @include display-inline-block;
     height: 104px;
     line-height: 104px;
+    border-right: 1px solid $blue_grey;
     .stat {
       @include display-inline-block;
       text-align: center;
@@ -171,6 +175,56 @@ body {
         }
       }
     }
+  }
+  #post {
+    background: url($image + 'post.png') no-repeat center center $main;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 40px;
+    cursor: pointer;
+  }
+}
+
+#post-pop {
+  background-color: $dark_grey;
+  border-top: 1px solid $blue_grey;
+  padding: 0 20px;
+  height: 0;
+  overflow: hidden;
+  transition: height .5s;
+  -webkit-transition: height .5s;
+  -moz-transition: height .5s;
+  &.expand {
+    height: 170px;
+  }
+  textarea {
+    display: block;
+    margin-top: 20px;
+    max-width: calc(100% - 20px);
+    min-width: calc(100% - 20px);
+    max-height: 75px;
+    min-height: 75px;
+    background-color: rgba(#000, 0.3);
+    padding: 10px;
+    color: #fff;
+    font-size: 14px;
+    font-family: 'open sans';
+    border: none;
+  }
+  input {
+    background: $main;
+    padding: 7px 15px;
+    border: none;
+    border-radius: 20px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    float: right;
+    margin: 10px 0;
+    cursor: pointer;
   }
 }
 
@@ -213,10 +267,7 @@ body {
         @include display-inline-block;
         float:right;
         position: absolute;
-        top: 0;
-        right: 0;
-        margin-left: 95px;
-        margin-top: 17px;
+        top: 15px;
         .name {
           font-weight: 600;
           color: $title;
@@ -289,6 +340,63 @@ body {
       span {
         font-weight: bold;
         line-height: 30px;
+      }
+    }
+  }
+}
+
+/* Login / Signup */
+#wallpaper {
+  background: url($image + 'background.jpg') no-repeat center center;
+  position: absolute;
+  top: 65px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  filter: blur(3px);
+  -webkit-filter: blur(3px);
+}
+#form {
+  position: relative;
+  z-index: 10;
+  width: 600px;
+  padding: 20px;
+  margin: 100px auto 0 auto;
+  background-color: rgba(#000, 0.5);
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    margin-top: 20px;
+    color: #ffffff;
+  }
+  form input {
+    display: block;
+    height: 20px;
+    width: 100%;
+    padding: 7px 0;
+    text-indent: 10px;
+    border: none;
+    margin: 8px 0;
+    border-radius: 3px;
+    &[type="submit"] {
+      padding: 10px 0;
+      height: auto;
+      margin-bottom: 20px;
+      background-color: $main;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      &.first {
+        margin-bottom: 40px;
+      }
+      &:hover {
+        opacity: 0.9;
       }
     }
   }
