@@ -60,4 +60,15 @@ class User
         $_SESSION['pseudo'] = (string)$bean->pseudo;
         $_SESSION['acl'] = (string)$bean->acl;
     }
+
+    public function getCurrentUser($id)
+    {
+        $user = R::findOne('users', $id);
+
+        if ($user) {
+            return $user['pseudo'];
+        } else {
+            return false;
+        }
+    }
 }
