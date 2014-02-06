@@ -64,7 +64,7 @@ class WalrusKernel
      */
     private static function bootstrapConfig()
     {
-        $config_file = "../config/config.yml";;
+        $config_file = "../config/config.yml";
 
         if (file_exists($config_file)) {
             $configs = Spyc::YAMLLoad($config_file);
