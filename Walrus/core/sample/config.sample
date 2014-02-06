@@ -1,0 +1,22 @@
+# Walrus Framework configuration
+
+# RDBMS: mysql|SQLite|PostgreSQL|Oracle
+RDBMS: "%rdbms%"
+
+# RDBMS host
+host: "%host%"
+
+# Database name
+database: "%database%"
+
+# Database connexion user name
+name: "%name%"
+
+# Database connexion password
+password: "%password%"
+
+# Templating language: haml|smarty|php
+templating: "%templating%"
+
+# Environment: dev|prod
+environment: "%environment%"

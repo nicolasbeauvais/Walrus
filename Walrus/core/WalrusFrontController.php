@@ -87,7 +87,7 @@ class WalrusFrontController
      */
     public function __construct()
     {
-        switch ($GLOBALS['WalrusConfig']['templating']) {
+        switch ($_ENV['W']['templating']) {
             case 'haml':
                 self::$templating[0] = '.haml';
                 self::$templating[1] = '.php';
@@ -170,14 +170,14 @@ class WalrusFrontController
      */
     public static function execute()
     {
-        if ($GLOBALS['WalrusConfig']['templating'] == 'smarty') {
+        if ($_ENV['W']['templating'] == 'smarty') {
             self::$smarty = new Smarty();
         }
 
         if (count(self::$variables) > 0) {
             foreach (self::$variables as self::$foreach_key => self::$foreach_value) {
                 ${self::$foreach_key} = self::$foreach_value;
-                if ($GLOBALS['WalrusConfig']['templating'] == 'smarty') {
+                if ($_ENV['W']['templating'] == 'smarty') {
                     self::$smarty->assign(self::$foreach_key, self::$foreach_value);
                 }
             }
@@ -190,7 +190,7 @@ class WalrusFrontController
                     require(self::$foreach_value->getTemplate());
                     continue;
                 }
-                switch ($GLOBALS['WalrusConfig']['templating']) {
+                switch ($_ENV['W']['templating']) {
                     case 'haml':
                         self::compileToYaml(substr(self::$foreach_value->getTemplate(), 0, -4));
                         require(self::$foreach_value->getTemplate());
