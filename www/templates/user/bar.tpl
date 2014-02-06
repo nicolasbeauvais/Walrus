@@ -12,20 +12,30 @@
         </div>
         <div class="infos">
             <div class="stat">
-                <span class="value">6,475</span>
+                <span class="value">{$stats}</span>
                 <br/>
                 <span class="info">Messages</span>
             </div>
             <div class="stat">
-                <span class="value">106</span>
+                <span class="value">0</span>
                 <br/>
                 <span class="info">Following</span>
             </div>
             <div class="stat">
-                <span class="value">274</span>
+                <span class="value">0</span>
                 <br/>
                 <span class="info">Followers</span>
             </div>
         </div>
+        <div id="post"></div>
     </div>
+</div>
+
+<div id="post-pop">
+    <form action="./" method="POST">
+        <input type="hidden" name="post" value="ok"/>
+        <textarea name="message" cols="30" rows="10"></textarea>
+        <input type="submit" value="Send"/>
+    </form>
+    <div class="clear"></div>
 </div>

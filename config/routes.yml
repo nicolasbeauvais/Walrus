@@ -5,21 +5,10 @@ _home:
     controller:   'HomeController'
     action: 'run'
 
-_me:
-    path: 'me'
-    controller: 'UserController'
-    action: 'run'
-
 _sidebar_home:
     path: 'sidebar/home'
     controller: 'SidebarController'
     action: 'home'
-
-_admin:
-    path: 'admin'
-    controller: 'HomeController'
-    action: 'admin'
-    acl: 'admin'
 
 _config:
     path: 'config'

@@ -6,7 +6,18 @@
 #     footer:
 #         template: "module/template"
 
-# Skeleton for homepage
+# Skeleton for connexion / inscription
+_skeleton_home:
+    header:
+        template: 'header/main'
+    nav:
+        template: 'nav/main'
+    body:
+        template: 'home/form'
+    footer:
+        template: 'footer/main'
+
+# Skeleton for dashboard
 _skeleton_main:
     header:
         template: 'header/main'
@@ -16,18 +27,5 @@ _skeleton_main:
         template: 'user/bar'
     body:
         template: 'actu/home'
-    footer:
-        template: 'footer/main'
-
-# Skeleton for user profil
-_skeleton_user:
-    header:
-        template: 'header/main'
-    nav:
-        template: 'nav/main'
-    user:
-        template: 'user/bar'
-    body:
-        template: 'actu/user'
     footer:
         template: 'footer/main'

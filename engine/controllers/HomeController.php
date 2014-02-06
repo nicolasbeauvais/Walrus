@@ -9,14 +9,18 @@ class HomeController extends WalrusFrontController
 
     public function run()
     {
-        $this->register('test', 'COUCOU', '', 'testAlias');
-        $this->skeleton('_skeleton_main');
-    }
+        if (isset($_POST['type'])) {
+            if ($_POST['type'] === 'login') {
+                $this->model('user')->login();
+            } elseif ($_POST['type'] === 'signup') {
+                $this->model('user')->signup();
+            }
+        }
 
-    public function admin ()
-    {
-        $this->skeleton('_skeleton_main');
-        //$this->controller('route')->test();
-        $content = $this->getSoft('route', 'testRoute');
+        if (isset($_SESSION['name'])) {
+            $this->reroute('dashboard', 'run');
+        }
+
+        $this->skeleton('_skeleton_home');
     }
 }
