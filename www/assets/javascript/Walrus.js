@@ -17,10 +17,12 @@ var Walrus = {};
         var elem,
             attributes,
             attribute,
-            treeExplorer;
+            treeExplorer,
+            isLink;
 
         elem = event.srcElement;
         treeExplorer = 1;
+        isLink = false;
 
         for (treeExplorer; treeExplorer > 0; treeExplorer -= 1) {
 
@@ -37,6 +39,7 @@ var Walrus = {};
 
                         attribute = attributes[attribute];
                         if (attribute.localName === 'href') {
+                            isLink = true;
                             if (Walrus.isntExternal(attribute.value)) {
                                 Walrus.ajaxNavigation(event, attribute.value);
                                 break;
@@ -53,7 +56,7 @@ var Walrus = {};
             }
         }
 
-        event.preventDefault();
+        if (isLink) { event.preventDefault(); }
     };
 
     Walrus.isntExternal = function (url) {
