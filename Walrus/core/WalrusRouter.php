@@ -114,7 +114,6 @@ class WalrusRouter
         try {
             $this->process();
         } catch (Exception $e) {
-            // @TODO: catch message
             header("Status: 404 Not Found");
             header('HTTP/1.0 404 Not Found');
             die();
@@ -294,7 +293,6 @@ class WalrusRouter
             throw new Exception('[WalrusRouting] undefined route: ' . $url);
         }
 
-        // sanitize ?
         if ($route->getMethods() === 'GET') {
             $_POST[] = array();
         }
