@@ -177,7 +177,7 @@ class WalrusRouter
             $requestUrl =  substr($requestUrl, 0, $pos);
         }
 
-        $this->currentPath = '/' . $requestUrl;
+        $this->currentPath = '/' . rtrim($requestUrl, '/').'/';
 
         return $this->match($requestMethod);
     }
@@ -342,10 +342,11 @@ class WalrusRouter
 
         foreach ($rps as $param) {
             $n = $param->getName();
+
             if (isset($vars[ $n ])) {
                 $arguments[] = $vars[ $n ];
-            } elseif (isset($route['default'][ $n ])
-                && $default = $route['default'][ $n ]) {
+            } elseif (isset($route->getFilters()['default'][ $n ])
+                && $default = $route->getFilters()['default'][ $n ]) {
                 $arguments[] = $default;
             } elseif (!$param->isOptional() && !$param->allowsNull()) {
                 throw new Exception('parameter is not defined.');
