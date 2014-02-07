@@ -8,6 +8,17 @@
 
 <h1>Create your project configuration</h1>
 
+<style>
+    body {
+        background-color: #2b81af;
+    }
+    h1 {
+        font-family: 'arial';
+        color: #ffffff;
+        text-align: center;
+    }
+</style>
+
 <?php
 if (isset($validation)) {
     if ($validation) {
