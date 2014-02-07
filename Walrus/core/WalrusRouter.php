@@ -87,15 +87,22 @@ class WalrusRouter
 
     /**
      * Launch the Walrus routing.
-     * Check the actual configuration to found YAML or PHP files
+     *
+     * test if it's an API route or not.
+     * API route demand less process execution.
      */
     public function execute()
     {
         $this->setBasePath('/');
-        $this->getRoutesFromYAML();
 
         try {
-            $this->process();
+            $url = isset($_GET['url']) ? $_GET['url'] : '/';
+            if (preg_match('@^/api/@', $url)) {
+                $this->processForAPI();
+            } else {
+                $this->getRoutesFromYAML();
+                $this->process();
+            }
         } catch (Exception $e) {
             header("Status: 404 Not Found");
             header('HTTP/1.0 404 Not Found');
