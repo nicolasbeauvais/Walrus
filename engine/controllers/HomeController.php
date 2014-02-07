@@ -23,4 +23,9 @@ class HomeController extends WalrusFrontController
 
         $this->skeleton('_skeleton_home');
     }
+
+    public function testRoute($param1, $param2, $param3, $param4 = 'coucou')
+    {
+        var_dump($param1, $param2, $param3, $param4);
+    }
 }
