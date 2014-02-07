@@ -10,6 +10,11 @@
 namespace engine\api;
 
 
-class pollingController {
+/**
+ * Class PollingController
+ * @package engine\api
+ */
+class PollingController
+{
 
-} 
+}
