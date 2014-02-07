@@ -16,14 +16,14 @@ _config:
     action: 'config'
 
 _test:
-    path: 'test/:param1/:param2/:param3/(:param4)'
+    path: 'test/:param1/:param2/(:param3)/(:param4)'
     controller: 'HomeController'
     action: 'testRoute'
     method: 'GET'
     filters:
         require:
             param1: '\d+'
-            param2: '[A-Z]'
+            param2: '[A-Z]+'
         default:
-            param3: 1
+            param3: 'test'
             param4: 'coucou'
