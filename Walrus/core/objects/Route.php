@@ -149,8 +149,10 @@ class Route
      */
     public function getRegex()
     {
-        // @TODO: optional condition /(:id)
-        return preg_replace_callback("/:(\w+)/", array(&$this, 'substituteFilter'), $this->url);
+
+        $regXpUrl = preg_replace_callback("(\(:(\w+)\)/)", array(&$this, 'substituteOptionalFilter'), $this->url);
+        $regXpUrl = preg_replace_callback("/:(\w+)/", array(&$this, 'substituteFilter'), $regXpUrl);
+        return rtrim($regXpUrl, '/').'/';
     }
 
     /**
@@ -159,11 +161,25 @@ class Route
      */
     private function substituteFilter($matches)
     {
-        if (isset($matches[1]) && isset($this->filters[$matches[1]])) {
-            return $this->filters[$matches[1]];
+        if (isset($matches[1]) && isset($this->filters['require'][$matches[1]])) {
+
+            return '(' . $this->filters['require'][$matches[1]] . ')';
         }
 
         return "([\w-]+)";
+    }
+
+    /**
+     * @param $matches
+     * @return string
+     */
+    private function substituteOptionalFilter($matches)
+    {
+        if (isset($matches[1]) && isset($this->filters['require'][$matches[1]])) {
+            return '(' . $this->filters['require'][$matches[1]] . ')?/?';
+        }
+
+        return "([\w-]+)?/?";
     }
 
     /**
