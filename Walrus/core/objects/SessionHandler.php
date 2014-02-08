@@ -9,12 +9,13 @@
 namespace Walrus\core\objects;
 
 use R;
+use SessionHandlerInterface;
 
 /**
  * Class SessionHandler
  * @package Walrus\core\objects
  */
-class SessionHandler implements \SessionHandlerInterface
+class SessionHandler implements SessionHandlerInterface
 {
     /**
      * @param $savePath
