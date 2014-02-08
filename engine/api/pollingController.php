@@ -18,6 +18,6 @@ class PollingController extends WalrusAPI
 {
     public function run()
     {
-
+        return array('hello'=> "lol");
     }
 }
