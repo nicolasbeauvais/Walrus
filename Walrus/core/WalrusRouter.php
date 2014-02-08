@@ -352,10 +352,11 @@ class WalrusRouter
         foreach ($rps as $param) {
             $n = $param->getName();
 
+            $default = $route->getFilters();
+            $default = isset($default) && isset($default['default'][ $n ]) ? $default['default'][ $n ] : false;
             if (isset($vars[ $n ])) {
                 $arguments[] = $vars[ $n ];
-            } elseif (isset($route->getFilters()['default'][ $n ])
-                && $default = $route->getFilters()['default'][ $n ]) {
+            } elseif ($default) {
                 $arguments[] = $default;
             } elseif (!$param->isOptional() && !$param->allowsNull()) {
                 throw new Exception('parameter is not defined.');
