@@ -101,6 +101,7 @@ class WalrusRouter
             if (preg_match('@^api/@', $url)) {
                 $this->processForAPI();
             } else {
+                session_start();
                 $this->getRoutesFromYAML();
                 $this->process();
             }
