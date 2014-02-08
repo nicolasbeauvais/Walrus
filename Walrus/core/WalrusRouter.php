@@ -365,6 +365,54 @@ class WalrusRouter
     }
 
     /**
+     * Match for API
+     */
+    private function processForAPI()
+    {
+        $url = isset($_GET['url']) ? $_GET['url'] : '/';
+        $apiUrl = rtrim(str_replace('api/', '', $url), '/');
+
+        $cb = explode('/', $apiUrl);
+
+        if (count($cb) < 2) {
+            $controller = $cb[0];
+            if (empty($controller)) {
+                throw new Exception('[WalrusRouting] empty API controller');
+            }
+            $action = $cb[1];
+            if (empty($action)) {
+                throw new Exception('[WalrusRouting] empty API action');
+            }
+        }
+
+        $class = 'engine\\api\\' . ucwords($cb[0]) . 'Controller';
+
+        if (class_exists($class)) {
+
+            $rc = new ReflectionClass($class);
+
+            // Create the controller object.
+            $cb[0] = $rc->newInstance();
+
+            // check controller action method
+            if ($cb[0] && ! method_exists($cb[0], $cb[1])) {
+                throw new Exception('Controller exception');
+            }
+
+            $rps = $rc->getMethod($cb[1])->getParameters();
+
+            // @TODO: add args to API call
+            $arguments = array();
+
+            WalrusAPI::init();
+            WalrusAPI::execute(call_user_func_array($cb, $arguments));
+        } else {
+            header("Status: 404 Not Found");
+            header('HTTP/1.0 404 Not Found');
+        }
+    }
+
+    /**
      * Reroute to a new controller.
      *
      * Reroute from a controller / action couple in string format.
