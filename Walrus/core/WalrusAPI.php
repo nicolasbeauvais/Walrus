@@ -255,4 +255,13 @@ class WalrusAPI
         header("HTTP/1.1 " . self::$code . " " . self::getStatusmessage());
         header("Content-Type:" . self::$contentType);
     }
+
+    /**
+     * Change the http status code
+     * @param int $code
+     */
+    public static function setCode($code)
+    {
+        self::$code = $code;
+    }
 }
