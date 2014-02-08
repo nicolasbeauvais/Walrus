@@ -6,8 +6,6 @@
  * Created: 14:48 13/12/13
  */
 
-session_start();
-
 use Walrus\core\WalrusKernel;
 use Walrus\core\WalrusAutoload;
 
