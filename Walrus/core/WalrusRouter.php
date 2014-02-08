@@ -96,8 +96,9 @@ class WalrusRouter
         $this->setBasePath('/');
 
         try {
+
             $url = isset($_GET['url']) ? $_GET['url'] : '/';
-            if (preg_match('@^/api/@', $url)) {
+            if (preg_match('@^api/@', $url)) {
                 $this->processForAPI();
             } else {
                 $this->getRoutesFromYAML();
