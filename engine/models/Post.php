@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Walrus Framework
  * File maintained by: Thomas Bentkowski (Harper)
@@ -34,7 +35,8 @@ class Post
     public function getPosts()
     {
         $sql = 'SELECT posts.*,
-                       users.*
+                       users.*,
+                       posts.id as id
                   FROM posts
                   JOIN users as users
                  WHERE id_user = users.id
