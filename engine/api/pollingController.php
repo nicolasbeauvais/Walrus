@@ -8,6 +8,7 @@
 
 namespace engine\api;
 
+use Walrus\core\objects\SessionHandler;
 use Walrus\core\WalrusAPI;
 
 /**
@@ -18,6 +19,29 @@ class PollingController extends WalrusAPI
 {
     public function run()
     {
-        return array('hello'=> "lol");
+        $session_handler = new SessionHandler();
+        session_set_save_handler($session_handler);
+        session_start();
+
+        $start = time();
+        $longPollingCycleTime = 5;
+        $realTimeLatency = 1;
+
+        session_id();
+        session_write_close();
+
+        $response = array();
+
+        while (time() < $start + $longPollingCycleTime) {
+
+
+            if (!empty($msgs)) {
+                exit();
+            }
+            sleep($realTimeLatency);
+        }
+
+        $response['msgs'] = array();
+        return $response;
     }
 }
