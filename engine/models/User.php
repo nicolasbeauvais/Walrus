@@ -19,14 +19,14 @@ class User
             'users',
             ' pseudo = :pseudo',
             array(
-                'pseudo' => $_POST['pseudo']
+                ':pseudo' => $_POST['pseudo']
             )
         );
 
         if (!$pseudo_exist) {
             $user->pseudo = $_POST['pseudo'];
         } else {
-            // @TODO: Message d'erreur a afficher
+            return false;
         }
 
         $user->name = $_POST['name'];
@@ -77,8 +77,7 @@ class User
 
     public function getCurrentUser($id)
     {
-        $user = R::findOne('users', $id);
-
+        $user = R::Load('users', $id);
         if ($user) {
             return $user['pseudo'];
         } else {
