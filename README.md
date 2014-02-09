@@ -47,3 +47,5 @@ It is fast because it’s a client need.
   * *index.php* - Entry point of your application.
 * **tusk** - Walrus Command Line Interface (CLI).
     
+####Notes :
+* In order to use *Walrus long polling methods* you must have a PHP version >= 5.4.4 because it uses PHP SessionHandlerInterface.
