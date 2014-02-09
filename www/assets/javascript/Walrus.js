@@ -193,23 +193,36 @@ var Walrus = {};
         request.onload = function () {
             var resp,
                 entity,
-                data;
+                data,
+                tpl,
+                nodes,
+                nodesLength;
 
             resp = JSON.parse(this.response);
 
-            if (resp.status !== 200) { return; }
-            if (!resp.data) { return; }
-            if (Object.getOwnPropertyNames(Walrus.pollingAction).length === 0) { return; }
+            if (resp.status !== 200 || !resp.data || Object.getOwnPropertyNames(Walrus.pollingAction).length === 0) {
+                setTimeout(function () { Walrus.polling(url); }, 100);
+                return;
+            }
 
             data = resp.data;
 
             for (entity in data) {
                 if (data.hasOwnProperty(entity)) {
-                    if (Walrus.pollingAction[entity]) { Walrus.pollingAction[entity](data[entity]); }
+                    if (Walrus.pollingAction[entity]) {
+                        tpl = Walrus.pollingAction[entity](data[entity]);
+                        nodes = Walrus.getByData('poll', entity);
+                        nodesLength = nodes.length;
+
+                        if (nodesLength < 1) { return; }
+                        for (nodesLength; nodesLength > 0; nodesLength -= 1) {
+                            nodes[nodesLength - 1].elem.innerHTML = tpl + nodes[nodesLength - 1].elem.innerHTML;
+                        }
+                    }
                 }
             }
 
-            setTimeout(Walrus.polling, 100, url);
+            setTimeout(function () { Walrus.polling(url); }, 100);
         };
     };
 
