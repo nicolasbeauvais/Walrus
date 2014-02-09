@@ -18,6 +18,8 @@ use Walrus\core\WalrusAPI;
  */
 class SessionHandler implements SessionHandlerInterface
 {
+    private $id;
+
     /**
      * @param $savePath
      * @param $sessionName
@@ -67,7 +69,7 @@ class SessionHandler implements SessionHandlerInterface
      */
     public function write($session_id, $data)
     {
-        $expire = intval(time() + 7200);//calcul de l'expiration de la session (ici par exemple, deux heures).
+        $expire = intval(time() + 7200);
 
         $session = R::findOne(
             'sessions',
@@ -89,11 +91,13 @@ class SessionHandler implements SessionHandlerInterface
             $sessions->session_expire = $expire;
             $sessions->session_data = json_encode($last_ids);
 
+            $this->id = $sessions->id;
             R::store($sessions);
         } else {
             $sessions = R::load('sessions', $session->id);
             $sessions->session_expire = $expire;
 
+            $this->id = $sessions->id;
             WalrusAPI::$last_ids = json_decode($sessions->session_data, true);
 
             R::store($sessions);
