@@ -177,4 +177,38 @@ var Walrus = {};
         if (Walrus.config.lazyLoad) { Walrus.checkLazy(); }
     };
 
+    Walrus.pollingAction = {};
+
+    Walrus.pollingRegister = function (dataType, callback) {
+        Walrus.pollingAction[dataType] = callback;
+    };
+
+    Walrus.polling = function (url) {
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.send();
+
+        request.onload = function () {
+            var resp,
+                entity,
+                data;
+
+            resp = JSON.parse(this.response);
+
+            if (resp.status !== 200) { return; }
+            if (!resp.data) { return; }
+            if (Object.getOwnPropertyNames(Walrus.pollingAction).length === 0) { return; }
+
+            data = resp.data;
+
+            for (entity in data) {
+                if (data.hasOwnProperty(entity)) {
+                    if (Walrus.pollingAction[entity]) { Walrus.pollingAction[entity](data[entity]); }
+                }
+            }
+
+            setTimeout(Walrus.polling, 100, url);
+        };
+    };
+
 }(Walrus));
