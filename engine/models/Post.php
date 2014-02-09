@@ -48,12 +48,15 @@ class Post
 
     public function getLast($last_id)
     {
-        $posts = R::findAll(
-            'posts',
-            'id > :id',
-            array(':id' => $last_id)
-        );
 
-        return R::exportAll($posts);
+        $sql = 'SELECT posts.*,
+                       users.*,
+                       posts.id as id
+                  FROM posts
+                  JOIN users as users
+                    ON posts.id_user = users.id
+                 WHERE posts.id > ' . (int)$last_id . '
+              ORDER BY posts.id DESC';
+        return R::getAll($sql);
     }
 }
