@@ -226,4 +226,25 @@ var Walrus = {};
         };
     };
 
+    Walrus.compile = function (template, data) {
+        var start   = "{{",
+            end     = "}}",
+            path    = "[a-z0-9_$][\\.a-z0-9_]*",
+            pattern = new RegExp(start + "\\s*(" + path + ")\\s*" + end, "gi"),
+            undef;
+
+        return template.replace(pattern, function (tag, token) {
+            var path = token.split("."),
+                len = path.length,
+                lookup = data,
+                i = 0;
+
+            for (i; i < len; i += 1) {
+                lookup = lookup[path[i]];
+                if (lookup === undef) { throw "Walrus: '" + path[i] + "' not found in " + tag; }
+                if (i === len - 1) { return lookup; }
+            }
+        });
+    };
+
 }(Walrus));
