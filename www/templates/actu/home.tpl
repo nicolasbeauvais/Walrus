@@ -2,7 +2,7 @@
     <div id="content">
         <h2>Latest Messages</h2>
 
-        <div id="messageContainer" data-poll="post:*" data-poll-id="{if isset($posts[0])}{$posts[0].id}{else}0{/if}">
+        <div id="messageContainer" data-poll="post:*">
             {foreach $posts as $post}
                 <div class="msg">
                     <img src="./assets/images/avatar.png" class="avatar">
