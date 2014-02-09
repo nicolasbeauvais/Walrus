@@ -75,25 +75,26 @@ class SessionHandler implements SessionHandlerInterface
             array(':session_id' => $session_id)
         );
 
-        $tables = WalrusAPI::getPolling();
-        $last_ids = array();
-        foreach ($tables as $table) {
-            $bean = R::findLast($table);
-            $last_ids[$table] = $bean->id;
-        }
-        WalrusAPI::$last_ids = $last_ids;
-
         if (!$session) {
+            $tables = WalrusAPI::getPolling();
+            $last_ids = array();
+            foreach ($tables as $table) {
+                $bean = R::findLast($table);
+                $last_ids[$table] = $bean->id;
+            }
+            WalrusAPI::$last_ids = $last_ids;
+
             $sessions = R::dispense('sessions');
             $sessions->session_id = $session_id;
             $sessions->session_expire = $expire;
-            $sessions->session_data = $data;
+            $sessions->session_data = json_encode($last_ids);
 
             R::store($sessions);
         } else {
             $sessions = R::load('sessions', $session->id);
             $sessions->session_expire = $expire;
-            $sessions->session_data = $data;
+
+            WalrusAPI::$last_ids = json_decode($sessions->session_data, true);
 
             R::store($sessions);
         }
