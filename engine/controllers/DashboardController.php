@@ -11,6 +11,7 @@ class DashboardController extends WalrusFrontController
     {
         if (isset($_POST['post'])) {
             $this->model('post')->addPost();
+            die;
         }
 
         $this->skeleton('_skeleton_main');
