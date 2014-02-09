@@ -48,6 +48,16 @@ class WalrusAPI
     private $controllers;
 
     /**
+     * Register table to parse for polling
+     */
+    private static $polling;
+
+    /**
+     * Contain the last id of all table from polling
+     */
+    public static $last_ids = array();
+
+    /**
      * Init an API process
      */
     public static function init()
