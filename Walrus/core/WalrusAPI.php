@@ -307,13 +307,24 @@ class WalrusAPI
         session_write_close();
 
         $response = array();
+        $ids_temp = self::$last_ids;
 
         while (time() < $start + $longPollingCycleTime) {
 
             $response = call_user_func($callback);
-            sleep($realTimeLatency);
+
+            if (empty($response)) {
+                sleep($realTimeLatency);
+            } else {
+                break;
+            }
         }
 
+        $ids_end = self::$last_ids;
+
+        if ($ids_modified = array_diff($ids_end, $ids_temp)) {
+            $session_handler->save($ids_modified);
+        }
         return $response;
     }
 }
