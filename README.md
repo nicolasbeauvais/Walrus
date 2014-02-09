@@ -2,9 +2,9 @@
 > Simple, Lightweight and Fast. 
 > Certainly not that big whatever factory.
 
-
-
-![Walrus](https://github.com/E-Wok/Walrus/blob/master/Walrus.png?raw=true "Walrus is comming !")
+<p align="center">
+  <img src="https://github.com/E-Wok/Walrus/blob/master/Walrus.png?raw=true" alt="Walrus is comming !"/>
+</p>
 
 > “We need a simple PHP framework that can build web applications easily and simply without all of those features that are not necessary”
 
