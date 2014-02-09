@@ -30,6 +30,7 @@ class PollingController extends WalrusAPI
 
         if (!empty($posts)) {
             $response['posts'] = $posts;
+            self::$last_ids['posts'] = end($posts)['id'];
             return $response;
         }
     }
