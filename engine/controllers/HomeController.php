@@ -13,7 +13,11 @@ class HomeController extends WalrusFrontController
             if ($_POST['type'] === 'login') {
                 $this->model('user')->login();
             } elseif ($_POST['type'] === 'signup') {
-                $this->model('user')->signup();
+                $noError = $this->model('user')->signup();
+                if ($noError === false) {
+                    $error = "Pseudo already taken.";
+                    $this->register('error', $error);
+                }
             }
         }
 
