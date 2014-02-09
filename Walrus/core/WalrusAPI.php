@@ -8,6 +8,7 @@
 
 namespace Walrus\core;
 
+use Walrus\core\objects\SessionHandler;
 use Exception;
 
 /**
