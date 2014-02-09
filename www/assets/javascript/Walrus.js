@@ -128,7 +128,7 @@ var Walrus = {};
         return callback;
     };
 
-    Walrus.getByData = function (data) {
+    Walrus.getByData = function (data, value) {
         var matches,
             allDom,
             i,
@@ -145,10 +145,12 @@ var Walrus = {};
                 nodeData = {};
                 nodeData.elem = node;
                 nodeData.data = node.getAttribute('data-' + data);
-                matches.push(nodeData);
+
+                if (!value || nodeData.data === value) {
+                    matches.push(nodeData);
+                }
             }
         }
-
         return matches;
     };
 
