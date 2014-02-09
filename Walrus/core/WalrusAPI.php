@@ -146,7 +146,13 @@ class WalrusAPI
     {
         self::$code = ($status) ? $status : 200;
         self::setHeaders();
-        echo JSON_encode($data);
+
+        $result = array(
+            'status' => self::$code,
+            'data' => $data
+        );
+
+        echo JSON_encode($result);
         exit;
     }
 
@@ -269,5 +275,45 @@ class WalrusAPI
     public static function setCode($code)
     {
         self::$code = $code;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getPolling()
+    {
+        return self::$polling;
+    }
+
+    /**
+     * @param array $polling
+     * @param array $callback
+     * @param int $longPollingCycleTime
+     * @param int $realTimeLatency
+     *
+     * @return result
+     */
+    public static function setPolling($polling, $callback, $longPollingCycleTime = 10, $realTimeLatency = 1)
+    {
+        self::$polling = $polling;
+
+        $session_handler = new SessionHandler();
+        session_set_save_handler($session_handler);
+        session_start();
+
+        $start = time();
+
+        session_id();
+        session_write_close();
+
+        $response = array();
+
+        while (time() < $start + $longPollingCycleTime) {
+
+            $response = call_user_func($callback);
+            sleep($realTimeLatency);
+        }
+
+        return $response;
     }
 }
