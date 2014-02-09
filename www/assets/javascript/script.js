@@ -24,27 +24,7 @@ $('#post-pop form').submit(function (e) {
     return false;
 });
 
-
-var polling = {};
-
-function poll() {
-    polling = $.ajax({
-        type: "POST",
-        url: 'api/polling/run/'
-    });
-
-    polling.done(function (data) {
-        if (data.status === 200) {
-            data = data.data;
-
-            if (!data) { return; }
-            if (data.posts) {
-                console.log(data.posts);
-            }
-        }
-
-        setTimeout(poll, 1000);
-    });
-}
-
-poll();
+Walrus.pollingRegister('posts', function (data) {
+    console.log(data);
+});
+Walrus.polling('api/polling/run');
