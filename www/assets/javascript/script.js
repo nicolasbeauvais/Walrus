@@ -18,13 +18,14 @@ $('#post-pop form').submit(function (e) {
             node[0].innerHTML = parseInt(node[0].innerHTML) + 1;
         }
     });
-
-    e.preventDefault();
-    e.stopPropagation();
     return false;
 });
 
 Walrus.pollingRegister('posts', function (data) {
-    console.log(data);
+    var tpl = '', item;
+    for (item in data) {
+        tpl += Walrus.compile(document.getElementById('templating-msg').innerHTML, data[item]);
+    }
+    return tpl;
 });
 Walrus.polling('api/polling/run');
