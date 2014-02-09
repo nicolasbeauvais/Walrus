@@ -136,4 +136,18 @@ class SessionHandler implements SessionHandlerInterface
 
         return true;
     }
+
+    /**
+     * @param $ids
+     */
+    public function save($ids)
+    {
+        foreach ($ids as $key => $id) {
+            $sessions = R::load('sessions', $this->id);
+            $data = json_decode($sessions->session_data, true);
+            $data[$key] = $id;
+            $sessions->session_data = json_encode($data);
+            R::store($sessions);
+        }
+    }
 }
