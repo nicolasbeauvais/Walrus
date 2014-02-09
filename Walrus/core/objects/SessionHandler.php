@@ -10,6 +10,7 @@ namespace Walrus\core\objects;
 
 use R;
 use SessionHandlerInterface;
+use Walrus\core\WalrusAPI;
 
 /**
  * Class SessionHandler
@@ -73,6 +74,14 @@ class SessionHandler implements SessionHandlerInterface
             'session_id = :session_id',
             array(':session_id' => $session_id)
         );
+
+        $tables = WalrusAPI::getPolling();
+        $last_ids = array();
+        foreach ($tables as $table) {
+            $bean = R::findLast($table);
+            $last_ids[$table] = $bean->id;
+        }
+        WalrusAPI::$last_ids = $last_ids;
 
         if (!$session) {
             $sessions = R::dispense('sessions');
