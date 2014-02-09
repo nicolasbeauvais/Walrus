@@ -2,7 +2,7 @@
     <div id="content">
         <h2>Latest Messages</h2>
 
-        <div id="messageContainer" data-poll="post:*">
+        <div id="messageContainer" data-poll="posts">
             {foreach $posts as $post}
                 <div class="msg">
                     <img src="./assets/images/avatar.png" class="avatar">
