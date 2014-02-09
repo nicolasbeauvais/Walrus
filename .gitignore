@@ -7,6 +7,7 @@ www/templates_c/
 
 #Walrus
 log.txt
+config/config.yml
 
 # Software
 .dropbox
