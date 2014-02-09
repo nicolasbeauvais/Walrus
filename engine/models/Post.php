@@ -45,4 +45,15 @@ class Post
         $posts = R::getAll($sql);
         return $posts;
     }
+
+    public function getLast($last_id)
+    {
+        $posts = R::findAll(
+            'posts',
+            'id > :id',
+            array(':id' => $last_id)
+        );
+
+        return R::exportAll($posts);
+    }
 }
