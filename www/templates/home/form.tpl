@@ -14,7 +14,7 @@
     <form action="./" method="POST">
         <input type="hidden" name="type" value="signup"/>
         <input type="text" name="name" placeholder="Name" value=""/>
-        <input type="text" name="pseudo" placeholder="Pseudo" value=""/>
+        <input type="text" name="pseudo" placeholder="Pseudo" value=""/> {if isset($error)}<span style="color:#ff0000;">{$error}</span>{/if}
         <input type="password" name="password" placeholder="Password" value=""/>
         <input type="submit" value="Signup"/>
     </form>
