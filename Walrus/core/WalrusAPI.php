@@ -33,11 +33,6 @@ class WalrusAPI
     private static $request = array();
 
     /**
-     * @var string
-     */
-    private static $method = "";
-
-    /**
      * @var int
      */
     private static $code = 200;
