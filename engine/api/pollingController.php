@@ -8,7 +8,6 @@
 
 namespace engine\api;
 
-use Walrus\core\objects\SessionHandler;
 use Walrus\core\WalrusAPI;
 
 /**
@@ -17,31 +16,21 @@ use Walrus\core\WalrusAPI;
  */
 class PollingController extends WalrusAPI
 {
+    /**
+     * @return array
+     */
     public function run()
     {
-        $session_handler = new SessionHandler();
-        session_set_save_handler($session_handler);
-        session_start();
+        return self::setPolling(array('posts', 'users'), array(&$this, 'processPolling'));
+    }
 
-        $start = time();
-        $longPollingCycleTime = 5;
-        $realTimeLatency = 1;
+    public function processPolling()
+    {
+        $posts = $this->model('post')->getLast(self::$last_ids['posts']);
 
-        session_id();
-        session_write_close();
-
-        $response = array();
-
-        while (time() < $start + $longPollingCycleTime) {
-
-
-            if (!empty($msgs)) {
-                exit();
-            }
-            sleep($realTimeLatency);
+        if (!empty($posts)) {
+            $response['posts'] = $posts;
+            return $response;
         }
-
-        $response['msgs'] = array();
-        return $response;
     }
 }
