@@ -5,6 +5,9 @@ Thumbs.db
 #vendors
 www/templates_c/
 
+#Walrus
+log.txt
+
 # Software
 .dropbox
 
