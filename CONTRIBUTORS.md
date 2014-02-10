@@ -10,6 +10,6 @@ Here's the list of them (cheers guys !):
 * ThomasHarper (Thomas Bentkowski)
 * FaustineLarmagna (Faustine Larmagna)
 * Flambard (Guillaume Flambard)
-* François-Xavier Costanzo (Awesome Logo ! Check out his [profile](fr.linkedin.com/pub/françois-xavier-costanzo/3a/769/b1a)
+* François-Xavier Costanzo (Awesome Logo ! Check out his [profile](fr.linkedin.com/pub/françois-xavier-costanzo/3a/769/b1a))
 
 ####Contributors
