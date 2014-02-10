@@ -59,7 +59,7 @@ class WalrusCLI
         echo "\tIn order to create a model you just have to write :\n";
         echo "\t\t php tusk createModel {Name}\n\n";
         echo "\tIn order to create a controller you just have to write :\n";
-        echo "\t\t php tusk createModel {name}\n\n";
+        echo "\t\t php tusk createController {name}\n\n";
         echo "\tIt is simple as this. Just replace {name} by your real name and that's it !\n\n";
         echo "\n";
     }
