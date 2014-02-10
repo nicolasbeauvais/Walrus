@@ -53,7 +53,14 @@ class WalrusCLI
     private static function help()
     {
         // @TODO: create man
-        echo "man tusk";
+        echo "\n\tTusk is the Walrus Command Line Interface (CLI).\n";
+        echo "\tTusk has been made in order to simplify the creation of models, controllers and API.\n";
+        echo "\tIt will generate a simple file in a Walrus way.\n\n";
+        echo "\tIn order to create a model you just have to write :\n";
+        echo "\t\t php tusk createModel {Name}\n\n";
+        echo "\tIn order to create a controller you just have to write :\n";
+        echo "\t\t php tusk createModel {name}\n\n";
+        echo "\tIt is simple as this. Just replace {name} by your real name and that's it !\n\n";
         echo "\n";
     }
 
