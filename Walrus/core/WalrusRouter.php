@@ -300,10 +300,6 @@ class WalrusRouter
             throw new Exception('[WalrusRouting] undefined route: ' . $url);
         }
 
-        if ($route->getMethod() !== 'POST') {
-            $_POST = array();
-        }
-
         if ($route->getAcl() && (!isset($_SESSION['acl']) || $route->getAcl() != $_SESSION['acl'])) {
             header("Status: 403 Forbidden");
             header('HTTP/1.0 403 Forbidden');
