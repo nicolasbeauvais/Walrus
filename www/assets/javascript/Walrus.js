@@ -94,6 +94,8 @@ var Walrus = {};
             }
 
             document.getElementById('container').innerHTML = container.innerHTML;
+            Walrus.eventTrigger(document, 'pageLoaded');
+
             Walrus.bootstrap();
             event.preventDefault();
         };
@@ -152,6 +154,26 @@ var Walrus = {};
             }
         }
         return matches;
+    };
+
+    Walrus.eventTrigger = function (element, eventName) {
+        var event;
+
+        if (document.createEvent) {
+            event = document.createEvent("HTMLEvents");
+            event.initEvent(eventName, true, true);
+        } else {
+            event = document.createEventObject();
+            event.eventType = eventName;
+        }
+
+        event.eventName = eventName;
+
+        if (document.createEvent) {
+            element.dispatchEvent(event);
+        } else {
+            element.fireEvent("on" + event.eventType, event);
+        }
     };
 
     Walrus.config = {};
