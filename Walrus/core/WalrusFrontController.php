@@ -111,8 +111,8 @@ class WalrusFrontController
      * setView as a very special treatment for all template called from
      * a Walrus core controller
      *
-     * @param $view the template to add on templates stack
-     * @param $acl
+     * @param string $view the template to add on templates stack
+     * @param bool|string $acl
      *
      * @throws Exception
      */
