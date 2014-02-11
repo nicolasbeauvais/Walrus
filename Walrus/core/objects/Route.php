@@ -28,6 +28,11 @@ class Route
     private $methods = array('GET','POST','PUT','DELETE');
 
     /**
+     * @var string
+     */
+    private $method = 'GET';
+
+    /**
     * Target for this route, can be anything.
     * @var mixed
     */
@@ -105,11 +110,19 @@ class Route
     }
 
     /**
-     * @param array $methods
+     * @return string
      */
-    public function setMethods(array $methods)
+    public function getMethod()
     {
-        $this->methods = $methods;
+        return $this->method;
+    }
+
+    /**
+     * @param string $method
+     */
+    public function setMethod($method)
+    {
+        $this->method = $method;
     }
 
     /**

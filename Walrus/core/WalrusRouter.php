@@ -146,8 +146,7 @@ class WalrusRouter
         $route->setTarget($target);
 
         if (isset($args['methods'])) {
-            $methods = explode(',', $args['methods']);
-            $route->setMethods($methods);
+            $route->setMethod($args['methods']);
         }
 
         if (isset($args['filters'])) {
@@ -203,7 +202,6 @@ class WalrusRouter
     public function match($requestMethod = 'GET')
     {
         foreach ($this->routes as $route) {
-
             // compare server request method with route's allowed http methods
             if (!in_array($requestMethod, $route->getMethods())) {
                 continue;
@@ -302,8 +300,8 @@ class WalrusRouter
             throw new Exception('[WalrusRouting] undefined route: ' . $url);
         }
 
-        if ($route->getMethods() === 'GET') {
-            $_POST[] = array();
+        if ($route->getMethod() !== 'POST') {
+            $_POST = array();
         }
 
         if ($route->getAcl() && (!isset($_SESSION['acl']) || $route->getAcl() != $_SESSION['acl'])) {
@@ -481,6 +479,8 @@ class WalrusRouter
 
             if (isset($route['method']) && !empty($route['method'])) {
                 $params['methods'] = isset($route['method']) ? strtoupper($route['method']) : 'GET';
+            } else {
+                $params['methods'] = 'GET';
             }
             if (isset($route['filters']) && !empty($route['filters'])) {
                 $params['filters'] = isset($route['filters']) ? $route['filters'] : array();
