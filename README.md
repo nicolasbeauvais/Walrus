@@ -49,3 +49,4 @@ It is fast because it’s a client need.
     
 ####Notes :
 * In order to use *Walrus long polling methods* you must have a PHP version >= 5.4.4 because it uses PHP SessionHandlerInterface.
+* You need to activate url_rewriting module on your server.
