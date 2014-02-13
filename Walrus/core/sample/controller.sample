@@ -2,7 +2,7 @@
 
 namespace engine\controllers;
 
-use Walrus\core\WalrusFrontController as WalrusFrontController;
+use Walrus\core\WalrusFrontController;
 
 class %name%Controller extends WalrusFrontController
 {
