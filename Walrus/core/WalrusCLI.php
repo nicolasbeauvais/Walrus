@@ -31,17 +31,18 @@ class WalrusCLI
                 case 'createController':
                     self::createController($param);
                     break;
+                case 'createAPIController':
+                    self::createAPIController($param);
+                    break;
                 case 'createModel':
                     self::createModel($param);
                     break;
                 default:
-                    self::help();// @TODO: display an intelligent help ?
+                    self::help();
             }
 
         } else {
-            // @TODO: display an intelligent help ?
-            echo 'error';
-            echo "\n";
+            self::help();
         }
     }
 
@@ -52,14 +53,15 @@ class WalrusCLI
      */
     private static function help()
     {
-        // @TODO: create man
         echo "\n\tTusk is the Walrus Command Line Interface (CLI).\n";
         echo "\tTusk has been made in order to simplify the creation of models, controllers and API.\n";
         echo "\tIt will generate a simple file in a Walrus way.\n\n";
         echo "\tIn order to create a model you just have to write :\n";
-        echo "\t\t php tusk createModel {Name}\n\n";
+        echo "\t\t php tusk createModel {name}\n\n";
         echo "\tIn order to create a controller you just have to write :\n";
         echo "\t\t php tusk createController {name}\n\n";
+        echo "\tIn order to create a API controller you just have to write :\n";
+        echo "\t\t php tusk createAPIController {name}\n\n";
         echo "\tIt is simple as this. Just replace {name} by your real name and that's it !\n\n";
         echo "\n";
     }
@@ -81,7 +83,6 @@ class WalrusCLI
 
         if (!file_exists(ROOT_PATH . 'engine/controllers/' . $name . 'Controller.php')) {
 
-            // @TODO: catch isn't working ?
             try {
                 $filer->setCurrentElem('Walrus/core/sample/controller.sample');
                 $controller = $filer->getFileContent();
@@ -119,6 +120,42 @@ class WalrusCLI
     }
 
     /**
+     * Create a API controller
+     *
+     * @param $name the controller name
+     */
+    private static function createAPIController($name)
+    {
+        if (strpbrk($name, "\\/?%*:|\"<>")) {
+            echo $name . ' isn\'t a valid controller name' . "\n";
+            return;
+        }
+
+        $name = ucwords(strtolower($name));
+        $filer = new WalrusFileManager(ROOT_PATH);
+
+        if (!file_exists(ROOT_PATH . 'engine/api/' . $name . 'Controller.php')) {
+
+            try {
+                $filer->setCurrentElem('Walrus/core/sample/APIController.sample');
+                $controller = $filer->getFileContent();
+                $controller = str_replace('%name%', $name, $controller);
+
+                $filer->setCurrentElem('engine/api');
+                $filer->fileCreate($name . 'Controller.php');
+                $filer->setCurrentElem('engine/api/' . $name . 'Controller.php');
+                $filer->changeFileContent($controller);
+                echo 'New controller created in api/controllers with the name ' . $name . 'Controller.php' . "\n";
+            } catch (Exception $e) {
+                echo 'Exception: ' . $e->getMessage() . "\n";
+                return;
+            }
+        } else {
+            echo $name . 'Controller.php already exist' . "\n";
+        }
+    }
+
+    /**
      * Create a new Model with the input the user gave.
      */
     private static function createModel ($name)
@@ -134,7 +171,6 @@ class WalrusCLI
         $filer = new WalrusFileManager(ROOT_PATH);
 
         if (!file_exists(ROOT_PATH . 'engine/models/' . $name . '.php')) {
-            // @TODO: catch isn't working ?
             try {
                 $filer->setCurrentElem('Walrus/core/sample/model.sample');
                 $model = $filer->getFileContent();
