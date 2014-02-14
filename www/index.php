@@ -29,7 +29,7 @@ require_once('../vendor/RedBean/rb.php');
 require_once('../Walrus/core/WalrusAutoload.php');
 
 /**
- * Launch WalrusAUtoload, ready to go.
+ * Launch WalrusAutoload, ready to go.
  */
 new WalrusAutoload();
 
