@@ -101,14 +101,14 @@ class WalrusCLI
             echo $name . 'Controller.php already exist' . "\n";
         }
 
-        if (!file_exists(ROOT_PATH . 'www/templates/' . $name)) {
+        if (!file_exists(ROOT_PATH . 'templates/' . $name)) {
 
             try {
 
-                $filer->setCurrentElem('www/templates');
+                $filer->setCurrentElem('templates');
                 $filer->folderCreate(strtolower($name));
 
-                echo 'New templates directory created in www/templates with the name ' . $name . "\n";
+                echo 'New templates directory created in templates with the name ' . $name . "\n";
             } catch (Exception $e) {
                 echo 'Exception: ' . $e->getMessage() . "\n";
                 return;
