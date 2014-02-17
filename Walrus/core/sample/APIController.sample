@@ -1,6 +1,6 @@
 <?php
 
-namespace engine\controllers;
+namespace api\controllers;
 
 use Walrus\core\WalrusAPI;
 
