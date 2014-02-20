@@ -139,7 +139,7 @@ var Walrus = {};
         // @TODO: find y data
         $nodes = $(document).find('[data-lazyload]');
         $nodes.each(function () {
-            console.log($(this)[0]);
+            $(this).load($(this).data('lazyload'));
         });
     };
 
