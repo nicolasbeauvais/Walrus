@@ -122,33 +122,105 @@ var Walrus = {};
                 if (!back) { history.pushState({url: url}, '', url); }
                 $currentContainer.html($dataContainer.html());
                 document.title = $data.find('title:first').text();
-            } else {
-                console.log('bad content');
+
+                $(document).trigger('pageLoaded');
+                Walrus.bootstrap();
+                event.preventDefault();
             }
-
-            $(document).trigger('pageLoaded');
-
-            Walrus.bootstrap();
-            event.preventDefault();
         });
     };
 
+    /**
+     * Search lazyload to execute
+     */
     Walrus.checkLazy = function checkLazy() {
         var $nodes;
 
-        // @TODO: find y data
         $nodes = $(document).find('[data-lazyload]');
         $nodes.each(function () {
             $(this).load($(this).data('lazyload'));
         });
     };
 
+    /**
+     * Save long polling actions
+     *
+     * @type {{}}
+     */
+    Walrus.pollingAction = {};
+
+    /**
+     * Register a long polling action callback
+     *
+     * @param dataType
+     * @param callback
+     */
+    Walrus.pollingRegister = function (dataType, callback) {
+        Walrus.pollingAction[dataType] = callback;
+    };
+
+    /**
+     * Handle automaticly the Walrus long polling
+     *
+     * @param url
+     */
+    Walrus.polling = function (url) {
+        $.ajax({
+            url: url,
+            dataType: 'json'
+        }).done(function (response) {
+            var data,
+                entity,
+                content;
+
+            if (!response.status || response.status !== 200
+                    || Object.getOwnPropertyNames(Walrus.pollingAction).length === 0) {
+                setTimeout(function () { Walrus.polling(url); }, 100);
+                return;
+            }
+
+            data = response.data;
+            for (entity in data) {
+                if (data.hasOwnProperty(entity)) {
+                    if (Walrus.pollingAction[entity]) {
+                        content = Walrus.pollingAction[entity](data[entity]);
+                        $(document).find('[data-poll="' + entity + '"').each(function () {
+                            $(this).html(content + $(this).html());
+                        });
+                    }
+                }
+            }
+
+            setTimeout(function () { Walrus.polling(url); }, 100);
+        });
+    };
+
+    /**
+     * Compile Walrus templating to html
+     *
+     * @param template
+     * @param data
+     * @returns {XML|string|void}
+     */
+    Walrus.compile = function (template, data) {
+        var start   = "{{",
+            end     = "}}",
+            path    = "[a-z0-9_$][\\.a-z0-9_]*",
+            pattern = new RegExp(start + "\\s*(" + path + ")\\s*" + end, "gi"),
+            undef;
+
+        return template.replace(pattern, function (tag, token) {
+            var path = token.split("."),
+                len = path.length,
+                lookup = data,
+                i = 0;
+
+            for (i; i < len; i += 1) {
+                lookup = lookup[path[i]];
+                if (lookup === undef) { throw "Walrus: '" + path[i] + "' not found in " + tag; }
+                if (i === len - 1) { return lookup; }
+            }
+        });
+    };
+
 }(Walrus));
-
-/** @TODO:
- * 2. lazyload
- * 3. compile
- * 4. long polling
- * 5. breadcrumb
- */
-
