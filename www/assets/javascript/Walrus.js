@@ -5,176 +5,16 @@
  * Created: 07:51 21/01/14.
  */
 
+if (!window.jQuery) {
+    throw new Error('jQuery is needed to run Walrus.js');
+}
+
 var Walrus = {};
 
 (function (Walrus) {
 
     // walrus is a ninja
     'use strict';
-
-    Walrus.catchLinks = function (event) {
-
-        var elem,
-            attributes,
-            attribute,
-            treeExplorer,
-            isLink;
-
-        elem = event.srcElement;
-        treeExplorer = 1;
-        isLink = false;
-
-        for (treeExplorer; treeExplorer > 0; treeExplorer -= 1) {
-
-            //handle body, html, document
-            if (elem === null) { break; }
-
-            //if we found a link
-            if (elem.localName === 'a') {
-
-                attributes = elem.attributes;
-
-                for (attribute in attributes) {
-                    if (attributes.hasOwnProperty(attribute)) {
-
-                        attribute = attributes[attribute];
-                        if (attribute.localName === 'href') {
-                            isLink = true;
-                            if (Walrus.isntExternal(attribute.value)) {
-                                Walrus.ajaxNavigation(event, attribute.value);
-                                break;
-                            } else { return; }
-
-                        }
-                        return;
-                    }
-                }
-
-            } else {
-                elem = elem.parentNode;
-                treeExplorer += 1;
-            }
-        }
-
-        if (isLink) { event.preventDefault(); }
-    };
-
-    Walrus.isntExternal = function (url) {
-        var local = location.href.replace(/^((https?:)?\/\/)?(www\.)?(\.)?/gi, '').split('/')[0];
-        url = url.replace(/^((https?:)?\/\/)?(www\.)?(\.)?/gi, '').split('/')[0];
-        return local === (url === '' ? local : url);
-    };
-
-    Walrus.ajaxNavigation = function (event, url) {
-        var request = new XMLHttpRequest();
-        request.open('GET', url, true);
-        request.send();
-
-        request.onload = function () {
-            var resp,
-                node,
-                container,
-                allChilds,
-                i;
-
-            document.getElementById('container').innerHTML = '';
-
-            resp = this.response;
-            node = document.createElement('div');
-            node.innerHTML = resp;
-
-            document.title = node.getElementsByTagName('title')[0].innerText;
-            window.history.pushState({"html": resp.innerHTML, "pageTitle": document.title}, '', url);
-
-            allChilds = node.childNodes;
-            i = allChilds.length - 1;
-
-            for (i; i > 0; i -= 1) {
-                if (allChilds[i].id && allChilds[i].id === "container") { container = allChilds[i]; }
-            }
-
-            document.getElementById('container').innerHTML = container.innerHTML;
-            Walrus.eventTrigger(document, 'pageLoaded');
-
-            Walrus.bootstrap();
-            event.preventDefault();
-        };
-    };
-
-    Walrus.checkLazy = function () {
-        var nodes,
-            nodesLength,
-            request;
-
-        nodes = Walrus.getByData('lazyload');
-        nodesLength = nodes.length;
-
-        if (nodesLength < 1) { return; }
-        for (nodesLength; nodesLength > 0; nodesLength -= 1) {
-            request = new XMLHttpRequest();
-            request.open('GET', nodes[nodesLength - 1].data, true);
-            request.send();
-
-            request.onload = Walrus.appendLazy(nodes[nodesLength - 1].elem);
-        }
-    };
-
-    Walrus.appendLazy = function (node) {
-
-        var callback = function () {
-            var data = this.response;
-            node.innerHTML = data;
-            node.removeAttribute('data-lazyload');
-        };
-
-        return callback;
-    };
-
-    Walrus.getByData = function (data, value) {
-        var matches,
-            allDom,
-            i,
-            node,
-            nodeData;
-
-        matches = [];
-        allDom = document.getElementsByTagName("*");
-        i = allDom.length - 1;
-
-        for (i; i > 0; i -= 1) {
-            node = allDom[i];
-            if (node.getAttribute('data-' + data)) {
-                nodeData = {};
-                nodeData.elem = node;
-                nodeData.data = node.getAttribute('data-' + data);
-
-                if (!value || nodeData.data === value) {
-                    matches.push(nodeData);
-                }
-            }
-        }
-        return matches;
-    };
-
-    Walrus.eventTrigger = function (element, eventName) {
-        var event;
-
-        if (document.createEvent) {
-            event = document.createEvent("HTMLEvents");
-            event.initEvent(eventName, true, true);
-        } else {
-            event = document.createEventObject();
-            event.eventType = eventName;
-        }
-
-        event.eventName = eventName;
-
-        if (document.createEvent) {
-            element.dispatchEvent(event);
-        } else {
-            element.fireEvent("on" + event.eventType, event);
-        }
-    };
 
     Walrus.config = {};
 
@@ -190,83 +30,125 @@ var Walrus = {};
      */
     Walrus.init = function (config) {
 
+        // default config
+        if (!config.ajaxNavigation) {config.ajaxNavigation = false; }
+        if (!config.pageContainer) {config.pageContainer = 'container'; }
+        if (!config.lazyLoad) {config.lazyLoad = false; }
         Walrus.config = config;
 
-        if (Walrus.config.ajaxNavigation) { document.onclick = Walrus.catchLinks; }
+        if (Walrus.config.ajaxNavigation) { Walrus.ajaxNavigationInit(); }
 
-        window.onload = Walrus.bootstrap;
+        Walrus.bootstrap();
     };
 
     Walrus.bootstrap = function () {
         if (Walrus.config.lazyLoad) { Walrus.checkLazy(); }
     };
 
-    Walrus.pollingAction = {};
+    Walrus.ajaxNavigationInit = function () {
 
-    Walrus.pollingRegister = function (dataType, callback) {
-        Walrus.pollingAction[dataType] = callback;
-    };
-
-    Walrus.polling = function (url) {
-        var request = new XMLHttpRequest();
-        request.open('GET', url, true);
-        request.send();
-
-        request.onload = function () {
-            var resp,
-                entity,
-                data,
-                tpl,
-                nodes,
-                nodesLength;
-
-            resp = JSON.parse(this.response);
-
-            if (resp.status !== 200 || !resp.data || Object.getOwnPropertyNames(Walrus.pollingAction).length === 0) {
-                setTimeout(function () { Walrus.polling(url); }, 100);
-                return;
-            }
-
-            data = resp.data;
-
-            for (entity in data) {
-                if (data.hasOwnProperty(entity)) {
-                    if (Walrus.pollingAction[entity]) {
-                        tpl = Walrus.pollingAction[entity](data[entity]);
-                        nodes = Walrus.getByData('poll', entity);
-                        nodesLength = nodes.length;
-
-                        if (nodesLength < 1) { return; }
-                        for (nodesLength; nodesLength > 0; nodesLength -= 1) {
-                            nodes[nodesLength - 1].elem.innerHTML = tpl + nodes[nodesLength - 1].elem.innerHTML;
-                        }
-                    }
-                }
-            }
-
-            setTimeout(function () { Walrus.polling(url); }, 100);
-        };
-    };
-
-    Walrus.compile = function (template, data) {
-        var start   = "{{",
-            end     = "}}",
-            path    = "[a-z0-9_$][\\.a-z0-9_]*",
-            pattern = new RegExp(start + "\\s*(" + path + ")\\s*" + end, "gi"),
-            undef;
-
-        return template.replace(pattern, function (tag, token) {
-            var path = token.split("."),
-                len = path.length,
-                lookup = data,
-                i = 0;
-
-            for (i; i < len; i += 1) {
-                lookup = lookup[path[i]];
-                if (lookup === undef) { throw "Walrus: '" + path[i] + "' not found in " + tag; }
-                if (i === len - 1) { return lookup; }
+        $(document).click(Walrus.catchLinks);
+        $(window).on("popstate", function (event) {
+            if (event.originalEvent.state !== null) {
+                Walrus.ajaxNavigation(event, location.href, true);
             }
         });
     };
 
+    /**
+     * Catch all clicked link.
+     */
+    Walrus.catchLinks = function (event) {
+
+        var elem, $link, href;
+
+        elem = event.target;
+
+        if (elem.tagName !== 'A') {
+            $link = $(elem).parents('a:first');
+        } else {
+            $link = $(elem);
+        }
+
+        if ($link[0] === undefined) { return; }
+
+        href = $link.attr('href');
+
+        if (Walrus.isntExternal(href)) {
+
+            Walrus.ajaxNavigation(event, href);
+            event.stopPropagation();
+            event.preventDefault();
+        } else { return; }
+    };
+
+    /**
+     * Check if an url belongs to the current website.
+     *
+     * @param url
+     * @returns {boolean}
+     */
+    Walrus.isntExternal = function (url) {
+        var local = location.href.replace(/^((https?:)?\/\/)?(www\.)?(\.)?/gi, '').split('/')[0];
+        url = url.replace(/^((https?:)?\/\/)?(www\.)?(\.)?/gi, '').split('/')[0];
+        return local === (url === '' ? local : url);
+    };
+
+    /**
+     * Handle the AJAX navigation.
+     *
+     * @param event
+     * @param url
+     */
+    Walrus.ajaxNavigation = function (event, url, back) {
+
+        $.ajax({
+            url: url,
+            dataType: 'html',
+            async: false
+        }).done(function (data) {
+            var id,
+                $data,
+                $dataContainer,
+                $currentContainer;
+
+            id = Walrus.config.pageContainer;
+            $data = $('<div></div>').html(data);
+
+            $dataContainer = $data.find('#' + id);
+            $currentContainer = $('#' + id);
+
+            if ($dataContainer.length === 1 && $currentContainer.length === 1) {
+                if (!back) { history.pushState({url: url}, '', url); }
+                $currentContainer.html($dataContainer.html());
+                document.title = $data.find('title:first').text();
+            } else {
+                console.log('bad content');
+            }
+
+            $(document).trigger('pageLoaded');
+
+            Walrus.bootstrap();
+            event.preventDefault();
+        });
+    };
+
+    Walrus.checkLazy = function checkLazy() {
+        var $nodes;
+
+        // @TODO: find y data
+        $nodes = $(document).find('[data-lazyload]');
+        $nodes.each(function () {
+            console.log($(this)[0]);
+        });
+    };
+
 }(Walrus));
+
+/** @TODO:
+ * 2. lazyload
+ * 3. compile
+ * 4. long polling
+ * 5. breadcrumb
+ */
+
