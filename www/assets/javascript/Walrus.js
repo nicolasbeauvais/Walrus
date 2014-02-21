@@ -108,6 +108,7 @@ var Walrus = {};
             async: false
         }).done(function (data) {
             var id,
+                bread,
                 $data,
                 $dataContainer,
                 $currentContainer;
@@ -116,18 +117,47 @@ var Walrus = {};
             $data = $('<div></div>').html(data);
 
             $dataContainer = $data.find('#' + id);
+            bread = $data.find('#breadcrumb').data();
+            $data.find('#breadcrumb').remove();
+
             $currentContainer = $('#' + id);
 
             if ($dataContainer.length === 1 && $currentContainer.length === 1) {
+                // browser history
                 if (!back) { history.pushState({url: url}, '', url); }
+
+                // update page content
                 $currentContainer.html($dataContainer.html());
                 document.title = $data.find('title:first').text();
 
-                $(document).trigger('pageLoaded');
+                // breadcrumb
+                if (bread) {
+                    if (Walrus.ajaxNavigationCallback) {Walrus.ajaxNavigationCallback(bread); }
+                }
+
                 Walrus.bootstrap();
                 event.preventDefault();
+            } else {
+                window.location = url;
             }
         });
+    };
+
+    /**
+     * Save the breadCrumb callback.
+     * It's easier to use it that way
+     *
+     * @type {boolean}
+     */
+    Walrus.ajaxNavigationCallback = false;
+
+    /**
+     * Setup a callback for the breadCrumb post ajax feature.
+     *
+     * @param callback
+     */
+    Walrus.breadCrumb = function (callback) {
+        Walrus.ajaxNavigationCallback = callback;
     };
 
     /**
