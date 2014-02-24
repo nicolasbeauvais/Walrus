@@ -310,9 +310,21 @@ class WalrusRouter
         }
 
         if ($route->getAcl() && (!isset($_SESSION['acl']) || $route->getAcl() != $_SESSION['acl'])) {
-            header("Status: 403 Forbidden");
-            header('HTTP/1.0 403 Forbidden');
-            die();
+
+            $route = null;
+
+            foreach ($this->routes as $defaultRoute) {
+                if ($defaultRoute->getName()  == '_403' && !$defaultRoute->getAcl()
+                    || (isset($_SESSION['acl']) && $defaultRoute->getAcl() === $_SESSION['acl'])) {
+                    $route = $defaultRoute;
+                }
+            }
+
+            if (!$route) {
+                header("Status: 403 Forbidden");
+                header('HTTP/1.0 403 Forbidden');
+                die();
+            }
         }
 
         $cb = explode(':', $route->getTarget());
