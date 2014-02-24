@@ -114,7 +114,7 @@ var Walrus = {};
                 $currentContainer;
 
             id = Walrus.config.pageContainer;
-            $data = $('<div></div>').html(data);
+            $data = $('<div></div>').html(data) || null;
 
             $dataContainer = $data.find('#' + id);
             bread = $data.find('#breadcrumb').data();
@@ -131,9 +131,7 @@ var Walrus = {};
                 document.title = $data.find('title:first').text();
 
                 // breadcrumb
-                if (bread) {
-                    if (Walrus.ajaxNavigationCallback) {Walrus.ajaxNavigationCallback(bread); }
-                }
+                if (Walrus.ajaxNavigationCallback) {Walrus.ajaxNavigationCallback(bread); }
 
                 Walrus.bootstrap();
                 event.preventDefault();
@@ -204,7 +202,7 @@ var Walrus = {};
                 content;
 
             if (!response.status || response.status !== 200
-                    || Object.getOwnPropertyNames(Walrus.pollingAction).length === 0) {
+                || Object.getOwnPropertyNames(Walrus.pollingAction).length === 0) {
                 setTimeout(function () { Walrus.polling(url); }, 100);
                 return;
             }
