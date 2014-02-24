@@ -44,6 +44,9 @@ class WalrusKernel
         if ($config = WalrusKernel::bootstrapConfig()) {
             WalrusKernel::bootstrapOrm();
         }
+
+        new WalrusMonitoring();
+
         return $config;
     }
 
