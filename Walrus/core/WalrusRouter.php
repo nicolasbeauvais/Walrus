@@ -296,8 +296,17 @@ class WalrusRouter
     {
         $route = $this->matchCurrentRequest();
         if (!$route) {
-            $url = isset($_GET['url']) ? $_GET['url'] : '/';
-            throw new Exception('[WalrusRouting] undefined route: ' . $url);
+            // try to find a default route
+            foreach ($this->routes as $defaultRoute) {
+                if ($defaultRoute->getName()  == '_404') {
+                    $route = $defaultRoute;
+                }
+            }
+
+            if (!$route) {
+                $url = isset($_GET['url']) ? $_GET['url'] : '/';
+                throw new Exception('[WalrusRouting] undefined route: ' . $url);
+            }
         }
 
         if ($route->getAcl() && (!isset($_SESSION['acl']) || $route->getAcl() != $_SESSION['acl'])) {
