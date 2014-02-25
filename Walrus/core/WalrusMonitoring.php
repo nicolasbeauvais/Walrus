@@ -14,6 +14,10 @@ namespace Walrus\core;
  */
 class WalrusMonitoring
 {
+    // @TODO: need a static method
+
+    // store all Exception and errors occured
+    private $e2s = array();
 
     /**
      * Contsructor for Monitoring
@@ -22,6 +26,7 @@ class WalrusMonitoring
     {
         set_exception_handler(array(&$this, 'exceptionHandler'));
         set_error_handler(array(&$this, 'errorHandler'));
+        register_shutdown_function(array(&$this, 'e2Execute'));
     }
 
     /**
@@ -35,13 +40,14 @@ class WalrusMonitoring
     public function errorHandler($errno, $errstr, $errfile, $errline)
     {
         $report = array(
+            'type' => 'error',
             'title' => 'Error ' . $errno . ':',
             'content' => $errstr,
             'file' => $errfile,
             'line' => $errline
         );
 
-        $this->e2Execute('error', $report);
+        $this->addE2s($report);
     }
 
     /**
@@ -52,6 +58,7 @@ class WalrusMonitoring
     public function exceptionHandler(Exception $exception)
     {
         $report = array(
+            'type' => 'exception',
             'title' => 'Exception:',
             'content' => $exception->getMessage(),
             'file' => $exception->getFile(),
@@ -59,43 +66,61 @@ class WalrusMonitoring
             'trace' => $exception->getTrace()
         );
 
-        $this->e2Execute('exception', $report);
+        $this->addE2s($report);
     }
 
     /**
-     * Process for error & exception
+     * Log Error and Exception into the log file
      */
-    private function e2Execute($type, $report)
+    private function e2Process()
     {
-        if ($_ENV['W']['environment'] == 'dev') {
-            echo '<table>
-                    <tr>
-                      <td>' . $report['title'] . '</td>
-                      <td>' . $report['content'] . '</td>
-                    </tr>
-                    <tr>
-                      <td>' . $report['line'] . '</td>
-                      <td>' . $report['file'] . '</td>
-                    </tr>';
-            if (isset($report['trace'])) {
-                foreach ($report['trace'] as $trace) {
-                    echo '<table>
-                            <tr>
-                              <td>' . $trace['title'] . '</td>
-                              <td>' . $trace['content'] . '</td>
-                            </tr>
-                            <tr>
-                              <td>' . $trace['line'] . '</td>
-                              <td>' . $trace['file'] . '</td>
-                            </tr>
-                            <tr>
-                              <td>' . $trace['class'] . '</td>
-                              <td>' . $trace['function'] . '</td>
-                            </tr>
-                          </table>';
-                }
-            }
-            echo '</table>';
+        $filer = new WalrusFileManager(ROOT_PATH);
+        if (!file_exists(ROOT_PATH . 'logs')) {
+            $filer->folderCreate('logs');
+        }
+        if (!file_exists(ROOT_PATH . 'logs/error-exception-log.txt')) {
+            $filer->setCurrentElem('logs');
+            $filer->fileCreate('error-exception-log.txt');
+        }
+        $filer->setCurrentElem('logs/error-exception-log.txt');
+
+        foreach ($this->e2s as $e2) {
+            $rowDate = date('H:m:s d-M-Y');
+            $rowType = ' [' . strtoupper($e2['type']) . ']';
+            $rowFile = ' ' . substr($e2['file'], strlen(ROOT_PATH)) . ':' . $e2['line'];
+            $rowMsg = ' | ' . $e2['content'];
+
+            $row =  $rowDate . $rowType . $rowFile . $rowMsg . "\r\n";
+
+            $filer->addFileContent($row);
         }
     }
+
+    public function e2Execute()
+    {
+        $this->e2Process();
+        if ($_ENV['W']['environment'] == 'dev') {
+            require_once(ROOT_PATH . 'Walrus/templates/monitoring/e2view.php');
+        }
+    }
+
+    /**
+     * Add a new Error or Exception to the e2s array.
+     *
+     * @param array $e2 contain a formatted Error or Exception
+     */
+    public function addE2s($e2)
+    {
+        $this->e2s[] = $e2;
+    }
+
+    /**
+     * @return array
+     */
+    public function getE2s()
+    {
+        return $this->e2s;
+    }
+
+
 }
