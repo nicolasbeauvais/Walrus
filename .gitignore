@@ -6,7 +6,7 @@ Thumbs.db
 templates_c/
 
 #Walrus
-log.txt
+logs/
 config/config.yml
 
 # Software
