@@ -26,7 +26,7 @@ class WalrusMonitoring
     {
         set_exception_handler(array(&$this, 'exceptionHandler'));
         set_error_handler(array(&$this, 'errorHandler'));
-        register_shutdown_function(array(&$this, 'e2Execute'));
+        register_shutdown_function(array(&$this, 'monitoringExecute'));
     }
 
     /**
@@ -43,7 +43,8 @@ class WalrusMonitoring
             'type' => 'error',
             'title' => 'Error ' . $errno . ':',
             'content' => $errstr,
-            'file' => $errfile,
+            'file' => substr($errfile, strlen(ROOT_PATH)),
+            'real_path' => $errfile,
             'line' => $errline
         );
 
@@ -55,15 +56,25 @@ class WalrusMonitoring
      *
      * @param Exception $exception
      */
-    public function exceptionHandler(Exception $exception)
+    public function exceptionHandler($exception)
     {
+        $traces = $exception->getTrace();
+
+        $formatted_traces = array();
+        foreach ($traces as $trace) {
+            $trace['real_path'] = $trace['file'];
+            $trace['file'] = substr($trace['file'], strlen(ROOT_PATH));
+            $formatted_traces[] = $trace;
+        }
+
         $report = array(
             'type' => 'exception',
-            'title' => 'Exception:',
+            'title' => get_class($exception),
             'content' => $exception->getMessage(),
-            'file' => $exception->getFile(),
+            'file' => substr($exception->getFile(), strlen(ROOT_PATH)),
+            'real_path' => $exception->getFile(),
             'line' => $exception->getLine(),
-            'trace' => $exception->getTrace()
+            'trace' => $formatted_traces
         );
 
         $this->addE2s($report);
@@ -87,7 +98,7 @@ class WalrusMonitoring
         foreach ($this->e2s as $e2) {
             $rowDate = date('H:m:s d-M-Y');
             $rowType = ' [' . strtoupper($e2['type']) . ']';
-            $rowFile = ' ' . substr($e2['file'], strlen(ROOT_PATH)) . ':' . $e2['line'];
+            $rowFile = ' ' . $e2['file'] . ':' . $e2['line'];
             $rowMsg = ' | ' . $e2['content'];
 
             $row =  $rowDate . $rowType . $rowFile . $rowMsg . "\r\n";
@@ -96,11 +107,15 @@ class WalrusMonitoring
         }
     }
 
-    public function e2Execute()
+    public function monitoringExecute()
     {
         $this->e2Process();
+
         if ($_ENV['W']['environment'] == 'dev') {
-            require_once(ROOT_PATH . 'Walrus/templates/monitoring/e2view.php');
+            $e2s = $this->e2s;
+            $e2nb = count($this->e2s);
+
+            require_once(ROOT_PATH . 'Walrus/templates/monitoring/toolbar.php');
         }
     }
 
@@ -121,6 +136,4 @@ class WalrusMonitoring
     {
         return $this->e2s;
     }
-
-
 }
