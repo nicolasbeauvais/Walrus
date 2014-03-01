@@ -418,20 +418,33 @@ class WalrusFileManager
      *
      * The currentElem must be a valid file to read.
      *
+     * @param int $start first line to return
+     * @param int @end last line to return
+     *
      * @return string
      * @throws Exception if the currentElem isn't a file
      */
-    public function getFileContent ()
+    public function getFileContent ($start = null, $end = null)
     {
         if (!is_file($this->currentElem)) {
             throw new Exception('"' . $this->currentElem . '" need to be a file');
         }
 
-        $stream = $this->fmFopen($this->currentElem, "rb");
-        $size = $this->fmFilesize($this->currentElem) ?: 1;
+        if (!$start && !$end) {
+            $stream = $this->fmFopen($this->currentElem, "rb");
+            $size = $this->fmFilesize($this->currentElem) ?: 1;
 
-        $content = $this->fmFread($stream, $size);
-        $this->fmFclose($stream);
+            $content = $this->fmFread($stream, $size);
+            $this->fmFclose($stream);
+        } else {
+            $content = '';
+            $file = $this->fmFile($this->currentElem);
+            foreach ($file as $key => $line) {
+                if ($key > $start && $key < $end) {
+                    $content .= $line . "\r\n";
+                }
+            }
+        }
 
         $this->addLog('File "' . $this->currentElem . '" as been readed');
         return $content;
@@ -784,6 +797,25 @@ class WalrusFileManager
         }
 
         return $fopen;
+    }
+
+    /**
+     * Handler function
+     *
+     * @param $path
+     *
+     * @return array
+     * @throws Exception
+     */
+    private function fmFile ($path)
+    {
+        $file = file($path);
+
+        if (!$file) {
+            throw new Exception('An error occurred when tried to read the file');
+        }
+
+        return $file;
     }
 
     /**
