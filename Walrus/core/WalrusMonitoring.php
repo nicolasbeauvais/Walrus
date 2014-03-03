@@ -8,6 +8,9 @@
 
 namespace Walrus\core;
 
+use ReflectionClass;
+use ReflectionMethod;
+
 /**
  * Class WalrusMonitoring
  * @package Walrus\core
@@ -64,6 +67,7 @@ class WalrusMonitoring
         foreach ($traces as $trace) {
             $trace['real_path'] = $trace['file'];
             $trace['file'] = substr($trace['file'], strlen(ROOT_PATH));
+            $trace['code'] = $this->getCode($trace['file'], $trace['line'], $trace['function']);
             $formatted_traces[] = $trace;
         }
 
@@ -72,12 +76,61 @@ class WalrusMonitoring
             'title' => get_class($exception),
             'content' => $exception->getMessage(),
             'file' => substr($exception->getFile(), strlen(ROOT_PATH)),
+            'code' => $this->getCode(substr($exception->getFile(), strlen(ROOT_PATH)), $exception->getLine()),
             'real_path' => $exception->getFile(),
             'line' => $exception->getLine(),
             'trace' => $formatted_traces
         );
 
         $this->addE2s($report);
+    }
+
+    private function getCode($file, $line, $function = null)
+    {
+        $filer = new WalrusFileManager(ROOT_PATH);
+        $filer->setCurrentElem($file);
+
+        if (isset($function) && class_exists(substr($file, 0, -4))) {
+
+            $class = substr($file, 0, -4);
+
+            $method = new ReflectionMethod($class, $function);
+            $return['comment'] = $method->getDocComment();
+            $start = $method->getStartLine() - 2;
+            $end = $method->getEndLine() + 1;
+
+            $return['highlight'] =  $line - $start - 1;
+            $return['code'] = $filer->getFileContent(null, $start, $end);
+        } elseif (class_exists(substr($file, 0, -4))) {
+            $code = $filer->getFileContent('array');
+
+            $i = $line;
+            for ($i; $i > 0; $i--) {
+                if (isset($code[$i])) {
+                    preg_match('/\sfunction\s+([a-z_]\w+)/', $code[$i], $matches);
+                    if (!empty($matches) && isset($matches[1])) {
+                        $function = $matches[1];
+                        break;
+                    }
+                }
+            }
+
+            $method = new ReflectionMethod(substr($file, 0, -4), $function);
+            $start = $method->getStartLine() - 2;
+            $end = $method->getEndLine() + 1;
+
+            $return['highlight'] =  $line - $i;
+            $return['code'] = $filer->getFileContent(null, $start, $end);
+        } else {
+            $start = $line - 5;
+            $end = $line;
+
+            $return['highlight'] =  $line - $start - 1;
+            $return['code'] = $filer->getFileContent(null, $start, $end);
+        }
+        $return['file'] = $file;
+
+        return $return;
     }
 
     /**
@@ -114,6 +167,10 @@ class WalrusMonitoring
         if ($_ENV['W']['environment'] == 'dev') {
             $e2s = $this->e2s;
             $e2nb = count($this->e2s);
+
+            if ($e2nb > 0) {
+                require_once(ROOT_PATH . 'Walrus/templates/monitoring/e2.php');
+            }
 
             require_once(ROOT_PATH . 'Walrus/templates/monitoring/toolbar.php');
         }
