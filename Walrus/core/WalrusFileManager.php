@@ -418,32 +418,43 @@ class WalrusFileManager
      *
      * The currentElem must be a valid file to read.
      *
+     * @param string $type set type to 'array' for a return as an array
      * @param int $start first line to return
      * @param int @end last line to return
      *
-     * @return string
+     * @return string|array
      * @throws Exception if the currentElem isn't a file
      */
-    public function getFileContent ($start = null, $end = null)
+    public function getFileContent ($type = null, $start = null, $end = null)
     {
         if (!is_file($this->currentElem)) {
             throw new Exception('"' . $this->currentElem . '" need to be a file');
         }
 
-        if (!$start && !$end) {
+        if (!$start && !$end && !$type) {
             $stream = $this->fmFopen($this->currentElem, "rb");
             $size = $this->fmFilesize($this->currentElem) ?: 1;
 
             $content = $this->fmFread($stream, $size);
             $this->fmFclose($stream);
         } else {
-            $content = '';
+            $content = $type == 'array' ? array() : '';
             $file = $this->fmFile($this->currentElem);
-            foreach ($file as $key => $line) {
-                if ($key > $start && $key < $end) {
-                    $content .= $line . "\r\n";
+
+            if ($start && $end) {
+                foreach ($file as $key => $line) {
+                    if ($key > $start && $key < $end) {
+                        if ($type == 'array') {
+                            $content[] = $line;
+                        } else {
+                            $content .= $line;
+                        }
+                    }
                 }
+            } else {
+                $content = $file;
             }
+
         }
 
         $this->addLog('File "' . $this->currentElem . '" as been readed');
