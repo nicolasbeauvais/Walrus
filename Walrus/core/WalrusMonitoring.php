@@ -117,6 +117,7 @@ class WalrusMonitoring
             }
 
             $method = new ReflectionMethod(substr($file, 0, -4), $function);
+            $return['comment'] = $method->getDocComment();
             $start = $method->getStartLine() - 2;
             $end = $method->getEndLine() + 1;
 
