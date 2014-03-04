@@ -490,6 +490,10 @@
 
             <!-- CODE MAIN -->
             <walrus class="WALRUS-code _active" data-traceCode="0">
+                <?php if(isset($e2['code']['comment'])): ?>
+                <pre class="brush: php; toolbar: false;">    <?php echo $e2['code']['comment']; ?>
+                </pre>
+                <?php endif; ?>
                 <pre class="brush: php; toolbar: false; highlight: <?php echo $e2['code']['highlight']; ?>"><?php
                     echo htmlspecialchars($e2['code']['code']); ?>
                 </pre>
@@ -499,6 +503,10 @@
             <!-- CODE TRACE -->
             <?php foreach ($e2['trace'] as $key => $trace): ?>
                 <walrus class="WALRUS-code" data-traceCode="<?php echo (int)$key + 1; ?>">
+                    <?php if(isset($trace['code']['comment'])): ?>
+                    <pre class="brush: php; toolbar: false;">    <?php echo $trace['code']['comment']; ?>
+                    </pre>
+                    <?php endif; ?>
                     <pre class="brush: php; toolbar: false; highlight: <?php echo $trace['code']['highlight']; ?>"><?php
                         echo htmlspecialchars($trace['code']['code']); ?>
                     </pre>
