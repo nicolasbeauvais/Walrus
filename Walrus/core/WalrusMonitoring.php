@@ -17,13 +17,14 @@ use ReflectionMethod;
  */
 class WalrusMonitoring
 {
-    // @TODO: need a static method
 
     // store all Exception and errors occured
     /**
      * @var array
      */
     private static $e2s = array();
+
+    private static $executionTime = 0;
 
     /**
      * Contsructor for Monitoring
@@ -33,6 +34,11 @@ class WalrusMonitoring
         set_exception_handler(array(&$this, 'exceptionHandler'));
         set_error_handler(array(&$this, 'errorHandler'));
         register_shutdown_function(array(&$this, 'monitoringExecute'));
+    }
+
+    public static function stop()
+    {
+        self::$executionTime = round(abs(microtime(true) - START_TIME) * 1000, 0);
     }
 
     /**
@@ -187,9 +193,11 @@ class WalrusMonitoring
     {
         $this->e2Process();
 
+        self::stop();
         if ($_ENV['W']['environment'] == 'dev') {
             $e2s = self::$e2s;
             $e2nb = count(self::$e2s);
+            $executionTime = self::$executionTime;
 
             if ($e2nb > 0) {
                 require_once(ROOT_PATH . 'Walrus/templates/monitoring/e2.php');

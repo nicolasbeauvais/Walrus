@@ -61,6 +61,13 @@
     text-align: center;
     line-height: 50px;
 }
+#WALRUS-toolbar #WALRUS-executionTime {
+    color: #fff;
+    display: inline-block;
+    line-height: 50px;
+    text-align: center;
+    padding: 0 15px;
+}
 </style>
 
 <?php
@@ -117,6 +124,10 @@ if ($e2nb > 0) {
     <?php
     }
     ?>
+
+    <div id="WALRUS-executionTime">
+        <?php echo $executionTime . 'ms'; ?>
+    </div>
 </div>
 <!-- TOOLBAR -->
 
