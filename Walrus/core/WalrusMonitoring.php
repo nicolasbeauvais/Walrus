@@ -48,7 +48,8 @@ class WalrusMonitoring
             'content' => $errstr,
             'file' => substr($errfile, strlen(ROOT_PATH)),
             'real_path' => $errfile,
-            'line' => $errline
+            'line' => $errline,
+            'code' => $this->getCode(substr($errfile, strlen(ROOT_PATH)), $errline)
         );
 
         $this->addE2s($report);
