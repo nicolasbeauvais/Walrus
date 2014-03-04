@@ -36,21 +36,29 @@
             top: 0;
             left: 0;
             bottom: 0;
-            top: 0;
-            width: 35%;
+            width: 30%;
             background-color: #2a2a2a;
             overflow-y: auto;
         }
-        #WALRUS-e2 #WALRUS-multiple-exception {
-            border-bottom:1px solid #111;
+        #WALRUS-e2 .Walrus-column-multiple {
+            display: none;
+        }
+        #WALRUS-e2 .Walrus-column-multiple._active {
+            display: block;
         }
         #WALRUS-e2 #WALRUS-multiple-exception {
-            font-weight:bold;
-            padding:10px;
-            text-align:center;
-            line-height:40px;
-            vertical-align:middle;
-            cursor:pointer;
+            border-bottom: 1px solid #111111;
+        }
+        #WALRUS-e2 #WALRUS-multiple-exception {
+            font-weight: bold;
+        }
+        #WALRUS-e2 #WALRUS-multiple-exception span {
+            background-color: #ff4441;
+            border-right: 2px solid #2A2A2A;
+            padding: 10px 14px;
+            display: inline-block;
+            float: left;
+            cursor: pointer;
         }
         #WALRUS-e2 .WALRUS-trace {
             background-color: #202020;
@@ -98,13 +106,17 @@
             margin-top: 10px;
         }
         #WALRUS-e2 .WALRUS-info {
+            display: none;
             position: absolute;
             top: 0;
-            left: 35%;
+            left: 30%;
             right: 0;
             bottom: 0;
             background-color: #333333;
             overflow-y: auto;
+        }
+        #WALRUS-e2 .WALRUS-info._active {
+            display: block;
         }
         #WALRUS-e2 .WALRUS-code {
             margin: 0 15px;
@@ -333,7 +345,7 @@
             background-color: #121212 !important;
         }
         .syntaxhighlighter .line.alt2 {
-            background-color: #121212 !important;
+            background-color: #151515 !important;
         }
         .syntaxhighlighter .line.highlighted {
             background-color: rgba(242, 35, 46, 0.5) !important;
@@ -436,50 +448,54 @@
     <walrus id="WALRUS-column">
         <!-- MULTIPLE EXCEPTION -->
         <?php if ($e2nb > 1): ?>
-        <wa
-            +lrus id="WALRUS-multiple-exception">
+        <walrus id="WALRUS-multiple-exception">
         <?php foreach ($e2s as $key => $e2): ?>
-            <span>
+            <span data-id="<?php echo $key; ?>">
                 <?php echo (int)$key + 1; ?>
             </span>
         <?php endforeach; ?>
+            <walrus style="clear:both;"></walrus>
         </walrus>
         <?php endif; ?>
         <!-- MULTIPLE EXCEPTION -->
 
-        <!-- MAIN E2 -->
-        <walrus class="WALRUS-trace _active" data-trace="0">
-            <p>
-                <?php echo $e2s[0]['title']; ?>
-                <span></span>
-            </p>
-            <p>
-                ...<?php echo $e2s[0]['file']; ?>
-                <span>:<?php echo $e2s[0]['line']; ?></span>
-            </p>
-        </walrus>
-        <!-- MAIN E2 -->
-
-        <!-- TRACES -->
-        <?php foreach($e2s[0]['trace'] as $key => $trace): ?>
-            <walrus  class="WALRUS-trace" data-trace="<?php echo (int)$key + 1; ?>">
+        <?php foreach ($e2s as $key => $e2): ?>
+        <walrus class="Walrus-column-multiple <?php if ($key == 0) echo '_active';?>" data-id="<?php echo $key; ?>">
+            <!-- MAIN E2 -->
+            <walrus class="WALRUS-trace _active" data-trace="0">
                 <p>
-                    <?php echo $trace['class']; ?>
-                    <span><?php echo $trace['function']; ?></span>
+                    <?php echo $e2['title']; ?>
+                    <span></span>
                 </p>
                 <p>
-                    ...<?php echo $trace['file']; ?><!--
-                 --><span>:<?php echo $trace['line']; ?></span>
+                    ...<?php echo $e2['file']; ?>
+                    <span>:<?php echo $e2['line']; ?></span>
                 </p>
             </walrus>
+            <!-- MAIN E2 -->
+
+            <!-- TRACES -->
+            <?php foreach($e2s[0]['trace'] as $key => $trace): ?>
+                <walrus  class="WALRUS-trace" data-trace="<?php echo (int)$key + 1; ?>">
+                    <p>
+                        <?php echo $trace['class']; ?>
+                        <span><?php echo $trace['function']; ?></span>
+                    </p>
+                    <p>
+                        ...<?php echo $trace['file']; ?><!--
+                     --><span>:<?php echo $trace['line']; ?></span>
+                    </p>
+                </walrus>
+            <?php endforeach; ?>
+            <!-- COLUMN -->
+        </walrus>
         <?php endforeach; ?>
-        <!-- COLUMN -->
     </walrus>
     <!-- TRACE -->
 
     <!-- INFOS -->
     <?php foreach($e2s as $key => $e2): ?>
-        <walrus class="WALRUS-info" data-traceInfos="<?php echo $key; ?>">
+        <walrus class="WALRUS-info <?php if ($key == 0) echo '_active'; ?>" data-traceInfos="<?php echo $key; ?>">
 
             <!-- TITLE -->
             <walrus class="WALRUS-title">
@@ -536,10 +552,20 @@
     (function(){
         SyntaxHighlighter.highlight();
 
-        $('#WALRUS-e2').find('.WALRUS-trace').click(function() {
-            console.log('click');
-            $('#WALRUS-e2').find('.WALRUS-trace, .WALRUS-code').removeClass('_active');
-            $('#WALRUS-e2').find('.WALRUS-code[data-traceCode="' + $(this).data('trace') + '"]').addClass('_active');
+        $('#WALRUS-e2').find('#WALRUS-multiple-exception span').click(function() {
+            var id = $(this).data('id');
+            $('#WALRUS-e2').find('.WALRUS-column-multiple').removeClass('_active');
+            $('#WALRUS-e2').find('.WALRUS-column-multiple[data-id="' + id + '"]').addClass('_active');
+            $('#WALRUS-e2').find('.WALRUS-info').removeClass('_active');
+            $('#WALRUS-e2').find('.WALRUS-info[data-traceinfos="' + id + '"]').addClass('_active');
+        });
+
+        $('#WALRUS-e2').find('.Walrus-column-multiple .WALRUS-trace').click(function() {
+            var id = $(this).parents('.Walrus-column-multiple:first').data('id');
+            $('#WALRUS-e2').find('.Walrus-column-multiple[data-id="' + id + '"] .WALRUS-trace, .WALRUS-code')
+                .removeClass('_active');
+            $('#WALRUS-e2').find('.WALRUS-info[data-traceinfos="' + id + '"] .WALRUS-code[data-traceCode="'
+                + $(this).data('trace') + '"]').addClass('_active');
             $(this).addClass('_active');
         });
     }());
