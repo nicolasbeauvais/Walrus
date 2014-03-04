@@ -20,7 +20,10 @@ class WalrusMonitoring
     // @TODO: need a static method
 
     // store all Exception and errors occured
-    private $e2s = array();
+    /**
+     * @var array
+     */
+    private static $e2s = array();
 
     /**
      * Contsructor for Monitoring
@@ -52,23 +55,24 @@ class WalrusMonitoring
             'code' => $this->getCode(substr($errfile, strlen(ROOT_PATH)), $errline)
         );
 
-        $this->addE2s($report);
+        self::addE2s($report);
     }
 
     /**
      * Exception Handling.
      *
-     * @param Exception $exception
+     * @param Exception|WalrusException $exception
      */
-    public function exceptionHandler($exception)
+    public static function exceptionHandler($exception)
     {
+
         $traces = $exception->getTrace();
 
         $formatted_traces = array();
         foreach ($traces as $trace) {
             $trace['real_path'] = $trace['file'];
             $trace['file'] = substr($trace['file'], strlen(ROOT_PATH));
-            $trace['code'] = $this->getCode($trace['file'], $trace['line'], $trace['function']);
+            $trace['code'] = self::getCode($trace['file'], $trace['line'], $trace['function']);
             $formatted_traces[] = $trace;
         }
 
@@ -77,16 +81,33 @@ class WalrusMonitoring
             'title' => get_class($exception),
             'content' => $exception->getMessage(),
             'file' => substr($exception->getFile(), strlen(ROOT_PATH)),
-            'code' => $this->getCode(substr($exception->getFile(), strlen(ROOT_PATH)), $exception->getLine()),
+            'code' => self::getCode(substr($exception->getFile(), strlen(ROOT_PATH)), $exception->getLine()),
             'real_path' => $exception->getFile(),
             'line' => $exception->getLine(),
             'trace' => $formatted_traces
         );
 
-        $this->addE2s($report);
+        self::addE2s($report);
     }
 
-    private function getCode($file, $line, $function = null)
+    /**
+     * @param WalrusException $exception
+     */
+    public static function exceptionCatcher(WalrusException $exception)
+    {
+        self::exceptionHandler($exception);
+    }
+
+    /**
+     * Get semantic code block for the specified function/file/line
+     *
+     * @param string $file
+     * @param int $line
+     * @param null|string $function
+     *
+     * @return array
+     */
+    private static function getCode($file, $line, $function = null)
     {
         $filer = new WalrusFileManager(ROOT_PATH);
         $filer->setCurrentElem($file);
@@ -150,7 +171,7 @@ class WalrusMonitoring
         }
         $filer->setCurrentElem('logs/error-exception-log.txt');
 
-        foreach ($this->e2s as $e2) {
+        foreach (self::$e2s as $e2) {
             $rowDate = date('H:m:s d-M-Y');
             $rowType = ' [' . strtoupper($e2['type']) . ']';
             $rowFile = ' ' . $e2['file'] . ':' . $e2['line'];
@@ -167,8 +188,8 @@ class WalrusMonitoring
         $this->e2Process();
 
         if ($_ENV['W']['environment'] == 'dev') {
-            $e2s = $this->e2s;
-            $e2nb = count($this->e2s);
+            $e2s = self::$e2s;
+            $e2nb = count(self::$e2s);
 
             if ($e2nb > 0) {
                 require_once(ROOT_PATH . 'Walrus/templates/monitoring/e2.php');
@@ -183,9 +204,9 @@ class WalrusMonitoring
      *
      * @param array $e2 contain a formatted Error or Exception
      */
-    public function addE2s($e2)
+    public static function addE2s($e2)
     {
-        $this->e2s[] = $e2;
+        self::$e2s[] = $e2;
     }
 
     /**
