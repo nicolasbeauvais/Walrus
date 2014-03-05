@@ -18,8 +18,9 @@ use ReflectionMethod;
 class WalrusMonitoring
 {
 
-    // store all Exception and errors occured
     /**
+     * Store all Exception and errors occured
+     *
      * @var array
      */
     private static $e2s = array();
@@ -27,7 +28,7 @@ class WalrusMonitoring
     private static $executionTime = 0;
 
     /**
-     * Contsructor for Monitoring
+     * Constructor for Monitoring
      */
     public function __construct()
     {
@@ -36,13 +37,16 @@ class WalrusMonitoring
         register_shutdown_function(array(&$this, 'monitoringExecute'));
     }
 
+    /**
+     * Stop the Walrus execution timer
+     */
     public static function stop()
     {
         self::$executionTime = round(abs(microtime(true) - START_TIME) * 1000, 0);
     }
 
     /**
-     * WalrusException format the exception and insert it in the log file.
+     * Handle and format an Error.
      *
      * @param int $errno
      * @param string $errstr
@@ -65,7 +69,7 @@ class WalrusMonitoring
     }
 
     /**
-     * Exception Handling.
+     * * Handle and format an Exception
      *
      * @param Exception|WalrusException $exception
      */
@@ -97,6 +101,8 @@ class WalrusMonitoring
     }
 
     /**
+     * Used to add user catched exception to the Walrus Exception handler.
+     *
      * @param WalrusException $exception
      */
     public static function exceptionCatcher(WalrusException $exception)
@@ -189,6 +195,10 @@ class WalrusMonitoring
         }
     }
 
+    /**
+     * Last function launched by Walrus, display toolbar and exception panel if in dev mode
+     * handle exception and error log.
+     */
     public function monitoringExecute()
     {
         $this->e2Process();
