@@ -7,6 +7,11 @@
  */
 
 /**
+ * const WALRUS_VERSION, the current version of Walrus.
+ */
+define("WALRUS_VERSION", '1.1.0b');
+
+/**
  * const APP_PATH, the acces directory of walrus "./www/".
  */
 define("APP_PATH", dirname(__FILE__) . '/');
