@@ -2,17 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Configuration | Walrus</title>
+    <title>Walrus | Configuration</title>
 </head>
 <body>
 
-<h1>Create your project configuration</h1>
-
 <style>
-    html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn,
-    em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,
-    table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu,
-    nav, output, ruby, section, summary, time, mark, audio, video {
+    html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym,
+    address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u,
+    i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby,
+    section, summary, time, mark, audio, video {
         margin: 0;
         padding: 0;
         border: 0;
@@ -50,223 +49,138 @@
     a:link, a:visited, a:hover, a:active {
         color: #000; }
     body {
-        height: 100%;
-        width: 100%;
-        background-color: #ddd;
-        margin: 0;
+        font-family: 'helvetica', 'arial', sans-serif;
+        background-color: #333333;
     }
-    h1 {
-        font-family: Helvetica, Arial, sans-serif;
-        color: #ffffff;
-        text-align: center;
-        background-color: #212a31;
-        font-size: 22px;
-        font-style: normal;
-        font-weight: normal;
-        letter-spacing: normal;
-        line-height: 30px;
-        padding: 15px 0;
-        margin-bottom: 40px;
+    #header {
+        background-color: #222222;
+        color: #ddd;
     }
-    h2 {
-        background-color: #212a31;
-        margin: 0 -30px;
-        text-align: center;
-        font-family: Helvetica, Arial, sans-serif;
-        color: #ffffff;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: normal;
-        letter-spacing: normal;
-        line-height: 18px;
-        padding: 12px 0;
-        margin-bottom: 20px;
+    #header img {
+        padding: 10px;
+        float: left;
+    }
+    #header h1 {
+        float: left;
+        font-size: 30px;
+        line-height: 70px;
+        margin-right: 10px;
+    }
+    #header .version {
+        float: left;
+        line-height: 80px;
+    }
+    .container {
+        width: 600px;
+        margin: auto;
     }
     form {
-        width: 400px;
-        margin: auto;
-        background-color: #3e90ca;
-        padding: 0 30px;
+        padding-top: 10px;
+        color: #ddd;
+    }
+    label {
+        display: block;
+        padding: 20px 0;
+    }
+    .case {
+        background-color: #121212;
+        display: inline-block;
+        padding: 15px 20px 15px 45px;
+        margin-right: 15px;
+    }
+    .case_container .case:last-child {
+        margin-right: 0;
     }
     input {
-        width: 100%;
-    }
-    input, select {
+        display: block;
+        height: 20px;
+        width: 580px;
+        padding: 5px 10px;
         border: none;
-        padding: 5px 0;
-        text-indent: 10px;
-        line-height: 25px;
-        color: #212a31;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: normal;
-        letter-spacing: normal;
-        background-color: #ddd;
     }
-    ::-webkit-input-placeholder {
-        color: #212a31;
-    }
-    :-moz-placeholder {
-        color: #212a31;
-    }
-    ::-moz-placeholder {
-        color: #212a31;
-    }
-    :-ms-input-placeholder {
-        color: #212a31;
-    }
-    .coll, input {
-        margin-bottom: 7px;
-    }
-    .coll span {
-        float: left;
-        line-height: 38px;
-        vertical-align: middle;
-        color: #ffffff;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: normal;
-        letter-spacing: normal;
-    }
-    .coll select {
-        width: 290px;
-        float: right;
-        display: inline-block;
-        padding: 8px 0;
-    }
-
-    .last {
-        margin-top: 20px;
-    }
-    .clear {
-        clear: both;
-    }
-    .submit {
-        background-color: #212a31;
-        color: #ffffff;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: normal;
-        letter-spacing: normal;
-        margin: 30px -30px 0 -30px;
-        width: 460px;
-        cursor: pointer;
-    }
-    #infos {
-        background-color: #58e34b;
-        font-family: Helvetica, Arial, sans-serif;
-        color: #ffffff;
-        text-align: center;
-        font-size: 22px;
-        font-style: normal;
-        font-weight: normal;
-        letter-spacing: normal;
-        line-height: 30px;
-        padding: 15px 0;
-        margin-top: -40px;
-        margin-bottom: 40px;
-    }
-    .error {
-        background-color: #dd3b35;
-    }
-    #more {
-        text-align: center;
-        width: 500px;
-        font-family: Helvetica, Arial, sans-serif;
-        color: #212a31;
-        text-align: center;
-        font-size: 22px;
-        font-style: normal;
-        font-weight: normal;
-        margin: auto;
-    }
-    #more h3 {
-        font-weight: bold;
-        color: #dd3b35;
-        line-height: 35px;
-        font-size: 28px;
-    }
-    #more p {
-        margin-top: 10px;
-        text-align: left;
-        font-size: 17px;
-        font-style: italic;
-    }
-    #more span {
-        color: #000;
-        font-style: italic;
+    input[type="submit"], button {
+        margin: 20px 0;
     }
 </style>
 
-<?php
-if (isset($validation)) {
-    if ($validation) {
-?>
-        <div id="infos">
-            Walrus as been configured.
-        </div>
-        <div id="more">
-            <h3>Important!</h3><br/>
-            You must delete those files for safety reasons: <br/>
-            <p>
-                Walrus/controllers/ConfigController.php
-                Walrus/templates/config/config.php
-            </p>
-            <br/>
-            And remove the <span>_config</span> route from:
-            <p>
-                config/routes.yml
-            </p>
-        </div>
-<?php
-        die;
-    } else {
-?>
-        <div id="infos" class="error">
-            Please fill all inputs correctly
-        </div>
-<?php
-    }
-}
-?>
-    <form action="./" method="POST">
-        <input type="hidden" name="config" value="ok"/>
-        <h2>Database:</h2>
-        <div class="coll">
-            <span>RDBMS</span>
-            <select name="RDBMS">
-                <option value="mysql" selected>MySQL</option>
-                <option value="sqlite">SQLite</option>
-                <option value="postgresql">PostgreSQL</option>
-                <option value="oracle">Oracle</option>
-            </select>
-            <div class="clear"></div>
-        </div>
-        <input type="text" name="database" placeholder="Database">
-        <input type="text" name="host" placeholder="Hostname">
-        <input type="text" name="name" placeholder="user">
-        <input type="password" name="password" placeholder="password">
+<header id="header">
+    <img alt="" src="data:image/png;base64,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
+        wHy7wEAxX+9esnqEs4AAAAASUVORK5CYII=" />
+    <h1>Walrus Framework</h1>
+    <p class="version"><?php echo WALRUS_VERSION; ?></p>
+    <div style="clear:both"></div>
+</header>
 
-        <h2 class="last">Walrus:</h2>
-        <div class="coll">
-            <span>Templating</span>
-            <select name="templating">
-                <option value="haml" selected>HAML</option>
-                <option value="smarty">Smarty</option>
-                <option value="php">PHP</option>
-            </select>
-            <div class="clear"></div>
+<div class="container">
+    <form action="config">
+        <label for="database">Database:</label>
+        <div id="database">
+            <div id="rdbms" class="case_container">
+                <div class="case"><i></i> MySql</div>
+                <div class="case"><i></i> SQLite</div>
+                <div class="case"><i></i> PostgreSQL</div>
+                <div class="case"><i></i> CUBRID</div>
+            </div>
+            <label for="hostname">Hostname:</label>
+            <input type="text" id="hostname" name="hostname" value=""/>
+            <label for="databasename">Database name:</label>
+            <input type="text" id="databasename" name="databasename" value=""/>
+            <label for="user">User:</label>
+            <input type="text" id="user" name="user" value=""/>
+            <label for="password">Password:</label>
+            <input type="text" id="password" name="password" value=""/>
+
+            <button id="database-test">check</button>
         </div>
-        <div class="coll">
-            <span>Environment</span>
-            <select name="environment">
-                <option value="dev" selected>Development</option>
-                <option value="production">Production</option>
-            </select>
-            <div class="clear"></div>
+        <label for="templating">Templating language:</label>
+        <div id="templating" class="case_container">
+            <div class="case"><i></i> PHP</div>
+            <div class="case"><i></i> Smarty</div>
+            <div class="case"><i></i> HAML</div>
+        </div>
+        <label for="env">Environment mode:</label>
+        <div id="env" class="case_container">
+            <div class="case"><i></i> Development</div>
+            <div class="case"><i></i> Production</div>
         </div>
 
-        <input type="submit" class="submit" value="Send"/>
+        <input type="submit"/>
     </form>
+</div>
+
+<script>
+    <?php require_once(ROOT_PATH . 'Walrus/templates/scripts/jquery.js') ?>
+</script>
 </body>
 </html>
