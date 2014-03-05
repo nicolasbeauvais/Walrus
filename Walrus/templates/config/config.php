@@ -50,7 +50,7 @@
         color: #000; }
     body {
         font-family: 'helvetica', 'arial', sans-serif;
-        background-color: #333333;
+        background-color: #2b2e39;
     }
     #header {
         background-color: #222222;
@@ -75,7 +75,6 @@
         margin: auto;
     }
     form {
-        padding-top: 10px;
         color: #ddd;
     }
     label {
@@ -83,23 +82,75 @@
         padding: 20px 0;
     }
     .case {
-        background-color: #121212;
+        background-color: #363b41;
+        color: #606468;
         display: inline-block;
         padding: 15px 20px 15px 45px;
         margin-right: 15px;
+        -webkit-border-radius: 1px;
+        -moz-border-radius: 1px;
+        border-radius: 1px;
+        cursor: pointer;
+    }
+    .case._selected {
+        background-color: #3f9036;
+        color: #ddd;
     }
     .case_container .case:last-child {
         margin-right: 0;
     }
-    input {
-        display: block;
-        height: 20px;
+    .input {
+        overflow: hidden;
+        -webkit-border-radius: 1px;
+        -moz-border-radius: 1px;
+        border-radius: 1px;
+        background-color: #3b4148;
+        position: relative;
+        margin: 20px 0;
+    }
+    .input label {
+        position: absolute;
+        left: 0;
+        padding: 0 10px;
+        width: 120px;
+        line-height: 40px;
+        background-color: #363b41;
+        color: #606468;
+    }
+    .input input {
+        display: inline-block;
+        height: 30px;
         width: 580px;
         padding: 5px 10px;
         border: none;
+        float: right;
+        background-color: #3b4148;
+        text-indent: 140px;
     }
     input[type="submit"], button {
         margin: 20px 0;
+    }
+    #fail {
+        background-color: #ff5a5a;
+        color: #fff;
+        padding: 10px 15px;
+        margin-top: 20px;
+        -webkit-border-radius: 1px;
+        -moz-border-radius: 1px;
+        border-radius: 1px;
+    }
+    #infos {
+        background-color: #3f9036;
+        color: #fff;
+        padding: 10px 15px;
+        margin-top: 20px;
+        -webkit-border-radius: 1px;
+        -moz-border-radius: 1px;
+        border-radius: 1px;
+    }
+    #more {
+        padding: 10px;
+        background-color: #ddd;
     }
 </style>
 
@@ -143,35 +194,84 @@
 </header>
 
 <div class="container">
-    <form action="config">
+
+    <?php
+    if (isset($validation)):
+    if ($validation):
+    ?>
+        <div id="infos">
+            Walrus as been configured.
+        </div>
+        <div id="more">
+            <h3>Important!</h3><br/>
+            You must delete those files for safety reasons: <br/>
+            <p>
+                Walrus/controllers/ConfigController.php
+                Walrus/templates/config/config.php
+            </p>
+            <br/>
+            And remove the <span>_config</span> route from:
+            <p>
+                config/routes.yml
+            </p>
+        </div>
+    <?php
+        die;
+    else:
+    ?>
+        <div id="fail" class="error">
+            Please fill all inputs correctly
+        </div>
+    <?php
+    endif;
+    endif;
+    ?>
+
+    <form action="config" method="post">
+        <input type="hidden" name="config" value="true"/>
+
         <label for="database">Database:</label>
+
         <div id="database">
             <div id="rdbms" class="case_container">
-                <div class="case"><i></i> MySql</div>
-                <div class="case"><i></i> SQLite</div>
-                <div class="case"><i></i> PostgreSQL</div>
-                <div class="case"><i></i> CUBRID</div>
+                <input type="hidden" name="RDBMS" value="mysql"/>
+                <div class="case _selected"><i></i> MySql</div>
+                <div class="case"><i></i>SQLite</div>
+                <div class="case"><i></i>PostgreSQL</div>
+                <div class="case"><i></i>CUBRID</div>
             </div>
-            <label for="hostname">Hostname:</label>
-            <input type="text" id="hostname" name="hostname" value=""/>
-            <label for="databasename">Database name:</label>
-            <input type="text" id="databasename" name="databasename" value=""/>
-            <label for="user">User:</label>
-            <input type="text" id="user" name="user" value=""/>
-            <label for="password">Password:</label>
-            <input type="text" id="password" name="password" value=""/>
 
-            <button id="database-test">check</button>
+            <div class="input">
+                <label for="hostname">Hostname</label>
+                <input type="text" id="hostname" name="hostname" value=""/>
+            </div>
+            <div class="input">
+                <label for="databasename">Database name</label>
+                <input type="text" id="databasename" name="databasename" value=""/>
+            </div>
+            <div class="input">
+                <label for="user">User</label>
+                <input type="text" id="user" name="user" value=""/>
+            </div>
+            <div class="input">
+                <label for="password">Password</label>
+                <input type="text" id="password" name="password" value=""/>
+            </div>
+
+            <button id="database-test">Check database</button>
         </div>
+
         <label for="templating">Templating language:</label>
         <div id="templating" class="case_container">
-            <div class="case"><i></i> PHP</div>
+            <input type="hidden" name="templating" value="php"/>
+            <div class="case _selected"><i></i> PHP</div>
             <div class="case"><i></i> Smarty</div>
             <div class="case"><i></i> HAML</div>
         </div>
         <label for="env">Environment mode:</label>
         <div id="env" class="case_container">
-            <div class="case"><i></i> Development</div>
+            <input type="hidden" name="environment" value="dev"/>
+            <div class="case  _selected"><i></i> Development</div>
             <div class="case"><i></i> Production</div>
         </div>
 
@@ -181,6 +281,13 @@
 
 <script>
     <?php require_once(ROOT_PATH . 'Walrus/templates/scripts/jquery.js') ?>
+
+    $('.case_container .case').click(function () {
+        var $parent = $(this).parent();
+        $parent.find('.case').removeClass('_selected');
+        $parent.find('input:first').val($(this).text().toLowerCase().replace(/\s+/g, ''));
+        $(this).addClass('_selected');
+    });
 </script>
 </body>
 </html>
