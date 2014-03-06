@@ -204,7 +204,7 @@ class WalrusMonitoring
         $this->e2Process();
 
         self::stop();
-        if ($_ENV['W']['environment'] == 'dev') {
+        if ($_ENV['W']['environment'] == 'development') {
             $e2s = self::$e2s;
             $e2nb = count(self::$e2s);
             $executionTime = self::$executionTime;
