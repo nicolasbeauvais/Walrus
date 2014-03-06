@@ -15,6 +15,9 @@ name: "%name%"
 # Database connexion password
 password: "%password%"
 
+# Base url:
+base_url: "%url%"
+
 # Templating language: haml|smarty|php
 templating: "%templating%"
 

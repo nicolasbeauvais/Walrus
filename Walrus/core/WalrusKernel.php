@@ -61,7 +61,7 @@ class WalrusKernel
             $_ENV['W']['password']
         );
 
-        if ($_ENV['W']['environment'] == "prod") {
+        if ($_ENV['W']['environment'] == "production") {
             R::freeze(true);
         }
     }

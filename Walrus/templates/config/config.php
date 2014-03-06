@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Walrus | Configuration</title>
 
-
     <style>
     html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym,
     address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u,
@@ -115,8 +114,10 @@
         position: relative;
         margin: 20px 0;
     }
+    .input._url {
+        margin-top: 0;
+    }
     .input._check {
-        margin-bottom: 0;
         -webkit-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.6);
         -moz-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.6);
         box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.6);
@@ -239,6 +240,16 @@
         -o-filter: blur(3px);
         -ms-filter: blur(3px);
         filter: blur(3px);
+    }
+    .left {
+        float: left;
+        width: 290px;
+        display: inline-block;
+    }
+    .right {
+        float: right;
+        width: 275px;
+        display: inline-block;
     }
     </style>
 </head>
@@ -367,35 +378,48 @@
             </div>
         </div>
 
-        <label for="templating" class="title">Templating language:</label>
-        <div id="templating" class="case_container">
-            <input type="hidden" name="templating" value="<?php echo isset($post['templating']) ? $post['templating'] : 'php'; ?>"/>
-            <div class="case <?php if((isset($post['templating']) && $post['templating'] == 'php')
-                || !isset($post['templating'])) { echo '_selected';} ?>">
-                <i></i> PHP
-            </div>
-            <div class="case <?php if(isset($post['templating'])
-                && $post['templating'] == 'smarty') { echo '_selected';} ?>">
-                <i></i> Smarty
-            </div>
-            <div class="case <?php if(isset($post['templating'])
-                && $post['templating'] == 'haml') { echo '_selected';} ?>">
-                <i></i> HAML
+        <label for="url" class="title">Base Url:</label>
+        <div class="input _url">
+            <label for="url">Base url</label>
+            <input type="text" id="url" name="url" value="<?php echo isset($post['url']) ?
+                $post['url'] : "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']; ?>"/>
+        </div>
+
+        <div class="left">
+            <label for="templating" class="title">Templating language:</label>
+            <div id="templating" class="case_container">
+                <input type="hidden" name="templating" value="<?php echo isset($post['templating']) ? $post['templating'] : 'php'; ?>"/>
+                <div class="case <?php if((isset($post['templating']) && $post['templating'] == 'php')
+                    || !isset($post['templating'])) { echo '_selected';} ?>">
+                    <i></i> PHP
+                </div>
+                <div class="case <?php if(isset($post['templating'])
+                    && $post['templating'] == 'smarty') { echo '_selected';} ?>">
+                    <i></i> Smarty
+                </div>
+                <div class="case <?php if(isset($post['templating'])
+                    && $post['templating'] == 'haml') { echo '_selected';} ?>">
+                    <i></i> HAML
+                </div>
             </div>
         </div>
-        <label for="env" class="title">Environment mode:</label>
-        <div id="env" class="case_container">
-            <input type="hidden" name="environment"
-                   value="<?php echo isset($post['environment']) ? $post['environment'] : 'dev'; ?>"/>
-            <div class="case  <?php if((isset($post['environment']) && $post['environment'] == 'dev')
-                || !isset($post['environment'])) { echo '_selected';} ?>">
-                <i></i> Development
-            </div>
-            <div class="case <?php if(isset($post['environment'])
-                && $post['environment'] == 'haml') { echo '_selected';} ?>">
-                <i></i> Production
+        <div class="right">
+            <label for="env" class="title">Environment mode:</label>
+            <div id="env" class="case_container">
+                <input type="hidden" name="environment"
+                       value="<?php echo isset($post['environment']) ? $post['environment'] : 'dev'; ?>"/>
+                <div class="case  <?php if((isset($post['environment']) && $post['environment'] == 'dev')
+                    || !isset($post['environment'])) { echo '_selected';} ?>">
+                    <i></i> Development
+                </div>
+                <div class="case <?php if(isset($post['environment'])
+                    && $post['environment'] == 'prod') { echo '_selected';} ?>">
+                    <i></i> Production
+                </div>
             </div>
         </div>
+
+        <div style="clear:both"></div>
 
         <input type="submit" value="Send"/>
     </form>
