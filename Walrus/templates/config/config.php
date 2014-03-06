@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Walrus | Configuration</title>
-</head>
-<body>
 
-<style>
+
+    <style>
     html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym,
     address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u,
     i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td,
@@ -50,11 +49,12 @@
         color: #000; }
     body {
         font-family: 'helvetica', 'arial', sans-serif;
-        background-color: #2b2e39;
+        background-color: #252831;
     }
     #header {
         background-color: #222222;
         color: #ddd;
+        height: 70px;
     }
     #header img {
         padding: 10px;
@@ -83,7 +83,7 @@
     }
     .case {
         background-color: #363b41;
-        color: #606468;
+        color: #B1BAC3;
         display: inline-block;
         padding: 15px 20px;
         margin-right: 15px;
@@ -91,13 +91,16 @@
         -moz-border-radius: 1px;
         border-radius: 1px;
         cursor: pointer;
+        -webkit-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.6);
+        -moz-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.6);
+        box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.6);
     }
     .case:hover {
         background: #454c54;
         color: #72767b;
     }
     .case._selected {
-        background-color: #3f9036;
+        background-color: #4C9743;
         color: #ddd;
     }
     .case_container .case:last-child {
@@ -112,6 +115,12 @@
         position: relative;
         margin: 20px 0;
     }
+    .input._check {
+        margin-bottom: 0;
+        -webkit-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.6);
+        -moz-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.6);
+        box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.6);
+    }
     .input label {
         position: absolute;
         left: 0;
@@ -119,7 +128,7 @@
         width: 120px;
         line-height: 40px;
         background-color: #363b41;
-        color: #606468;
+        color: #B1BAC3;
     }
     .input input {
         display: inline-block;
@@ -137,8 +146,11 @@
         line-height: 46px;
         display: none;
     }
+    label.title {
+        font-size: 25px;
+    }
     label.success {
-        background-color: #3f9036;
+        background-color: #4C9743;
         color: #eee;
     }
     label.fail {
@@ -149,7 +161,7 @@
         background-color: #454c54;
     }
     input[type="submit"] {
-        margin: 20px 0;
+        margin-top: 40px;
         padding: 15px 20px;
     }
     input[type="button"] {
@@ -168,6 +180,9 @@
         display: block;
         text-align: center;
         width: 100%;
+        -webkit-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.6);
+        -moz-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.6);
+        box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.6);
     }
     input[type="submit"]:hover, input[type="button"]:hover {
         background-color: #454c54;
@@ -182,17 +197,41 @@
         border-radius: 1px;
     }
     #infos {
-        background-color: #3f9036;
         color: #fff;
-        padding: 10px 15px;
-        margin-top: 20px;
+        padding: 15px;
+        margin-top: 40px;
         -webkit-border-radius: 1px;
         -moz-border-radius: 1px;
         border-radius: 1px;
+        font-size: 20px;
+        text-align: center;
     }
     #more {
-        padding: 10px;
-        background-color: #ddd;
+        padding-top: 40px;
+        color: #ddd;
+    }
+    #more h3 {
+        text-align: center;
+        color: #ff5a5a;
+        font-size: 25px;
+        margin-bottom: 40px;
+    }
+    #more p {
+        font-style: italic;
+        margin: 15px;
+        line-height: 20px;
+        color: #ff5a5a;
+    }
+    #more .button {
+        text-align: center;
+    }
+    #more .button a {
+        text-align: center;
+        color: #ddd;
+        background-color: #4C9743;
+        display: inline-block;
+        margin-top: 40px;
+        padding: 15px 40px;
     }
     #database._loading {
         -webkit-filter: blur(3px);
@@ -201,8 +240,9 @@
         -ms-filter: blur(3px);
         filter: blur(3px);
     }
-</style>
-
+    </style>
+</head>
+<body>
 <header id="header">
     <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYA
         AAAIGNIUk0AAHolAACAgwAA9CUAAITRAABtXwAA6GwAADyLAAAbWIPnB3gAAAoCSURBVHja7JprcFTlGcd/e87e9+wl2SQQEmQBR0BsXTxeplYlV
@@ -255,7 +295,7 @@
             <h3>Important!</h3><br/>
             You must delete those files for safety reasons: <br/>
             <p>
-                Walrus/controllers/ConfigController.php
+                Walrus/controllers/ConfigController.php<br/>
                 Walrus/templates/config/config.php
             </p>
             <br/>
@@ -263,6 +303,9 @@
             <p>
                 config/routes.yml
             </p>
+            <div class="button">
+                <a href="./">Hello Walrus</a>
+            </div>
         </div>
     <?php
         die;
@@ -276,57 +319,82 @@
     endif;
     ?>
 
-    <form action="config" method="post">
+    <form action="./" method="post">
         <input type="hidden" name="config" value="true"/>
 
-        <label for="database">Database:</label>
+        <label for="database" class="title">Database:</label>
 
         <div id="database">
 
             <div id="rdbms" class="case_container">
-                <input type="hidden" name="RDBMS" value="mysql"/>
-                <div class="case _selected"><i></i> MySql</div>
-                <div class="case"><i></i>SQLite</div>
-                <div class="case"><i></i>PostgreSQL</div>
-                <div class="case"><i></i>CUBRID</div>
+                <input type="hidden" name="RDBMS" value="<?php echo isset($post['RDBMS']) ? $post['RDBMS'] : 'mysql'; ?>"/>
+                <div class="case <?php if((isset($post['RDBMS']) && $post['RDBMS'] == 'mysql')
+                    || !isset($post['RDBMS'])) { echo '_selected';} ?>">
+                    <i></i> MySql
+                </div>
+                <div class="case <?php if(isset($post['RDBMS']) && $post['RDBMS'] == 'sqllite') { echo '_selected';} ?>">
+                    <i></i>SQLite
+                </div>
+                <div class="case <?php if(isset($post['RDBMS']) && $post['RDBMS'] == 'postgresql') { echo '_selected';} ?>">
+                    <i></i>PostgreSQL
+                </div>
+                <div class="case <?php if(isset($post['RDBMS']) && $post['RDBMS'] == 'cubrid') { echo '_selected';} ?>">
+                    <i></i>CUBRID
+                </div>
             </div>
 
             <div class="input">
                 <label for="hostname">Hostname</label>
-                <input type="text" id="hostname" name="hostname" value=""/>
+                <input type="text" id="hostname" name="hostname" value="<?php echo $post['hostname']; ?>"/>
             </div>
             <div class="input">
                 <label for="databasename">Database name</label>
-                <input type="text" id="databasename" name="databasename" value=""/>
+                <input type="text" id="databasename" name="databasename" value="<?php echo $post['databasename']; ?>"/>
             </div>
             <div class="input">
                 <label for="user">User</label>
-                <input type="text" id="user" name="user" value=""/>
+                <input type="text" id="user" name="user" value="<?php echo $post['user']; ?>"/>
             </div>
             <div class="input">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" value=""/>
+                <input type="password" id="password" name="password" value="<?php echo $post['password']; ?>"/>
             </div>
 
             <div class="input _check">
                 <label for="database-test" class="success">Succes</label>
-                <label for="database-test" class="fail">Failed</label>
+                <label for="database-test" class="fail" <?php ?>>Failed</label>
                 <input type="button" id="database-test" value="Check database" />
             </div>
         </div>
 
-        <label for="templating">Templating language:</label>
+        <label for="templating" class="title">Templating language:</label>
         <div id="templating" class="case_container">
-            <input type="hidden" name="templating" value="php"/>
-            <div class="case _selected"><i></i> PHP</div>
-            <div class="case"><i></i> Smarty</div>
-            <div class="case"><i></i> HAML</div>
+            <input type="hidden" name="templating" value="<?php echo isset($post['templating']) ? $post['templating'] : 'php'; ?>"/>
+            <div class="case <?php if((isset($post['templating']) && $post['templating'] == 'php')
+                || !isset($post['templating'])) { echo '_selected';} ?>">
+                <i></i> PHP
+            </div>
+            <div class="case <?php if(isset($post['templating'])
+                && $post['templating'] == 'smarty') { echo '_selected';} ?>">
+                <i></i> Smarty
+            </div>
+            <div class="case <?php if(isset($post['templating'])
+                && $post['templating'] == 'haml') { echo '_selected';} ?>">
+                <i></i> HAML
+            </div>
         </div>
-        <label for="env">Environment mode:</label>
+        <label for="env" class="title">Environment mode:</label>
         <div id="env" class="case_container">
-            <input type="hidden" name="environment" value="dev"/>
-            <div class="case  _selected"><i></i> Development</div>
-            <div class="case"><i></i> Production</div>
+            <input type="hidden" name="environment"
+                   value="<?php echo isset($post['environment']) ? $post['environment'] : 'dev'; ?>"/>
+            <div class="case  <?php if((isset($post['environment']) && $post['environment'] == 'dev')
+                || !isset($post['environment'])) { echo '_selected';} ?>">
+                <i></i> Development
+            </div>
+            <div class="case <?php if(isset($post['environment'])
+                && $post['environment'] == 'haml') { echo '_selected';} ?>">
+                <i></i> Production
+            </div>
         </div>
 
         <input type="submit" value="Send"/>
@@ -355,13 +423,17 @@
             password: $('#database').find('#password').val()
         }
         $.post('./', data, 'json').done(function (data) {
-            data = JSON.parse(data);
-            if (data && data.success && data.success === true) {
+            if (data.indexOf('<') === -1) {
+                data = JSON.parse(data);
+                if (data && data.success && data.success === true) {
                 $('#database').find('.input._check label.success').show();
+                } else {
+                    $('#database').find('.input._check label.fail').show();
+                }
             } else {
                 $('#database').find('.input._check label.fail').show();
             }
-        }).fail(function () {
+            }).fail(function () {
             $('#database').find('.input._check label.fail').show();
         }).always(function () {
             $('#database').removeClass('_loading');
