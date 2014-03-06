@@ -172,6 +172,7 @@ class WalrusFrontController
     {
         if ($_ENV['W']['templating'] == 'smarty') {
             self::$smarty = new Smarty();
+            self::$smarty->setCacheDir(ROOT_PATH);
         }
 
         if (count(self::$variables) > 0) {
