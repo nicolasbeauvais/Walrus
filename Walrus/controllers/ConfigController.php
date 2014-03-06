@@ -65,6 +65,7 @@ class ConfigController extends WalrusFrontController
             return;
         }
 
+        $this->register('post', isset($_POST) ? $_POST : false);
         $this->setView('config');
     }
 }
