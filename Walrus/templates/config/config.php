@@ -85,12 +85,16 @@
         background-color: #363b41;
         color: #606468;
         display: inline-block;
-        padding: 15px 20px 15px 45px;
+        padding: 15px 20px;
         margin-right: 15px;
         -webkit-border-radius: 1px;
         -moz-border-radius: 1px;
         border-radius: 1px;
         cursor: pointer;
+    }
+    .case:hover {
+        background: #454c54;
+        color: #72767b;
     }
     .case._selected {
         background-color: #3f9036;
@@ -126,9 +130,47 @@
         float: right;
         background-color: #3b4148;
         text-indent: 140px;
+        color: #ddd;
+        font-weight: bold;
     }
-    input[type="submit"], button {
+    .input._check label {
+        line-height: 46px;
+        display: none;
+    }
+    label.success {
+        background-color: #3f9036;
+        color: #eee;
+    }
+    label.fail {
+        background-color: #ff5a5a;
+        color: #eee;
+    }
+    .input:hover input {
+        background-color: #454c54;
+    }
+    input[type="submit"] {
         margin: 20px 0;
+        padding: 15px 20px;
+    }
+    input[type="button"] {
+        padding: 5px 10px;
+        height: 46px;
+        float: right;
+        text-indent: 0;
+    }
+    input[type="submit"], input[type="button"] {
+        border: none;
+        color: #eee;
+        text-transform: uppercase;
+        font-weight: bold;
+        cursor: pointer;
+        background-color: #363b41;
+        display: block;
+        text-align: center;
+        width: 100%;
+    }
+    input[type="submit"]:hover, input[type="button"]:hover {
+        background-color: #454c54;
     }
     #fail {
         background-color: #ff5a5a;
@@ -151,6 +193,13 @@
     #more {
         padding: 10px;
         background-color: #ddd;
+    }
+    #database._loading {
+        -webkit-filter: blur(3px);
+        -moz-filter: blur(3px);
+        -o-filter: blur(3px);
+        -ms-filter: blur(3px);
+        filter: blur(3px);
     }
 </style>
 
@@ -233,6 +282,7 @@
         <label for="database">Database:</label>
 
         <div id="database">
+
             <div id="rdbms" class="case_container">
                 <input type="hidden" name="RDBMS" value="mysql"/>
                 <div class="case _selected"><i></i> MySql</div>
@@ -255,10 +305,14 @@
             </div>
             <div class="input">
                 <label for="password">Password</label>
-                <input type="text" id="password" name="password" value=""/>
+                <input type="password" id="password" name="password" value=""/>
             </div>
 
-            <button id="database-test">Check database</button>
+            <div class="input _check">
+                <label for="database-test" class="success">Succes</label>
+                <label for="database-test" class="fail">Failed</label>
+                <input type="button" id="database-test" value="Check database" />
+            </div>
         </div>
 
         <label for="templating">Templating language:</label>
@@ -275,7 +329,7 @@
             <div class="case"><i></i> Production</div>
         </div>
 
-        <input type="submit"/>
+        <input type="submit" value="Send"/>
     </form>
 </div>
 
@@ -287,6 +341,31 @@
         $parent.find('.case').removeClass('_selected');
         $parent.find('input:first').val($(this).text().toLowerCase().replace(/\s+/g, ''));
         $(this).addClass('_selected');
+    });
+
+    $('#database-test').click(function () {
+        $('#database').addClass('_loading');
+        $('#database').find('.input._check label').hide();
+        var data = {
+            check: true,
+            RDBMS: $('#rdbms').find('input:first').val(),
+            hostname: $('#database').find('#hostname').val(),
+            databasename: $('#database').find('#databasename').val(),
+            user: $('#database').find('#user').val(),
+            password: $('#database').find('#password').val()
+        }
+        $.post('./', data, 'json').done(function (data) {
+            data = JSON.parse(data);
+            if (data && data.success && data.success === true) {
+                $('#database').find('.input._check label.success').show();
+            } else {
+                $('#database').find('.input._check label.fail').show();
+            }
+        }).fail(function () {
+            $('#database').find('.input._check label.fail').show();
+        }).always(function () {
+            $('#database').removeClass('_loading');
+        });
     });
 </script>
 </body>
