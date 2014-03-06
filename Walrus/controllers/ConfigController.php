@@ -4,6 +4,8 @@ namespace Walrus\controllers;
 
 use Walrus\core\WalrusFrontController;
 use Walrus\core\WalrusFileManager;
+use Exception;
+use R;
 
 /**
  * Class ConfigController
@@ -40,6 +42,27 @@ class ConfigController extends WalrusFrontController
             } else {
                 $this->register('validation', false);
             }
+        } elseif (isset($_POST['check'])) {
+            $response = array(
+                'success' => false
+            );
+            if (!empty($_POST['RDBMS']) && !empty($_POST['hostname'])
+                && !empty($_POST['databasename']) && !empty($_POST['user'])) {
+                try {
+                    R::setup(
+                        $_POST['RDBMS'] . ':host=' . $_POST['hostname'] . ';dbname=' . $_POST['databasename'],
+                        $_POST['user'],
+                        $_POST['password']
+                    );
+                    R::debug(true);
+                    $response['success'] = R::getDatabaseAdapter()->getDatabase()->isConnected();
+                } catch (Exception $exception) {
+                    $response['success'] = false;
+                }
+            }
+
+            echo JSON_encode($response, true);
+            return;
         }
 
         $this->setView('config');
