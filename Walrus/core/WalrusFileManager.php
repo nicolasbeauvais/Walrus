@@ -55,8 +55,8 @@ class WalrusFileManager
             throw new Exception('"' . $root . '" isn\'t a valid folder path');
         }
 
-        if ($root[strlen($root) - 1] !== '/') {
-            $root .= '/';
+        if ($root[strlen($root) - 1] !== '/' && $root[strlen($root) - 1] !== '\\') {
+            $root .= DIRECTORY_SEPARATOR;
         }
 
         $this->root = $root;
@@ -76,12 +76,13 @@ class WalrusFileManager
      */
     private function makePath ($path, $type = 'root', $needToExist = true)
     {
-        if (!empty($path) && $path[0] == '/') {
+        if (!empty($path) && ($path[0] == '/' || $path[0] == '\\')) {
             $path = substr($path, 1, strlen($path));
         }
 
-        if (!empty($path) && $path[strlen($path) - 1] !== '/' && is_dir($this->root . $path)) {
-            $path .= '/';
+        if (!empty($path) && ($path[strlen($path) - 1] !== '/' || $path[strlen($path) - 1] !== '\\')
+            && is_dir($this->root . $path)) {
+            $path .= DIRECTORY_SEPARATOR;
         }
 
         if ($type === 'root') {

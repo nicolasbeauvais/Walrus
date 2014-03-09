@@ -8,7 +8,6 @@
 
 use Walrus\core\WalrusCLI as WalrusCLI;
 
-//a bouger dans la config ?
 define("ROOT_PATH", dirname(__FILE__) . '/');
 
 require_once('Walrus/core/WalrusAutoload.php');
