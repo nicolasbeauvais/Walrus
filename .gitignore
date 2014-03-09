@@ -16,6 +16,8 @@ config/config.yml
 node_modules/
 Gruntfile.js
 package.json
+Test/
+phpunit.phar
 
 # IDEs
 .buildpath
