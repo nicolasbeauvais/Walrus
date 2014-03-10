@@ -117,6 +117,16 @@ class WalrusFileManager
     }
 
     /**
+     * Return the current element path.
+     *
+     * This function should be used for debug only, as the other function never required a full path.
+     */
+    public function getCurrentElem ()
+    {
+        return $this->currentElem;
+    }
+
+    /**
      * Return an array with the info of the current file.
      * Infos are:
      * filesize -> in date format
