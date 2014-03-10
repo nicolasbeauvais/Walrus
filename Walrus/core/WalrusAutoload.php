@@ -24,7 +24,7 @@ class WalrusAutoload
         'Walrus/controllers/',
         'Walrus/models/',
         'Walrus/core/',
-        'Walrus/core/objects',
+        'Walrus/core/objects/',
         'vendor/',
     );
 
