@@ -138,6 +138,8 @@ class WalrusFileManager
      */
     public function fileDetails ()
     {
+        clearstatcache(true, $this->currentElem);
+
         $fileInfo['fileSize'] = $this->fmFilesize($this->currentElem);
         $fileInfo['name'] = $this->fmBasename($this->currentElem);
         $fileInfo['path'] = $this->currentElem;
@@ -438,6 +440,8 @@ class WalrusFileManager
      */
     public function getFileContent ($type = null, $start = null, $end = null)
     {
+        clearstatcache(true, $this->currentElem);
+
         if (!is_file($this->currentElem)) {
             throw new Exception('"' . $this->currentElem . '" need to be a file');
         }
