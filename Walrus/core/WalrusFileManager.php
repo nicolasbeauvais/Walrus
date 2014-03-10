@@ -211,8 +211,8 @@ class WalrusFileManager
     public function moveCurrent ($newPath)
     {
 
-        if (!empty($newPath) && $newPath[strlen($newPath)- 1] !== '/') {
-            $newPath .= '/';
+        if (!empty($newPath) && ($newPath[strlen($newPath)- 1] !== '/' || $newPath[strlen($newPath)- 1] !== '\\')) {
+            $newPath .= DIRECTORY_SEPARATOR;
         }
 
         $fileDetails = $this->fileDetails();
@@ -339,6 +339,7 @@ class WalrusFileManager
             }
         }
 
+        $this->setCurrentElem('');
         $this->addLog('Current folder as been emptied');
     }
 
@@ -577,7 +578,7 @@ class WalrusFileManager
             throw new Exception('"file: ' . $path . ' didn\'t exist"');
         }
 
-        $fileSize = date(filesize($path));
+        $fileSize = filesize($path);
 
         if (!is_numeric($fileSize)) {
             throw new Exception('"An error occurred when tried to get filesize for file: ' . $path . '"');
