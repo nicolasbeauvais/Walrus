@@ -12,6 +12,11 @@
 define("ROOT_PATH", substr(dirname(__FILE__), 0, -4));
 
 /**
+ * const FRONT_PATH, the templates directory, relative to ROOT_PATH.
+ */
+define("FRONT_PATH", ROOT_PATH . 'templates' . '/');
+
+/**
  * const TESTBOX_PATH, the testbox directory path.
  */
 define("TESTBOX_PATH", ROOT_PATH . 'testbox\\');
