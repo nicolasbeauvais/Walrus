@@ -21,8 +21,6 @@ $_ENV['Walrus'] = array();
  */
 require_once('../config/env.php');
 
-require_once('../vendor/RedBean/rb.php');
-
 /**
  * Require WalrusAutoload
  */
