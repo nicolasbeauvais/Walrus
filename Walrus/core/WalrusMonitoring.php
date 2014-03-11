@@ -208,6 +208,7 @@ class WalrusMonitoring
             $e2s = self::$e2s;
             $e2nb = count(self::$e2s);
             $executionTime = self::$executionTime;
+            $http_code = http_response_code();
 
             if ($e2nb > 0) {
                 require_once(ROOT_PATH . 'Walrus/templates/monitoring/e2.php');
