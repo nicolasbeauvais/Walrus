@@ -20,7 +20,7 @@
     font-family: 'helvetica', 'arial', sans-serif;
     border-top: 1px solid #111;
 }
-#WALRUS-toolbar > div:hover {
+#WALRUS-toolbar > #WALRUS-logo:hover {
     cursor: pointer;
     background-color: #2a2a2a;
 }
@@ -67,6 +67,33 @@
     line-height: 50px;
     text-align: center;
     padding: 0 15px;
+}
+#WALRUS-toolbar #WALRUS-http-code {
+    display: inline-block;
+    padding: 15px;
+    border-right: 1px solid #1a1a1a;
+    -webkit-box-shadow: 1px 0 0 #2a2a2a;
+    -moz-box-shadow: 1px 0 0 #2a2a2a;
+    -o-box-shadow: 1px 0 0 #2a2a2a;
+    -ms-box-shadow: 1px 0 0 #2a2a2a;
+    box-shadow: 1px 0 0 #2a2a2a;
+}
+#WALRUS-toolbar #WALRUS-http-code span {
+    padding: 2px 8px;
+    color: #fff;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    border-radius: 10px;
+}
+#WALRUS-toolbar #WALRUS-http-code span.green {
+    background-color: #40bd4b;
+}
+#WALRUS-toolbar #WALRUS-http-code span.orange {
+     background-color: #f49f0b;
+}
+#WALRUS-toolbar #WALRUS-http-code span.red {
+    background-color: #ff4441;
 }
 </style>
 
@@ -124,6 +151,12 @@ if ($e2nb > 0) {
     <?php
     }
     ?>
+
+    <div id="WALRUS-http-code">
+        <span class="<?php echo $http_code === 200 ? 'green' : ($http_code >= 500 ? 'red' : 'orange');?>">
+            <?php echo $http_code; ?>
+        </span>
+    </div>
 
     <div id="WALRUS-executionTime">
         <?php echo $executionTime . 'ms'; ?>
