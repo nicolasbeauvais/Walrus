@@ -30,7 +30,7 @@ class ConfigController extends WalrusFrontController
                 $config = str_replace('%database%', $_POST['databasename'], $config);
                 $config = str_replace('%name%', $_POST['user'], $config);
                 $config = str_replace('%password%', $_POST['password'], $config);
-                $config = str_replace('%url%', strtolower($_POST['url']), $config);
+                $config = str_replace('%url%', $_POST['url'], $config);
                 $config = str_replace('%templating%', strtolower($_POST['templating']), $config);
                 $config = str_replace('%environment%', strtolower($_POST['environment']), $config);
 
