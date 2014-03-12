@@ -8,6 +8,7 @@
 
 namespace Walrus\core;
 
+use Exception;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -123,18 +124,23 @@ class WalrusMonitoring
     {
         $filer = new WalrusFileManager(ROOT_PATH);
         $filer->setCurrentElem($file);
+        $fail = false;
 
         if (isset($function) && class_exists(substr($file, 0, -4))) {
 
             $class = substr($file, 0, -4);
 
-            $method = new ReflectionMethod($class, $function);
-            $return['comment'] = $method->getDocComment();
-            $start = $method->getStartLine() - 2;
-            $end = $method->getEndLine() + 1;
+            try {
+                $method = new ReflectionMethod($class, $function);
+                $return['comment'] = $method->getDocComment();
+                $start = $method->getStartLine() - 2;
+                $end = $method->getEndLine() + 1;
 
-            $return['highlight'] =  $line - $start - 1;
-            $return['code'] = $filer->getFileContent(null, $start, $end);
+                $return['highlight'] =  $line - $start - 1;
+                $return['code'] = $filer->getFileContent(null, $start, $end);
+            } catch (Exception $exception) {
+                $fail = true;
+            }
         } elseif (class_exists(substr($file, 0, -4))) {
             $code = $filer->getFileContent('array');
 
@@ -164,6 +170,14 @@ class WalrusMonitoring
             $return['code'] = $filer->getFileContent(null, $start, $end);
         }
         $return['file'] = $file;
+
+        if ($fail) {
+            $return = array(
+                'code' => 'No data available',
+                'hightlight' => false,
+                'comment' => false
+            );
+        }
 
         return $return;
     }
