@@ -100,6 +100,8 @@ class WalrusFrontController
                 self::$templating[0] = '.php';
                 self::$templating[1] = '';
         }
+
+        $this->register('_ENV', $_ENV);
     }
 
     /**
