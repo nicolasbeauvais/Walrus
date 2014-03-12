@@ -106,6 +106,8 @@ if ($e2nb > 0) {
 <!-- TOOLBAR -->
 <div id="WALRUS-toolbar">
     <div id="WALRUS-logo">
+        <a href="http://www.walrus-framework.com/doc/<?php echo WALRUS_VERSION; ?>"
+           title="Walrus v<?php echo WALRUS_VERSION; ?> documentation">
         <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYA
         AAAIGNIUk0AAHolAACAgwAA9CUAAITRAABtXwAA6GwAADyLAAAbWIPnB3gAAAoCSURBVHja7JprcFTlGcd/e87e9+wl2SQQEmQBR0BsXTxeplYlV
         GwdeyF2Rtt+UEFndHSqrR/sOGPHQqf3Tgeno71XQqdWWwqClRZHWreKCuKBpdyjSRbIfbO7Z+/Xc7YfsgmGbEJIop22vDPvl32ffff5n+d5/s/lr
@@ -139,6 +141,7 @@ if ($e2nb > 0) {
         XK2SAwNJVLBI6Ge0MGj7+FxOrhQd5q2a1UhgPWyLLdlC8VvnezubwVCNZJdrXE6kGwW1SSKoyOcdCbnz+WLnngmG4glMySzuZGB32Y1md6cLxQ3j
         rTXHymQc7L/OmCdLMutsVRmZSyV8Vcb33hr3ZwejAL8s5IfgiODjsC+4MrJLDql93LV9mwvWZbX3txy0/qZ3DGRruVyeeLZ73/buviHgYtALgL5P
         wHy7wEAxX+9esnqEs4AAAAASUVORK5CYII=" />
+        </a>
     </div>
 
     <?php
