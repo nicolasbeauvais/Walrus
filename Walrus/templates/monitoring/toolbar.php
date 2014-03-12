@@ -9,6 +9,14 @@
 ?>
 
 <style>
+html {
+    /**
+     * STYLE GIVEN FOR WALRUS TOOLBAR
+     * DEV MODE ONLY
+     */
+    padding-bottom: 50px;
+}
+
 #WALRUS-toolbar {
     position: fixed;
     z-index: 99999999;
