@@ -11,11 +11,11 @@ namespace Walrus\core;
 use Walrus\core\objects\Skeleton;
 use Walrus\core\objects\Template;
 use Walrus\core\objects\FrontController;
+use Walrus\core\WalrusException;
 use MtHaml;
 use Smarty;
 use Spyc\Spyc;
 use ReflectionClass;
-use Exception;
 
 /**
  * Class WalrusFrontController
@@ -116,7 +116,7 @@ class WalrusFrontController
      * @param string $view the template to add on templates stack
      * @param bool|string $acl
      *
-     * @throws Exception
+     * @throws WalrusException
      */
     protected function setView($view, $acl = false)
     {
@@ -154,12 +154,12 @@ class WalrusFrontController
      * @param $key
      * @param $var
      *
-     * @throws Exception
+     * @throws WalrusException
      */
     protected function register($key, $var)
     {
         if (!isset($key) || !isset($var)) {
-            throw new Exception('[WalrusFrontController] missing argument for function register');
+            throw new WalrusException('Missing argument for function register');
         }
 
         self::$variables[$key] = $var;
@@ -241,7 +241,7 @@ class WalrusFrontController
         $skeleton_yaml = "../config/skeleton.yml";
 
         if (!file_exists($skeleton_yaml)) {
-            throw new Exception('[WalrusFrontController] skeleton.yml doesn\'t exist in config/ directory');
+            throw new WalrusException('Skeleton.yml doesn\'t exist in config/ directory');
         }
 
         $skeletons = Spyc::YAMLLoad($skeleton_yaml);
@@ -280,7 +280,7 @@ class WalrusFrontController
         $haml = new MtHaml\Environment('php');
 
         if (!file_exists($template)) {
-            throw new Exception('[WalrusFrontController] requested template does not exist: ' . $template);
+            throw new WalrusException('Requested template does not exist: ' . $template);
         }
 
         // @TODO: use WalrusFileManager
@@ -301,7 +301,7 @@ class WalrusFrontController
      * @param string $controller
      *
      * @return Class the specofied controller class
-     * @throws Exception if the controller doesn't exist
+     * @throws WalrusException if the controller doesn't exist
      */
     protected function controller($controller)
     {
@@ -314,7 +314,7 @@ class WalrusFrontController
         $controllerClassWithNamespace =  WalrusAutoload::getNamespace($controllerClass);
 
         if (!$controllerClassWithNamespace) {
-            throw new Exception('[WalrusFrontController] request unexistant controller: ' . $controllerClass);
+            throw new WalrusException('Request unexistant controller: ' . $controllerClass);
         }
 
         $controllerInstance = new $controllerClassWithNamespace();
@@ -328,7 +328,7 @@ class WalrusFrontController
      *
      * @param string $model
      *
-     * @throws \Exception if the model doesn't exist
+     * @throws WalrusException if the model doesn't exist
      * @return Class the specified model class
      */
     protected function model($model)
@@ -342,7 +342,7 @@ class WalrusFrontController
         $modelClassWithNamespace =  WalrusAutoload::getNamespace($modelClass);
 
         if (!$modelClassWithNamespace) {
-            throw new Exception('[WalrusFrontController] request unexistant model: ' . $modelClass);
+            throw new WalrusException('Request unexistant model: ' . $modelClass);
         }
 
         $modelInstance = new $modelClassWithNamespace();
@@ -373,7 +373,7 @@ class WalrusFrontController
      * @param string $action an action of the controller
      * @param array $param an array of the parameter to pass to the controller
      *
-     * @throws Exception
+     * @throws WalrusException
      */
     protected function reroute($controller, $action, $param = array())
     {
@@ -409,7 +409,7 @@ class WalrusFrontController
      * @param array $param an array of the parameter to pass to the controller
      *
      * @return string the content made by the getted controller
-     * @throws Exception
+     * @throws WalrusException
      */
     protected function getSoft($controller, $action, $param = array())
     {

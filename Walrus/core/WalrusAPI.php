@@ -9,7 +9,7 @@
 namespace Walrus\core;
 
 use Walrus\core\objects\SessionHandler;
-use Exception;
+use Walrus\core\WalrusException;
 
 /**
  * Class WalrusAPI
@@ -80,7 +80,7 @@ class WalrusAPI
      * @param string $controller
      *
      * @return Class the specofied controller class
-     * @throws Exception if the controller doesn't exist
+     * @throws WalrusException if the controller doesn't exist
      */
     protected function controller($controller)
     {
@@ -93,7 +93,7 @@ class WalrusAPI
         $controllerClassWithNamespace =  WalrusAutoload::getNamespace($controllerClass);
 
         if (!$controllerClassWithNamespace) {
-            throw new Exception('[WalrusFrontController] request unexistant controller: ' . $controllerClass);
+            throw new WalrusException('[WalrusFrontController] request unexistant controller: ' . $controllerClass);
         }
 
         $controllerInstance = new $controllerClassWithNamespace();
@@ -107,7 +107,7 @@ class WalrusAPI
      *
      * @param string $model
      *
-     * @throws Exception if the model doesn't exist
+     * @throws WalrusException if the model doesn't exist
      * @return Class the specified model class
      */
     protected function model($model)
@@ -121,7 +121,7 @@ class WalrusAPI
         $modelClassWithNamespace =  WalrusAutoload::getNamespace($modelClass);
 
         if (!$modelClassWithNamespace) {
-            throw new Exception('[WalrusFrontController] request unexistant model: ' . $modelClass);
+            throw new WalrusException('[WalrusFrontController] request unexistant model: ' . $modelClass);
         }
 
         $modelInstance = new $modelClassWithNamespace();

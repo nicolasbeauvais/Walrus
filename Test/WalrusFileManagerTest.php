@@ -10,7 +10,7 @@ namespace Test;
 
 use PHPUnit_Framework_TestCase;
 use Walrus\core\WalrusFileManager;
-use Exception;
+use Walrus\core\WalrusException;
 
 /**
  * Class WalrusFileManagerTest
@@ -26,7 +26,7 @@ class WalrusFileManagerTest extends PHPUnit_Framework_TestCase
     {
         try {
             $filer = new WalrusFileManager(ROOT_PATH . 'Test\testbox');
-        } catch (Exception $exception) {
+        } catch (WalrusException $exception) {
             $this->fail($exception->getMessage());
         }
 
@@ -44,7 +44,7 @@ class WalrusFileManagerTest extends PHPUnit_Framework_TestCase
 
             $this->assertEquals(1, count($elements));
             $this->assertEquals('test.txt', $elements[0]);
-        } catch (Exception $exception) {
+        } catch (WalrusException $exception) {
             $this->fail($exception->getMessage());
         }
 
@@ -61,7 +61,7 @@ class WalrusFileManagerTest extends PHPUnit_Framework_TestCase
             $elements = $filer->getElements();
             $this->assertEquals(2, count($elements));
             $this->assertEquals('test', $elements[0]);
-        } catch (Exception $exception) {
+        } catch (WalrusException $exception) {
             $this->fail($exception->getMessage());
         }
 
@@ -86,7 +86,7 @@ class WalrusFileManagerTest extends PHPUnit_Framework_TestCase
             $this->assertEquals(2, count($elements));
             $this->assertEquals('test2', $elements[0]);
             $this->assertEquals('test2.txt', $elements[1]);
-        } catch (Exception $exception) {
+        } catch (WalrusException $exception) {
             $this->fail($exception->getMessage());
         }
 
@@ -109,7 +109,7 @@ class WalrusFileManagerTest extends PHPUnit_Framework_TestCase
             $this->assertEquals(1, count($elements));
             $this->assertEquals('test2', $keys[0]);
             $this->assertEquals('test2.txt', $elements[$keys[0]][0]);
-        } catch (Exception $exception) {
+        } catch (WalrusException $exception) {
             $this->fail($exception->getMessage());
         }
 
@@ -130,7 +130,7 @@ class WalrusFileManagerTest extends PHPUnit_Framework_TestCase
             $this->assertEquals(true, !empty($details['path']));
             $this->assertEquals(true, !empty($details['lastEdit']));
 
-        } catch (Exception $exception) {
+        } catch (WalrusException $exception) {
             $this->fail($exception->getMessage());
         }
 
@@ -160,7 +160,7 @@ class WalrusFileManagerTest extends PHPUnit_Framework_TestCase
             $this->assertEquals('test', $keys[0]);
             $this->assertEquals('test2', $keys[1]);
             $this->assertEquals('test', $keys_2[0]);
-        } catch (Exception $exception) {
+        } catch (WalrusException $exception) {
             $this->fail($exception->getMessage());
         }
 
@@ -177,7 +177,7 @@ class WalrusFileManagerTest extends PHPUnit_Framework_TestCase
             $content = $filer->changeFileContent('Hello World!');
 
             $this->assertEquals('Hello World!', $content);
-        } catch (Exception $exception) {
+        } catch (WalrusException $exception) {
             $this->fail($exception->getMessage());
         }
 
@@ -194,7 +194,7 @@ class WalrusFileManagerTest extends PHPUnit_Framework_TestCase
             $content = $filer->addFileContent("\r\n" . 'second line!');
 
             $this->assertEquals('Hello World!' . "\r\n" . 'second line!', $content);
-        } catch (Exception $exception) {
+        } catch (WalrusException $exception) {
             $this->fail($exception->getMessage());
         }
 
@@ -223,7 +223,7 @@ class WalrusFileManagerTest extends PHPUnit_Framework_TestCase
             $content = $filer->getFileContent('array', 5, 7);
 
             $this->assertEquals('New line 6!', trim($content[0]));
-        } catch (Exception $exception) {
+        } catch (WalrusException $exception) {
             $this->fail($exception->getMessage());
         }
 
@@ -246,7 +246,7 @@ class WalrusFileManagerTest extends PHPUnit_Framework_TestCase
 
             $this->assertEquals(1, count($elements));
             $this->assertEquals('test', $elements[0]);
-        } catch (Exception $exception) {
+        } catch (WalrusException $exception) {
             $this->fail($exception->getMessage());
         }
 
@@ -267,7 +267,7 @@ class WalrusFileManagerTest extends PHPUnit_Framework_TestCase
 
             $elements = $filer->getElements();
             $this->assertEquals(0, count($elements));
-        } catch (Exception $exception) {
+        } catch (WalrusException $exception) {
             $this->fail($exception->getMessage());
         }
 
