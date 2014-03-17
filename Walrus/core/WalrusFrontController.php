@@ -195,7 +195,7 @@ class WalrusFrontController
                 }
                 switch ($_ENV['W']['templating']) {
                     case 'haml':
-                        self::compileToYaml(substr(self::$foreach_value->getTemplate(), 0, -4));
+                        self::compileToHAML(substr(self::$foreach_value->getTemplate(), 0, -4));
                         require(self::$foreach_value->getTemplate());
                         break;
                     case 'smarty':
@@ -273,9 +273,9 @@ class WalrusFrontController
     }
 
     /**
-     * Compile yaml file.
+     * Compile HAML file.
      */
-    private static function compileToYaml ($template)
+    private static function compileToHAML ($template)
     {
         $haml = new MtHaml\Environment('php');
 
@@ -283,7 +283,6 @@ class WalrusFrontController
             throw new WalrusException('Requested template does not exist: ' . $template);
         }
 
-        // @TODO: use WalrusFileManager
         $hamlCode = file_get_contents($template);
 
         if (!file_exists($template . '.php') || filemtime($template . '.php') != filemtime($template)) {
