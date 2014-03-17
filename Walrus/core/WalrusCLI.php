@@ -8,7 +8,7 @@
 
 namespace Walrus\core;
 
-use Exception;
+use Walrus\core\WalrusException;
 
 /**
  * Class WalrusCLI
@@ -93,7 +93,7 @@ class WalrusCLI
                 $filer->setCurrentElem('engine/controllers/' . $name . 'Controller.php');
                 $filer->changeFileContent($controller);
                 echo 'New controller created in engine/controllers with the name ' . $name . 'Controller.php' . "\n";
-            } catch (Exception $e) {
+            } catch (WalrusException $e) {
                 echo 'Exception: ' . $e->getMessage() . "\n";
                 return;
             }
@@ -109,7 +109,7 @@ class WalrusCLI
                 $filer->folderCreate(strtolower($name));
 
                 echo 'New templates directory created in templates with the name ' . $name . "\n";
-            } catch (Exception $e) {
+            } catch (WalrusException $e) {
                 echo 'Exception: ' . $e->getMessage() . "\n";
                 return;
             }
@@ -146,7 +146,7 @@ class WalrusCLI
                 $filer->setCurrentElem('engine/api/' . $name . 'Controller.php');
                 $filer->changeFileContent($controller);
                 echo 'New controller created in api/controllers with the name ' . $name . 'Controller.php' . "\n";
-            } catch (Exception $e) {
+            } catch (WalrusException $e) {
                 echo 'Exception: ' . $e->getMessage() . "\n";
                 return;
             }
@@ -181,7 +181,7 @@ class WalrusCLI
                 $filer->setCurrentElem('engine/models/' . $name . '.php');
                 $filer->changeFileContent($model);
                 echo 'New model created in engine/models with the name ' . $name . '.php' . "\n";
-            } catch (Exception $e) {
+            } catch (WalrusException $e) {
                 echo 'Exception: ' . $e->getMessage() . "\n";
                 return;
             }

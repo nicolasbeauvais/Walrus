@@ -9,9 +9,9 @@
 namespace Walrus\core;
 
 use Walrus\core\route;
+use Walrus\core\WalrusException;
 use Spyc\Spyc;
 use R;
-use Exception;
 
 /**
  * Class WalrusKernel
@@ -25,12 +25,13 @@ class WalrusKernel
      */
     public static function execute()
     {
+
         if (self::bootstrap()) {
             try {
                 $WalrusRouter = WalrusRouter::getInstance();
                 $WalrusRouter->execute();
-            } catch (Exception $e) {
-                // @TODO: add Exception
+            } catch (WalrusException $exception) {
+                $exception->handle();
             }
         }
         WalrusFrontController::execute();
