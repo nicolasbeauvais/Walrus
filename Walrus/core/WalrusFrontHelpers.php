@@ -103,9 +103,16 @@ class WalrusFrontHelpers
      * Add a helper to the WalrusFrontHelper class;
      *
      * @param $class the class name of the helper
+     *
+     * @throws WalrusException if a helper with this $class name already exist
      */
-    private static function addHelper($class)
+    private static function registerHelper($class)
     {
+        if (!in_array($class, self::$helpers)) {
+            self::$helpers[] = $class;
+        } else {
+            throw new WalrusException('A Walrus helper with the name ' . $class . ' already exist');
+        }
 
     }
 }
