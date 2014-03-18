@@ -84,6 +84,8 @@ class WalrusFrontController
 
     /**
      * Init templating variables.
+     *
+     * Register all needed variables like _ENV and Helpers
      */
     public function __construct()
     {
@@ -101,7 +103,9 @@ class WalrusFrontController
                 self::$templating[1] = '';
         }
 
+        // Globals
         $this->register('_ENV', $_ENV);
+        $this->register('helpers', WalrusFrontHelpers::execute());
     }
 
     /**
