@@ -80,7 +80,13 @@ class WalrusMonitoring
         $traces = $exception->getTrace();
 
         $formatted_traces = array();
+
         foreach ($traces as $trace) {
+
+            if (!isset($trace['file'])) {
+                continue;
+            }
+
             $trace['real_path'] = $trace['file'];
             $trace['file'] = substr($trace['file'], strlen(ROOT_PATH));
             $trace['code'] = self::getCode($trace['file'], $trace['line'], $trace['function']);
