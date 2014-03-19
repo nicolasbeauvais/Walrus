@@ -34,23 +34,42 @@ var Walrus = {};
         if (!config.ajaxNavigation) {config.ajaxNavigation = false; }
         if (!config.pageContainer) {config.pageContainer = 'container'; }
         if (!config.lazyLoad) {config.lazyLoad = false; }
-        Walrus.config = config;
+        if (!config.nolink) {config.nolink = false; }
 
-        if (Walrus.config.ajaxNavigation) { Walrus.ajaxNavigationInit(); }
+        Walrus.config = config;
 
         Walrus.bootstrap();
     };
 
     Walrus.bootstrap = function () {
+        if (Walrus.config.ajaxNavigation) { Walrus.ajaxNavigationInit(); }
+        if (Walrus.config.nolink) { Walrus.nolinkInit(); }
         if (Walrus.config.lazyLoad) { Walrus.checkLazy(); }
+        $(window).on("popstate.WALRUS-popstate", function (event) {
+            if (event.originalEvent.state !== null) {
+                Walrus.ajaxNavigation(event, location.href, true);
+            }
+        });
+    };
+
+    Walrus.bootstrapUload = function () {
+        $(window).off("popstate.WALRUS-popstate");
+        $(document).off('click.WALRUS-ajaxnavigation');
+        $('body').find('[data-nolink]').on('click.WALRUS-nolink');
     };
 
     Walrus.ajaxNavigationInit = function () {
+        $(document).on('click.WALRUS-ajaxnavigation', Walrus.catchLinks);
+    };
 
-        $(document).click(Walrus.catchLinks);
-        $(window).on("popstate", function (event) {
-            if (event.originalEvent.state !== null) {
-                Walrus.ajaxNavigation(event, location.href, true);
+    Walrus.nolinkInit = function () {
+        $('body').find('[data-nolink]').on('click.WALRUS-nolink', function (event) {
+            if (Walrus.isntExternal(atob($(this).data('nolink')))) {
+                Walrus.ajaxNavigation(event, atob($(this).data('nolink')));
+                event.stopPropagation();
+                event.preventDefault();
+            } else {
+                location.href = atob($(this).data('nolink'));
             }
         });
     };
@@ -99,6 +118,7 @@ var Walrus = {};
      *
      * @param event
      * @param url
+     * @param back
      */
     Walrus.ajaxNavigation = function (event, url, back) {
 
@@ -133,6 +153,7 @@ var Walrus = {};
                 // breadcrumb
                 if (Walrus.ajaxNavigationCallback) {Walrus.ajaxNavigationCallback(bread); }
 
+                Walrus.bootstrapUload();
                 Walrus.bootstrap();
                 event.preventDefault();
             } else {
