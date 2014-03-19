@@ -17,10 +17,14 @@ class Url
 {
 
     /**
-     * @return string
+     * Return a base 64 encoded $url in a data-nolink attribute.
+     *
+     * @param string $url the url to encode
+     *
+     * @return string encoded url
      */
-    public function give()
+    public function nolink($url)
     {
-        return 'http://www.some.url/';
+        echo 'data-nolink="' . base64_encode($url) . '"';
     }
 }
