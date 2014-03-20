@@ -223,7 +223,7 @@ var Walrus = {};
                 content;
 
             if (!response.status || response.status !== 200
-                || Object.getOwnPropertyNames(Walrus.pollingAction).length === 0) {
+                    || Object.getOwnPropertyNames(Walrus.pollingAction).length === 0) {
                 setTimeout(function () { Walrus.polling(url); }, 100);
                 return;
             }
