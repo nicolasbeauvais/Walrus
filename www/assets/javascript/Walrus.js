@@ -41,6 +41,10 @@ var Walrus = {};
         Walrus.bootstrap();
     };
 
+    Walrus.uload = function () {
+        Walrus.bootstrapUload();
+    };
+
     Walrus.bootstrap = function () {
         if (Walrus.config.ajaxNavigation) { Walrus.ajaxNavigationInit(); }
         if (Walrus.config.nolink) { Walrus.nolinkInit(); }
@@ -55,7 +59,7 @@ var Walrus = {};
     Walrus.bootstrapUload = function () {
         $(window).off("popstate.WALRUS-popstate");
         $(document).off('click.WALRUS-ajaxnavigation');
-        $('body').find('[data-nolink]').on('click.WALRUS-nolink');
+        $('body').find('[data-nolink]').off('click.WALRUS-nolink');
     };
 
     Walrus.ajaxNavigationInit = function () {
@@ -72,6 +76,17 @@ var Walrus = {};
                 location.href = atob($(this).data('nolink'));
             }
         });
+    };
+
+    /**
+     * Launch the ajaxNavigation script with the specified url
+     *
+     * @param url the url to call
+     * @param isBack if specified use the historic to go back
+     * @param callback a callback executed at the end of the ajax request
+     */
+    Walrus.go = function (url, isBack, callback) {
+        Walrus.ajaxNavigation(null, url, isBack, callback);
     };
 
     /**
@@ -119,8 +134,9 @@ var Walrus = {};
      * @param event
      * @param url
      * @param back
+     * @param callback
      */
-    Walrus.ajaxNavigation = function (event, url, back) {
+    Walrus.ajaxNavigation = function (event, url, back, callback) {
 
         $.ajax({
             url: url,
@@ -151,11 +167,12 @@ var Walrus = {};
                 document.title = $data.find('title:first').text();
 
                 // breadcrumb
-                if (Walrus.ajaxNavigationCallback) {Walrus.ajaxNavigationCallback(bread); }
+                if (Walrus.ajaxNavigationCallback) { Walrus.ajaxNavigationCallback(bread); }
 
-                Walrus.bootstrapUload();
-                Walrus.bootstrap();
-                event.preventDefault();
+                // callback
+                if (callback) { callback(); }
+
+                if (event) { event.preventDefault(); }
             } else {
                 window.location = url;
             }
