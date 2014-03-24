@@ -9,7 +9,7 @@
 /**
  * const WALRUS_VERSION, the current version of Walrus.
  */
-define("WALRUS_VERSION", '1.1.0b');
+define("WALRUS_VERSION", '1.0.0b');
 
 /**
  * const APP_PATH, the acces directory of walrus "./www/".
