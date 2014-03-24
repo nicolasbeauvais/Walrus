@@ -2,8 +2,8 @@
 .DS_Store
 Thumbs.db
 
-#vendors
-templates_c/
+# cache
+cache/
 
 #Walrus
 logs/
