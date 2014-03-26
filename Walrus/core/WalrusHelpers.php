@@ -11,10 +11,10 @@ namespace Walrus\core;
 use Walrus\core\WalrusException;
 
 /**
- * Class WalrusRoute
+ * Class WalrusHelpers
  * @package Walrus\core
  */
-class WalrusFrontHelpers
+class WalrusHelpers
 {
     /**
      * Helpers namespace.
@@ -27,7 +27,8 @@ class WalrusFrontHelpers
      * A helper name should pass this regex: [A-Za-z_]+
      */
     private static $helpers = array(
-        'Url'
+        'Url',
+        'Form'
     );
 
     /**
@@ -36,7 +37,7 @@ class WalrusFrontHelpers
     private static $helpersInstances = array();
 
     /**
-     * The WalrusFrontHelpers unique instance for singleton.
+     * The WalrusHelpers unique instance for singleton.
      * @var WalrusRouter
      */
     protected static $instance;
@@ -56,7 +57,7 @@ class WalrusFrontHelpers
     }
 
     /**
-     * Main function to call to get an instance of WalrusFrontHelpers.
+     * Main function to call to get an instance of WalrusHelpers.
      * @return WalrusRouter
      */
     public static function getInstance()
@@ -100,7 +101,7 @@ class WalrusFrontHelpers
     }
 
     /**
-     * Add a helper to the WalrusFrontHelper class;
+     * Add a helper to the WalrusHelpers class.
      *
      * @param $class the class name of the helper
      *
