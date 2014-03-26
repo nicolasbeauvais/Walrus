@@ -105,7 +105,7 @@ class WalrusFrontController
 
         // Globals
         $this->register('_ENV', $_ENV);
-        $this->register('helpers', WalrusFrontHelpers::execute());
+        $this->register('helpers', WalrusHelpers::execute());
     }
 
     /**
