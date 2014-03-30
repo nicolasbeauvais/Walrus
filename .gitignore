@@ -4,5 +4,5 @@ Thumbs.db
 
 #Walrus
 logs/
-config/config.yml
+config/config.php
 config/compiled/
