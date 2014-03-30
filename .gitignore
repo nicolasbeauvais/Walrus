@@ -2,25 +2,7 @@
 .DS_Store
 Thumbs.db
 
-# cache
-cache/
-
 #Walrus
 logs/
 config/config.yml
-
-# Software
-.dropbox
-
-# Build
-node_modules/
-Gruntfile.js
-package.json
-phpunit.phar
-
-# IDEs
-.buildpath
-.project
-.settings/
-.build/
-.idea/
+config/compiled/
