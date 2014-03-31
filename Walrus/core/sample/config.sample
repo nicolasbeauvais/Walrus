@@ -1,25 +1,25 @@
-# Walrus Framework configuration
+<?php
 
-# RDBMS: mysql|SQLite|PostgreSQL|Oracle
-RDBMS: "%rdbms%"
+// RDBMS: mysql|SQLite|PostgreSQL|Oracle
+$_ENV['W']['RDBMS'] = "%rdbms%";
 
-# RDBMS host
-host: "%host%"
+// RDBMS host
+$_ENV['W']['host'] = "%host%";
 
-# Database name
-database: "%database%"
+// Database name
+$_ENV['W']['database'] = "%database%";
 
-# Database connexion user name
-name: "%name%"
+// Database connexion user name
+$_ENV['W']['name'] = "%name%";
 
-# Database connexion password
-password: "%password%"
+// Database connexion password
+$_ENV['W']['password'] = "%password%";
 
-# Base url:
-base_url: "%url%"
+// Base url:
+$_ENV['W']['base_url'] = "%url%";
 
-# Templating language: haml|smarty|php
-templating: "%templating%"
+// Templating language: haml|smarty|php
+$_ENV['W']['templating'] = "%templating%";
 
-# Environment: dev|prod
-environment: "%environment%"
+// Environment: dev|prod
+$_ENV['W']['environment'] = "%environment%";

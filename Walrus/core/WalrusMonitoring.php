@@ -43,7 +43,7 @@ class WalrusMonitoring
      */
     public static function stop()
     {
-        self::$executionTime = round(abs(microtime(true) - START_TIME) * 1000, 0);
+        self::$executionTime = round(abs(microtime(true) - $_ENV['W']['START_TIME']) * 1000, 0);
     }
 
     /**
@@ -60,10 +60,10 @@ class WalrusMonitoring
             'type' => 'error',
             'title' => 'Error ' . $errno . ':',
             'content' => $errstr,
-            'file' => substr($errfile, strlen(ROOT_PATH)),
+            'file' => substr($errfile, strlen($_ENV['W']['ROOT_PATH'])),
             'real_path' => $errfile,
             'line' => $errline,
-            'code' => $this->getCode(substr($errfile, strlen(ROOT_PATH)), $errline)
+            'code' => $this->getCode(substr($errfile, strlen($_ENV['W']['ROOT_PATH'])), $errline)
         );
 
         self::addE2s($report);
@@ -88,7 +88,7 @@ class WalrusMonitoring
             }
 
             $trace['real_path'] = $trace['file'];
-            $trace['file'] = substr($trace['file'], strlen(ROOT_PATH));
+            $trace['file'] = substr($trace['file'], strlen($_ENV['W']['ROOT_PATH']));
             $trace['code'] = self::getCode($trace['file'], $trace['line'], $trace['function']);
             $formatted_traces[] = $trace;
         }
@@ -97,8 +97,11 @@ class WalrusMonitoring
             'type' => 'exception',
             'title' => get_class($exception),
             'content' => $exception->getMessage(),
-            'file' => substr($exception->getFile(), strlen(ROOT_PATH)),
-            'code' => self::getCode(substr($exception->getFile(), strlen(ROOT_PATH)), $exception->getLine()),
+            'file' => substr($exception->getFile(), strlen($_ENV['W']['ROOT_PATH'])),
+            'code' => self::getCode(
+                substr($exception->getFile(), strlen($_ENV['W']['ROOT_PATH'])),
+                $exception->getLine()
+            ),
             'real_path' => $exception->getFile(),
             'line' => $exception->getLine(),
             'trace' => $formatted_traces
@@ -128,7 +131,7 @@ class WalrusMonitoring
      */
     private static function getCode($file, $line, $function = null)
     {
-        $filer = new WalrusFileManager(ROOT_PATH);
+        $filer = new WalrusFileManager($_ENV['W']['ROOT_PATH']);
         $filer->setCurrentElem($file);
         $fail = false;
 
@@ -193,11 +196,11 @@ class WalrusMonitoring
      */
     private function e2Process()
     {
-        $filer = new WalrusFileManager(ROOT_PATH);
-        if (!file_exists(ROOT_PATH . 'logs')) {
+        $filer = new WalrusFileManager($_ENV['W']['ROOT_PATH']);
+        if (!file_exists($_ENV['W']['ROOT_PATH'] . 'logs')) {
             $filer->folderCreate('logs');
         }
-        if (!file_exists(ROOT_PATH . 'logs/error-exception-log.txt')) {
+        if (!file_exists($_ENV['W']['ROOT_PATH'] . 'logs/error-exception-log.txt')) {
             $filer->setCurrentElem('logs');
             $filer->fileCreate('error-exception-log.txt');
         }
@@ -231,10 +234,10 @@ class WalrusMonitoring
             $http_code = http_response_code();
 
             if ($e2nb > 0) {
-                require_once(ROOT_PATH . 'Walrus/templates/monitoring/e2.php');
+                require_once($_ENV['W']['ROOT_PATH'] . 'Walrus/templates/monitoring/e2.php');
             }
 
-            require_once(ROOT_PATH . 'Walrus/templates/monitoring/toolbar.php');
+            require_once($_ENV['W']['ROOT_PATH'] . 'Walrus/templates/monitoring/toolbar.php');
         }
     }
 

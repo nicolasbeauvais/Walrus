@@ -25,7 +25,7 @@ class WalrusFileManagerTest extends PHPUnit_Framework_TestCase
     public function testInstance()
     {
         try {
-            $filer = new WalrusFileManager(ROOT_PATH . 'Test\testbox');
+            $filer = new WalrusFileManager($_ENV['W']['ROOT_PATH'] . 'Test\testbox');
         } catch (WalrusException $exception) {
             $this->fail($exception->getMessage());
         }
@@ -239,7 +239,7 @@ class WalrusFileManagerTest extends PHPUnit_Framework_TestCase
             $filer->setCurrentElem('test2\test2.txt');
             $filer->deleteCurrent();
 
-            $this->assertEquals(ROOT_PATH . 'Test\testbox\\', $filer->getCurrentElem());
+            $this->assertEquals($_ENV['W']['ROOT_PATH'] . 'Test\testbox\\', $filer->getCurrentElem());
 
             $filer->setCurrentElem('test2');
             $elements = $filer->getElements();

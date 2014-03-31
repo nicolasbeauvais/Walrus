@@ -54,7 +54,7 @@ class WalrusAutoload
      */
     private function autoload($class_with_namespace)
     {
-        $path = ROOT_PATH . str_replace('\\', '/', $class_with_namespace) . '.php';
+        $path = $_ENV['W']['ROOT_PATH'] . str_replace('\\', '/', $class_with_namespace) . '.php';
 
         if (file_exists($path)) {
             include_once($path);
@@ -62,7 +62,7 @@ class WalrusAutoload
         } else {
 
             if (array_key_exists($class_with_namespace, self::$classesKnown)) {
-                include_once( ROOT_PATH . self::$classesKnown[$class_with_namespace] . '.php');
+                include_once( $_ENV['W']['ROOT_PATH'] . self::$classesKnown[$class_with_namespace] . '.php');
                 return true;
             }
 
@@ -70,7 +70,7 @@ class WalrusAutoload
                 $class_with_namespace = $class_with_namespace . '\\' . $class_with_namespace;
             }
 
-            $vendors_path = ROOT_PATH . 'vendor/' . str_replace('\\', '/', $class_with_namespace) . '.php';
+            $vendors_path = $_ENV['W']['ROOT_PATH'] . 'vendor/' . str_replace('\\', '/', $class_with_namespace) . '.php';
 
             if (file_exists($vendors_path)) {
                 include_once($vendors_path);
@@ -90,7 +90,7 @@ class WalrusAutoload
      */
     public static function getNamespace($class)
     {
-        $vendors_path = ROOT_PATH . 'vendor/' . $class . '/' . str_replace('\\', '/', $class) . '.php';
+        $vendors_path = $_ENV['W']['ROOT_PATH'] . 'vendor/' . $class . '/' . str_replace('\\', '/', $class) . '.php';
 
         if (file_exists($vendors_path)) {
             return $class . '\\' . $class;
@@ -105,7 +105,7 @@ class WalrusAutoload
 
         foreach (self::$classesPath as $classPath) {
 
-            if (file_exists(ROOT_PATH . $classPath . $class_name . '.php')) {
+            if (file_exists($_ENV['W']['ROOT_PATH'] . $classPath . $class_name . '.php')) {
                 return str_replace('/', '\\', $classPath . $class_name);
             }
         }

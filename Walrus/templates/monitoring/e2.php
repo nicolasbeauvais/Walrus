@@ -545,8 +545,8 @@
 
 <script>
     <?php
-        require_once(ROOT_PATH . 'Walrus/templates/scripts/jquery.js');
-        require_once(ROOT_PATH . 'Walrus/templates/scripts/e2-scripts.js');
+        require_once($_ENV['W']['ROOT_PATH'] . 'Walrus/templates/scripts/jquery.js');
+        require_once($_ENV['W']['ROOT_PATH'] . 'Walrus/templates/scripts/e2-scripts.js');
     ?>
 
     (function(){
