@@ -128,9 +128,9 @@ class WalrusFrontController
 
         if (strrpos($view, '/') === false) {
             $controller = strtolower(str_replace('Controller', '', end($className)));
-            $template = FRONT_PATH . $controller . '/' . $view . self::$templating[0];
+            $template = $_ENV['W']['FRONT_PATH'] . $controller . '/' . $view . self::$templating[0];
         } else {
-            $template = FRONT_PATH . $view . self::$templating[0];
+            $template = $_ENV['W']['FRONT_PATH'] . $view . self::$templating[0];
         }
 
         if ($acl && (!isset($_SESSION['acl']) || $acl != $_SESSION['acl'])) {
@@ -140,8 +140,8 @@ class WalrusFrontController
         $objTemplate = new Template();
 
         if ($className[0] === 'Walrus') {
-            $template = isset($controller) ? ROOT_PATH . 'Walrus/templates/' . $controller . '/' . $view . '.php'
-                : ROOT_PATH . 'Walrus/templates/' . $view . '.php';
+            $template = isset($controller) ? $_ENV['W']['ROOT_PATH'] . 'Walrus/templates/' . $controller . '/' . $view . '.php'
+                : $_ENV['W']['ROOT_PATH'] . 'Walrus/templates/' . $view . '.php';
             $objTemplate->setIsWalrus(true);
         }
 
@@ -178,9 +178,9 @@ class WalrusFrontController
     {
         if ($_ENV['W']['templating'] == 'smarty') {
             self::$smarty = new Smarty();
-            self::$smarty->setCacheDir(ROOT_PATH . 'cache/smarty')
-                ->setCompileDir(ROOT_PATH . 'cache/smarty')
-                ->setTemplateDir(ROOT_PATH . 'templates');
+            self::$smarty->setCacheDir($_ENV['W']['ROOT_PATH'] . 'cache/smarty')
+                ->setCompileDir($_ENV['W']['ROOT_PATH'] . 'cache/smarty')
+                ->setTemplateDir($_ENV['W']['ROOT_PATH'] . 'templates');
         }
 
         if (count(self::$variables) > 0) {
@@ -258,7 +258,7 @@ class WalrusFrontController
 
             foreach ($skeleton as $name => $value) {
 
-                $template = FRONT_PATH . $value['template'] . self::$templating[0];
+                $template = $_ENV['W']['FRONT_PATH'] . $value['template'] . self::$templating[0];
 
                 if (isset($value['acl']) && (!isset($_SESSION['acl']) || $value['acl'] != $_SESSION['acl'])) {
                     continue;

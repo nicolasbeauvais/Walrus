@@ -289,7 +289,7 @@
         rTXHymQc7L/OmCdLMutsVRmZSyV8Vcb33hr3ZwejAL8s5IfgiODjsC+4MrJLDql93LV9mwvWZbX3txy0/qZ3DGRruVyeeLZ73/buviHgYtALgL5P
         wHy7wEAxX+9esnqEs4AAAAASUVORK5CYII=" />
     <h1>Walrus Framework</h1>
-    <p class="version"><?php echo WALRUS_VERSION; ?></p>
+    <p class="version"><?php echo $_ENV['W']['VERSION']; ?></p>
     <div style="clear:both"></div>
 </header>
 
@@ -426,7 +426,7 @@
 </div>
 
 <script>
-    <?php require_once(ROOT_PATH . 'Walrus/templates/scripts/jquery.js') ?>
+    <?php require_once($_ENV['W']['ROOT_PATH'] . 'Walrus/templates/scripts/jquery.js') ?>
 
     $('.case_container .case').click(function () {
         var $parent = $(this).parent();

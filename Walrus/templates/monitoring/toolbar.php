@@ -107,15 +107,15 @@ html {
 
 <?php
 if ($e2nb > 0) {
-    require_once(ROOT_PATH . 'Walrus/templates/monitoring/e2.php');
+    require_once($_ENV['W']['ROOT_PATH'] . 'Walrus/templates/monitoring/e2.php');
 }
 ?>
 
 <!-- TOOLBAR -->
 <div id="WALRUS-toolbar">
     <div id="WALRUS-logo">
-        <a href="http://www.walrus-framework.com/doc/<?php echo WALRUS_VERSION; ?>"
-           title="Walrus v<?php echo WALRUS_VERSION; ?> documentation">
+        <a href="http://www.walrus-framework.com/doc/<?php echo $_ENV['W']['VERSION']; ?>"
+           title="Walrus v<?php echo $_ENV['W']['VERSION']; ?> documentation">
         <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYA
         AAAIGNIUk0AAHolAACAgwAA9CUAAITRAABtXwAA6GwAADyLAAAbWIPnB3gAAAoCSURBVHja7JprcFTlGcd/e87e9+wl2SQQEmQBR0BsXTxeplYlV
         GwdeyF2Rtt+UEFndHSqrR/sOGPHQqf3Tgeno71XQqdWWwqClRZHWreKCuKBpdyjSRbIfbO7Z+/Xc7YfsgmGbEJIop22vDPvl32ffff5n+d5/s/lr

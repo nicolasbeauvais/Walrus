@@ -79,9 +79,9 @@ class WalrusCLI
         }
 
         $name = ucwords(strtolower($name));
-        $filer = new WalrusFileManager(ROOT_PATH);
+        $filer = new WalrusFileManager($_ENV['W']['ROOT_PATH']);
 
-        if (!file_exists(ROOT_PATH . 'engine/controllers/' . $name . 'Controller.php')) {
+        if (!file_exists($_ENV['W']['ROOT_PATH'] . 'engine/controllers/' . $name . 'Controller.php')) {
 
             try {
                 $filer->setCurrentElem('Walrus/core/sample/controller.sample');
@@ -101,7 +101,7 @@ class WalrusCLI
             echo $name . 'Controller.php already exist' . "\n";
         }
 
-        if (!file_exists(ROOT_PATH . 'templates/' . $name)) {
+        if (!file_exists($_ENV['W']['ROOT_PATH'] . 'templates/' . $name)) {
 
             try {
 
@@ -132,9 +132,9 @@ class WalrusCLI
         }
 
         $name = ucwords(strtolower($name));
-        $filer = new WalrusFileManager(ROOT_PATH);
+        $filer = new WalrusFileManager($_ENV['W']['ROOT_PATH']);
 
-        if (!file_exists(ROOT_PATH . 'engine/api/' . $name . 'Controller.php')) {
+        if (!file_exists($_ENV['W']['ROOT_PATH'] . 'engine/api/' . $name . 'Controller.php')) {
 
             try {
                 $filer->setCurrentElem('Walrus/core/sample/APIController.sample');
@@ -168,9 +168,9 @@ class WalrusCLI
             $name = ucfirst($name);
         }
 
-        $filer = new WalrusFileManager(ROOT_PATH);
+        $filer = new WalrusFileManager($_ENV['W']['ROOT_PATH']);
 
-        if (!file_exists(ROOT_PATH . 'engine/models/' . $name . '.php')) {
+        if (!file_exists($_ENV['W']['ROOT_PATH'] . 'engine/models/' . $name . '.php')) {
             try {
                 $filer->setCurrentElem('Walrus/core/sample/model.sample');
                 $model = $filer->getFileContent();

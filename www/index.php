@@ -14,7 +14,7 @@ use Walrus\core\WalrusAutoload;
  * $_ENV is filed with configuration info in WalrusKernel,
  * and routing info in WalrusROuter
  */
-$_ENV['Walrus'] = array();
+$_ENV['W'] = array();
 
 /**
  * Require constant
