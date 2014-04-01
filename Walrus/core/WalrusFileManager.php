@@ -378,7 +378,7 @@ class WalrusFileManager
      * @param string $param a valid paramater for the fopen() function
      *
      * @throws WalrusException
-     * @return string
+     * @return WalrusFileManager
      */
     public function fileCreate ($fileName, $param = 'w')
     {
