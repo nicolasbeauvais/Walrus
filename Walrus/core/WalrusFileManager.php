@@ -367,7 +367,7 @@ class WalrusFileManager
 
         $this->fmMkdir($path, $chmod);
 
-        $this->addLog('A new folder "' . $folderName . '" as been folderCreated in ' . $this->currentElem);
+        $this->addLog('A new folder "' . $folderName . '" as been created in ' . $this->currentElem);
         return $path;
     }
 
@@ -393,8 +393,11 @@ class WalrusFileManager
 
         $this->fmFopen($path, $param, true);
 
-        $this->addLog('A new file "' . $fileName . '" as been folderCreated in ' . $this->currentElem);
-        return $path;
+        $this->addLog('A new file "' . $fileName . '" as been created in ' . $this->currentElem);
+
+        $this->currentElem = $path;
+
+        return $this;
     }
 
     /**
