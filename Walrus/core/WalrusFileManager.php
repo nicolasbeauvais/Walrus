@@ -568,6 +568,27 @@ class WalrusFileManager
     }
 
     /**
+     * Join path with DIRECTORY_SEPARATOR concatednated with currentElem.
+     *
+     * @return string
+     */
+    public function filerPathJoin()
+    {
+        return $this->currentElem . implode(DIRECTORY_SEPARATOR, func_get_args());
+    }
+
+    /**
+     * Join path with DIRECTORY_SEPARATOR
+     *
+     * @return string
+     */
+    public function pathJoin()
+    {
+        return implode(DIRECTORY_SEPARATOR, func_get_args());
+    }
+
+
+    /**
      * Handler function
      *
      * @param $path
