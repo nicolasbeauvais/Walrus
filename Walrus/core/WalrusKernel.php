@@ -56,6 +56,11 @@ class WalrusKernel
      */
     private static function bootstrapOrm()
     {
+        if (empty($_ENV['W']['RDBMS']) || empty($_ENV['W']['host'])
+            || empty($_ENV['W']['database']) || empty($_ENV['W']['name'])) {
+            return;
+        }
+
         R::setup(
             $_ENV['W']['RDBMS'] . ':host=' . $_ENV['W']['host'] . ';dbname=' . $_ENV['W']['database'],
             $_ENV['W']['name'],
