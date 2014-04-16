@@ -71,25 +71,4 @@ class WalrusKernel
             R::freeze(true);
         }
     }
-
-    /**
-     * Verify Walrus configuration and set it.
-     */
-    private static function bootstrapConfig()
-    {
-        $config_file = "../config/config.yml";
-
-        if (file_exists($config_file)) {
-            $configs = Spyc::YAMLLoad($config_file);
-
-            foreach ($configs as $key => $option) {
-                $_ENV['W'][$key] = $option;
-            }
-            return true;
-        } else {
-            $_ENV['W']['templating'] = 'php';
-            WalrusRouter::reroute('config', 'config');
-            return false;
-        }
-    }
 }

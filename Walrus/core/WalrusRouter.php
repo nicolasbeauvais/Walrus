@@ -483,14 +483,7 @@ class WalrusRouter
     public function getRoutesFromYAML()
     {
 
-        //Load YAML routes
-        if (file_exists('../config/routes.yml')) {
-            $routes = Spyc::YAMLLoad('../config/routes.yml');
-        } else {
-            throw new WalrusException("Can't find routes.yml in config directory");
-        }
-
-        foreach ($routes as $name => $route) {
+        foreach ($_ENV['W']['routes'] as $name => $route) {
 
             $path = isset($route['path']) && !empty($route['path']) ? $route['path'] : '/';
             $controller = isset($route['controller']) ? $route['controller'] : '';
