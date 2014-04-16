@@ -7,6 +7,6 @@ _home:
     method: 'GET'
 
 _config:
-    path: 'config'
+    path: 'config2'
     controller: 'ConfigController'
     action: 'config'
