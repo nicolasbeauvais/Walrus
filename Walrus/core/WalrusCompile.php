@@ -8,22 +8,6 @@
 
 namespace Walrus\core;
 
-/**
- * - config/
- *   config.yml
- *   cmp-config.php
- *   env.php
- *   - routes/
- *       routes-*.yml
- *       cmp-routes.php
- *   - skeleton/
- *       skeleton-*.yml
- *       cmp-skeleton.php
- *   - forms/
- *       forms-*.yml
- *       cmp-forms.php
- *   compiled.php <= master
- */
 use Spyc\Spyc;
 
 /**
