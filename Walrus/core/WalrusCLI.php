@@ -21,28 +21,30 @@ class WalrusCLI
      */
     public static function execute()
     {
-        if (count($_SERVER['argv']) == 1) {
+        if (!$_SERVER['argv'][1]) {
             self::help();
-        } elseif (count($_SERVER['argv']) === 3) {
-            $method = $_SERVER['argv'][1];
+        }
+        $method = $_SERVER['argv'][1];
+
+        if (isset($_SERVER['argv'][2])) {
             $param = $_SERVER['argv'][2];
+        }
 
-            switch ($method) {
-                case 'createController':
-                    self::createController($param);
-                    break;
-                case 'createAPIController':
-                    self::createAPIController($param);
-                    break;
-                case 'createModel':
-                    self::createModel($param);
-                    break;
-                default:
-                    self::help();
-            }
-
-        } else {
-            self::help();
+        switch ($method) {
+            case 'createController':
+                self::createController($param);
+                break;
+            case 'createAPIController':
+                self::createAPIController($param);
+                break;
+            case 'createModel':
+                self::createModel($param);
+                break;
+            case 'deploy':
+                self::deploy();
+                break;
+            default:
+                self::help();
         }
     }
 
@@ -188,5 +190,91 @@ class WalrusCLI
         } else {
             echo $name . '.php already exist' . "\n";
         }
+    }
+
+    /**
+     * Launch a deploy
+     */
+    private static function deploy()
+    {
+        include($_ENV['W']['ROOT_PATH'] . 'config' . DIRECTORY_SEPARATOR . 'deploy.php');
+
+        $startDeploy = microtime(true);
+
+        $filer = new WalrusFileManager($_ENV['W']['ROOT_PATH']);
+
+        echo 'Launch Walrus deploy.' . "\r\n";
+
+        // compile config
+        $startCompile = microtime(true);
+        echo 'Start compiling conf files...  ';
+        WalrusCompile::launch(true);
+        $timeCompile = round((microtime(true) - $startCompile), 2) . 's';
+        echo 'done (' . $timeCompile . ')' . "\r\n";
+
+        // create testing directory
+        if (!file_exists($filer->filerPathJoin('www', 'testing'))) {
+            $startCreateTesting = microtime(true);
+            echo 'Create testing project directory... ';
+
+            $filer->setCurrentElem('www');
+            $filer->folderCreate('testing');
+
+            $filer->setCurrentElem('');
+            $filer->copy('', $filer->pathJoin('www', 'testing'), $_ENV['W']['deploy']['blacklist']);
+
+            $timeCreateTesting = round((microtime(true) - $startCreateTesting), 2) . 's';
+            echo 'done (' . $timeCreateTesting . ')' . "\r\n";
+        } else {
+            $answer = self::prompt('A testing project as been detected, resume deploy', array('yes', 'no'));
+
+            if ($answer == 'no') {
+                $startCreateTesting = microtime(true);
+                echo 'Create testing project directory... ';
+
+                $filer->setCurrentElem($filer->pathJoin('www', 'testing'));
+                $filer->emptyFolder();
+                $filer->setCurrentElem('');
+                $filer->copy('', $filer->pathJoin('www', 'testing'), $_ENV['W']['deploy']['blacklist']);
+
+                $timeCreateTesting = round((microtime(true) - $startCreateTesting), 2) . 's';
+                echo 'done (' . $timeCreateTesting . ')' . "\r\n";
+            }
+        }
+
+        echo 'Your project as been deployed to the testing folder.' . "\r\n";
+
+        self::prompt('Deploy testing', array('yes', 'no'));
+
+
+        // @TODO: change config to production
+        // @TODO: if ok => create deployed version, delete testing
+        // @TODO: delete testing
+
+        $timeDeploy = round((microtime(true) - $startDeploy), 2) . 's';
+        echo 'Deploy as been successful (' . $timeDeploy . ')' . "\r\n";
+    }
+
+    /**
+     * Prompt something to user.
+     *
+     * @param string $ask a string displayed to the user when he fails
+     * @param array $answers
+     *
+     * @return string
+     */
+    public static function prompt ($ask, $answers)
+    {
+        echo $ask . ' (' . join('/', $answers) . ') ? ';
+
+        $handle = fopen("php://stdin", "r");
+
+        $line = strtolower(trim(fgets($handle)));
+
+        if (in_array($line, $answers)) {
+            return $line;
+        }
+
+        self::prompt($ask, $answers);
     }
 }
