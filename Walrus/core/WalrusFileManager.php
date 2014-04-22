@@ -61,7 +61,7 @@ class WalrusFileManager
 
         $this->root = $root;
         $this->currentElem = $this->makePath('');
-        $this->addLog('Filemanager as been initialized with the root: ' . $root);
+        $this->addLog('FileManager as been initialized with the root: ' . $root);
     }
 
     /**
@@ -238,6 +238,59 @@ class WalrusFileManager
     }
 
     /**
+     * Copy the entire folder recursively, or a single file to a new path.
+     *
+     * @param string $origin
+     * @param string $newPath
+     * @param array $blacklist an array of folders / files to ignore while copying
+     *
+     * @return string
+     * @throws WalrusException if the new path isn't valid
+     */
+    public function copy ($origin, $newPath, $blacklist = array())
+    {
+        $currentOrigin = $this->currentElem;
+
+        if (!is_dir($this->currentElem)) {
+            throw new WalrusException('"' . $this->currentElem . '" isn\'t a valid folder for copy');
+        }
+
+        if (!file_exists($this->pathJoin($currentOrigin, $origin))) {
+            throw new WalrusException('"' . $this->filerPathJoin($origin) . '" need to exist');
+        }
+
+        $dir = opendir($this->pathJoin($currentOrigin, $origin));
+
+        while (false !== ($file = readdir($dir))) {
+
+            $item = !empty($origin) ? $this->pathJoin($origin, $file) : $file;
+
+            if (($file != '.') && ($file != '..')
+                && !in_array($item, $blacklist)) {
+
+                if (is_dir($this->filerPathJoin($origin, $file))) {
+                    $this->setCurrentElem($newPath);
+                    $this->folderCreate($file);
+                    $this->setCurrentElem('');
+                    $this->copy(
+                        $this->pathJoin($origin, $file),
+                        $this->pathJoin($newPath, $file),
+                        $blacklist
+                    );
+                } else {
+                    copy(
+                        $this->currentElem . $this->pathJoin($origin, $file),
+                        $this->currentElem . $this->pathJoin($newPath, $file)
+                    );
+                }
+            }
+        }
+
+        closedir($dir);
+        $this->currentElem = $currentOrigin;
+    }
+
+    /**
      * Return an array of the elements in currentItem.
      *
      * Can be recursive, currentItem must be a folder.
@@ -303,7 +356,11 @@ class WalrusFileManager
                 $elements[] = $file;
             } elseif (is_dir($path . $file)) {
                 if ($recursive) {
-                    $elements[$file] = $this->getElementsRecursivly($path . $file . '/', $recursive, $dirOnly);
+                    $elements[$file] = $this->getElementsRecursivly(
+                        $path . $file . DIRECTORY_SEPARATOR,
+                        $recursive,
+                        $dirOnly
+                    );
                 } else {
                     $elements[] = $file;
                 }
@@ -319,27 +376,32 @@ class WalrusFileManager
      *
      * @throws WalrusException if current elem isn't a directory
      */
-    public function emptyFolder ()
+    public function emptyFolder ($array = null)
     {
         if (!is_dir($this->currentElem)) {
             throw new WalrusException('"' . $this->currentElem . '" need to be a folder');
         }
 
-        $elements = $this->getElements(true);
+        $originElem = $this->currentElem;
+
+        $elements = !empty($array) ? $array : $this->getElements(true);
 
         foreach ($elements as $key => $value) {
-            if (is_array($value) && !empty($value)) {
-                throw new WalrusException('"' . $this->currentElem . $key . '" must be empty');
-            }
 
-            if (is_dir($this->currentElem . $key)) {
-                $this->fmRmdir($this->currentElem . $key);
+            if (is_dir($this->filerPathJoin($key))) {
+
+                if (is_array($value) && !empty($value)) {
+                    $this->currentElem = $this->filerPathJoin($key);
+                    $this->emptyFolder($value);
+                    $this->currentElem = $originElem;
+                }
+
+                $this->fmRmdir($this->filerPathJoin($key));
             } else {
-                $this->fmUnlink($this->currentElem . $value);
+                $this->fmUnlink($this->filerPathJoin($value));
             }
         }
 
-        $this->setCurrentElem('');
         $this->addLog('Current folder as been emptied');
     }
 
@@ -574,7 +636,11 @@ class WalrusFileManager
      */
     public function filerPathJoin()
     {
-        return $this->currentElem . implode(DIRECTORY_SEPARATOR, func_get_args());
+        $elem = $this->currentElem;
+        if ($elem[strlen($elem) - 1] !== '/' && $elem[strlen($elem) - 1] !== '\\') {
+            $elem .= DIRECTORY_SEPARATOR;
+        }
+        return $elem . implode(DIRECTORY_SEPARATOR, func_get_args());
     }
 
     /**
