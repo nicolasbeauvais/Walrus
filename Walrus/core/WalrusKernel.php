@@ -25,7 +25,6 @@ class WalrusKernel
      */
     public static function execute()
     {
-
         if (self::bootstrap()) {
             try {
                 $WalrusRouter = WalrusRouter::getInstance();

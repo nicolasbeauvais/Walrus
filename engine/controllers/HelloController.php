@@ -2,6 +2,7 @@
 
 namespace engine\controllers;
 
+use Walrus\core\WalrusFileManager;
 use Walrus\core\WalrusFrontController as WalrusFrontController;
 
 /**
