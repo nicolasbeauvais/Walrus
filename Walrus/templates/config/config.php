@@ -355,16 +355,16 @@
             </div>
 
             <div class="input">
-                <label for="hostname">Hostname</label>
-                <input type="text" id="hostname" name="hostname" value="<?php echo $post['hostname']; ?>"/>
+                <label for="host">Hostname</label>
+                <input type="text" id="host" name="host" value="<?php echo $post['host']; ?>"/>
             </div>
             <div class="input">
-                <label for="databasename">Database name</label>
-                <input type="text" id="databasename" name="databasename" value="<?php echo $post['databasename']; ?>"/>
+                <label for="database">Database name</label>
+                <input type="text" id="database" name="database" value="<?php echo $post['database']; ?>"/>
             </div>
             <div class="input">
-                <label for="user">User</label>
-                <input type="text" id="user" name="user" value="<?php echo $post['user']; ?>"/>
+                <label for="name">User</label>
+                <input type="text" id="name" name="name" value="<?php echo $post['name']; ?>"/>
             </div>
             <div class="input">
                 <label for="password">Password</label>
@@ -441,9 +441,9 @@
         var data = {
             check: true,
             RDBMS: $('#rdbms').find('input:first').val(),
-            hostname: $('#database').find('#hostname').val(),
-            databasename: $('#database').find('#databasename').val(),
-            user: $('#database').find('#user').val(),
+            host: $('#database').find('#host').val(),
+            database: $('#database').find('#database').val(),
+            name: $('#database').find('#name').val(),
             password: $('#database').find('#password').val()
         }
         $.post('./', data, 'json').done(function (data) {
