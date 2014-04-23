@@ -65,13 +65,11 @@ class WalrusCompile
             self::construct();
 
             if (!$deploy) {
-                self::setup();
+                return self::setup();
             } else {
-                self::compileForProduction();
+                return self::compileForProduction();
             }
         }
-
-        return self::$instance;
     }
 
     /**
@@ -92,15 +90,20 @@ class WalrusCompile
      *   if a YAML config file as been modified, compile it
      *   else use compiled files
      *
+     * @return bool
      */
     private static function setup()
     {
         // check config exist
-        if (file_exists($_ENV['W']['ROOT_PATH'] . 'config/config.php')) {
-            require_once($_ENV['W']['ROOT_PATH'] . 'config/config.php');
+        if (file_exists($_ENV['W']['ROOT_PATH'] . 'config' . DIRECTORY_SEPARATOR . 'config.php')) {
+            require_once($_ENV['W']['ROOT_PATH'] . 'config' . DIRECTORY_SEPARATOR . 'config.php');
         } else {
+
             $_ENV['W']['templating'] = 'php';
+
+            self::compile();
             WalrusRouter::reroute('config', 'config');
+
             return false;
         }
 
@@ -289,6 +292,8 @@ class WalrusCompile
 
         $filer->setCurrentElem($filer->pathJoin('config', 'compiled.php'));
         $filer->changeFileContent($sample);
+
+        return true;
     }
 
     /**
@@ -317,5 +322,31 @@ class WalrusCompile
         }
 
         return $phpString;
+    }
+
+    /**
+     * Create a new configuration
+     *
+     * @param $data an array of data to fill the new configuration.
+     *
+     * @return string the content of the new configuration file
+     */
+    public static function newConfiguration($data)
+    {
+        $filer = new WalrusFileManager($_ENV['W']['ROOT_PATH']);
+
+        $filer->setCurrentElem('Walrus/core/sample/config.sample');
+        $config = $filer->getFileContent();
+
+        $config = str_replace('%rdbms%', strtolower($data['RDBMS']), $config);
+        $config = str_replace('%host%', addslashes($data['host']), $config);
+        $config = str_replace('%database%', $data['database'], $config);
+        $config = str_replace('%name%', $data['name'], $config);
+        $config = str_replace('%password%', $data['password'], $config);
+        $config = str_replace('%url%', $data['url'], $config);
+        $config = str_replace('%templating%', strtolower($data['templating']), $config);
+        $config = str_replace('%environment%', strtolower($data['environment']), $config);
+
+        return $config;
     }
 }

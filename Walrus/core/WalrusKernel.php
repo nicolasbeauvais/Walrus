@@ -41,7 +41,9 @@ class WalrusKernel
      */
     private static function bootstrap()
     {
-        if ($hasConfig = WalrusCompile::launch()) {
+        $hasConfig = WalrusCompile::launch();
+
+        if ($hasConfig) {
             WalrusKernel::bootstrapOrm();
         }
 
