@@ -114,7 +114,7 @@
         position: relative;
         margin: 20px 0;
     }
-    .input._url {
+    .input._base_url {
         margin-top: 0;
     }
     .input._check {
@@ -378,11 +378,11 @@
             </div>
         </div>
 
-        <label for="url" class="title">Base Url:</label>
-        <div class="input _url">
-            <label for="url">Base url</label>
-            <input type="text" id="url" name="url" value="<?php echo isset($post['url']) ?
-                $post['url'] : "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']; ?>"/>
+        <label for="base_url" class="title">Base Url:</label>
+        <div class="input _base_url">
+            <label for="base_url">Base url</label>
+            <input type="text" id="base_url" name="base_url" value="<?php echo isset($post['base_url']) ?
+                $post['base_url'] : "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']; ?>"/>
         </div>
 
         <div class="left">
