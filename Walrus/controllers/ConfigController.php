@@ -19,7 +19,7 @@ class ConfigController extends WalrusFrontController
     {
         if (isset($_POST['config'])) {
             if (!empty($_POST['RDBMS']) && !empty($_POST['host']) && !empty($_POST['database'])
-                && !empty($_POST['name']) && !empty($_POST['url']) && !empty($_POST['templating'])
+                && !empty($_POST['name']) && !empty($_POST['base_url']) && !empty($_POST['templating'])
                 && !empty($_POST['environment'])) {
 
                 $filer = new WalrusFileManager($_ENV['W']['ROOT_PATH']);

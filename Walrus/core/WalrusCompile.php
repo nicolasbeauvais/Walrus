@@ -343,7 +343,7 @@ class WalrusCompile
         $config = str_replace('%database%', $data['database'], $config);
         $config = str_replace('%name%', $data['name'], $config);
         $config = str_replace('%password%', $data['password'], $config);
-        $config = str_replace('%url%', $data['url'], $config);
+        $config = str_replace('%url%', $data['base_url'], $config);
         $config = str_replace('%templating%', strtolower($data['templating']), $config);
         $config = str_replace('%environment%', strtolower($data['environment']), $config);
 
