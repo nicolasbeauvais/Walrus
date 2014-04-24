@@ -239,7 +239,11 @@ class WalrusCompile
                     $filer->deleteCurrent();
                 } else {
                     $content = $filer->getFileContent();
-                    $_ENV['W'][$dir] = unserialize($content);
+                    if (isset($_ENV['W'][$dir]) && !empty($_ENV['W'][$dir])) {
+                        $_ENV['W'][$dir] = array_merge($_ENV['W'][$dir], unserialize($content));
+                    } else {
+                        $_ENV['W'][$dir] = unserialize($content);
+                    }
                 }
             }
         }

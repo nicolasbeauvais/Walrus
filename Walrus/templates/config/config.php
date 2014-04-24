@@ -343,32 +343,39 @@
                     || !isset($post['RDBMS'])) { echo '_selected';} ?>">
                     <i></i> MySql
                 </div>
-                <div class="case <?php if(isset($post['RDBMS']) && $post['RDBMS'] == 'sqllite') { echo '_selected';} ?>">
+                <div class="case <?php if(isset($post['RDBMS']) && $post['RDBMS'] == 'sqllite') {
+                    echo '_selected';} ?>">
                     <i></i>SQLite
                 </div>
-                <div class="case <?php if(isset($post['RDBMS']) && $post['RDBMS'] == 'postgresql') { echo '_selected';} ?>">
+                <div class="case <?php if(isset($post['RDBMS']) && $post['RDBMS'] == 'postgresql') {
+                    echo '_selected';} ?>">
                     <i></i>PostgreSQL
                 </div>
-                <div class="case <?php if(isset($post['RDBMS']) && $post['RDBMS'] == 'cubrid') { echo '_selected';} ?>">
+                <div class="case <?php if(isset($post['RDBMS']) && $post['RDBMS'] == 'cubrid') {
+                    echo '_selected';} ?>">
                     <i></i>CUBRID
                 </div>
             </div>
 
             <div class="input">
                 <label for="host">Hostname</label>
-                <input type="text" id="host" name="host" value="<?php echo $post['host']; ?>"/>
+                <input type="text" id="host" name="host"
+                       value="<?php echo isset($post['host']) ? $post['host'] : ''; ?>"/>
             </div>
             <div class="input">
                 <label for="database">Database name</label>
-                <input type="text" id="database" name="database" value="<?php echo $post['database']; ?>"/>
+                <input type="text" id="database" name="database"
+                       value="<?php echo isset($post['database']) ? $post['database'] : ''; ?>"/>
             </div>
             <div class="input">
                 <label for="name">User</label>
-                <input type="text" id="name" name="name" value="<?php echo $post['name']; ?>"/>
+                <input type="text" id="name" name="name"
+                       value="<?php echo isset($post['name']) ? $post['name'] : ''; ?>"/>
             </div>
             <div class="input">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" value="<?php echo $post['password']; ?>"/>
+                <input type="password" id="password" name="password"
+                       value="<?php echo isset($post['password']) ? $post['password'] : ''; ?>"/>
             </div>
 
             <div class="input _check">
