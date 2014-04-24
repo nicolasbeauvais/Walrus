@@ -102,7 +102,7 @@ class WalrusRouter
                 $this->processForAPI();
             } else {
                 session_start();
-                $this->getRoutesFromYAML();
+                $this->getRoutes();
                 $this->process();
             }
         } catch (WalrusException $exception) {
@@ -476,11 +476,8 @@ class WalrusRouter
 
     /**
      * Special Walrus router.
-     * Make use of pux with YAML functionality.
-     *
-     * @throws Exception
      */
-    public function getRoutesFromYAML()
+    public function getRoutes()
     {
 
         foreach ($_ENV['W']['routes'] as $name => $route) {

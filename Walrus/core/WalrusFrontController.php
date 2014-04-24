@@ -126,9 +126,9 @@ class WalrusFrontController
     {
         $className = explode('\\', get_called_class());
 
-        if (strrpos($view, '/') === false) {
+        if (strrpos($view, '/') === false && strrpos($view, '\\') === false) {
             $controller = strtolower(str_replace('Controller', '', end($className)));
-            $template = $_ENV['W']['FRONT_PATH'] . $controller . '/' . $view . self::$templating[0];
+            $template = $_ENV['W']['FRONT_PATH'] . $controller . DIRECTORY_SEPARATOR . $view . self::$templating[0];
         } else {
             $template = $_ENV['W']['FRONT_PATH'] . $view . self::$templating[0];
         }
@@ -140,8 +140,10 @@ class WalrusFrontController
         $objTemplate = new Template();
 
         if ($className[0] === 'Walrus') {
-            $template = isset($controller) ? $_ENV['W']['ROOT_PATH'] . 'Walrus/templates/' . $controller . '/' . $view . '.php'
-                : $_ENV['W']['ROOT_PATH'] . 'Walrus/templates/' . $view . '.php';
+            $template = isset($controller) ? $_ENV['W']['ROOT_PATH'] . 'Walrus' . DIRECTORY_SEPARATOR
+                . 'templates' . DIRECTORY_SEPARATOR . $controller . DIRECTORY_SEPARATOR . $view . '.php'
+                : $_ENV['W']['ROOT_PATH'] . 'Walrus' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR
+                . $view . '.php';
             $objTemplate->setIsWalrus(true);
         }
 
@@ -178,8 +180,8 @@ class WalrusFrontController
     {
         if ($_ENV['W']['templating'] == 'smarty') {
             self::$smarty = new Smarty();
-            self::$smarty->setCacheDir($_ENV['W']['ROOT_PATH'] . 'cache/smarty')
-                ->setCompileDir($_ENV['W']['ROOT_PATH'] . 'cache/smarty')
+            self::$smarty->setCacheDir($_ENV['W']['ROOT_PATH'] . 'cache' . DIRECTORY_SEPARATOR . 'smarty')
+                ->setCompileDir($_ENV['W']['ROOT_PATH'] . 'cache' . DIRECTORY_SEPARATOR . 'smarty')
                 ->setTemplateDir($_ENV['W']['ROOT_PATH'] . 'templates');
         }
 
@@ -240,17 +242,11 @@ class WalrusFrontController
     }
 
     /**
-     * Load skeletons from skeleton.yml.
+     * Load skeletons.
      */
     private function loadSkeletons()
     {
-        $skeleton_yaml = "../config/skeleton.yml";
-
-        if (!file_exists($skeleton_yaml)) {
-            throw new WalrusException('Skeleton.yml doesn\'t exist in config/ directory');
-        }
-
-        $skeletons = Spyc::YAMLLoad($skeleton_yaml);
+        $skeletons = $_ENV['W']['skeletons'];
 
         foreach ($skeletons as $skeletonName => $skeleton) {
 
