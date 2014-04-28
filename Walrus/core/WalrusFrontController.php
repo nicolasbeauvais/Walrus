@@ -12,10 +12,10 @@ use Walrus\core\objects\Skeleton;
 use Walrus\core\objects\Template;
 use Walrus\core\objects\FrontController;
 use Walrus\core\WalrusException;
+use ReflectionClass;
 use MtHaml;
 use Smarty;
 use Spyc\Spyc;
-use ReflectionClass;
 
 /**
  * Class WalrusFrontController
@@ -345,6 +345,9 @@ class WalrusFrontController
         if (!$modelClassWithNamespace) {
             throw new WalrusException('Request unexistant model: ' . $modelClass);
         }
+
+        $refl = new ReflectionClass($modelClassWithNamespace);
+        $refl->getConstructor();
 
         $modelInstance = new $modelClassWithNamespace();
         $this->models[$modelClass] = $modelInstance;
