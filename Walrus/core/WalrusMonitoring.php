@@ -227,7 +227,7 @@ class WalrusMonitoring
         $this->e2Process();
 
         self::stop();
-        if ($_ENV['W']['environment'] == 'development') {
+        if ($_ENV['W']['environment'] == 'development' && $_ENV['W']['route_type'] != 'api') {
             $e2s = self::$e2s;
             $e2nb = count(self::$e2s);
             $executionTime = self::$executionTime;

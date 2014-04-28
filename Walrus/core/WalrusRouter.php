@@ -301,6 +301,8 @@ class WalrusRouter
      */
     private function process()
     {
+        $_ENV['W']['route_type'] = 'classic';
+
         $route = $this->matchCurrentRequest();
         if (!$route) {
             // try to find a default route
@@ -393,6 +395,8 @@ class WalrusRouter
      */
     private function processForAPI()
     {
+        $_ENV['W']['route_type'] = 'api';
+
         $url = isset($_GET['url']) ? $_GET['url'] : '/';
         $apiUrl = rtrim(str_replace('api/', '', $url), '/');
 
