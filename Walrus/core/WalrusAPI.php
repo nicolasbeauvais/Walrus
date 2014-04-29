@@ -93,7 +93,7 @@ class WalrusAPI
         $controllerClassWithNamespace =  WalrusAutoload::getNamespace($controllerClass);
 
         if (!$controllerClassWithNamespace) {
-            throw new WalrusException('[WalrusFrontController] request unexistant controller: ' . $controllerClass);
+            throw new WalrusException('[WalrusController] request unexistant controller: ' . $controllerClass);
         }
 
         $controllerInstance = new $controllerClassWithNamespace();
@@ -121,7 +121,7 @@ class WalrusAPI
         $modelClassWithNamespace =  WalrusAutoload::getNamespace($modelClass);
 
         if (!$modelClassWithNamespace) {
-            throw new WalrusException('[WalrusFrontController] request unexistant model: ' . $modelClass);
+            throw new WalrusException('[WalrusController] request unexistant model: ' . $modelClass);
         }
 
         $modelInstance = new $modelClassWithNamespace();

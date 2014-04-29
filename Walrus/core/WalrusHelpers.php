@@ -122,7 +122,7 @@ class WalrusHelpers
     }
 
     /**
-     * Return all helper with front-end type to use in WalrusFrontController
+     * Return all helper with front-end type to use in WalrusController
      */
     public static function create()
     {
