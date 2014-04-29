@@ -15,13 +15,12 @@ use Walrus\core\WalrusException;
 use ReflectionClass;
 use MtHaml;
 use Smarty;
-use Spyc\Spyc;
 
 /**
- * Class WalrusFrontController
+ * Class WalrusController
  * @package Walrus\core
  */
-class WalrusFrontController
+class WalrusController
 {
     /**
      * All requested templated as a stack.
@@ -73,9 +72,9 @@ class WalrusFrontController
     private $frontController;
 
     /**
-     * Array of instancied controllers
+     * Array of models instance
      */
-    private $models;
+    protected $models;
 
     /**
      * Array of instancied controllers
@@ -112,7 +111,7 @@ class WalrusFrontController
      * Add a template to the stack.
      *
      * Add a template to the template stack with ACL or not,
-     * the stack is displayed by WalrusFrontController::execute()
+     * the stack is displayed by WalrusController::execute()
      * at the end of Walrus execution.
      * setView as a very special treatment for all template called from
      * a Walrus core controller
@@ -370,7 +369,7 @@ class WalrusFrontController
     /**
      * Reroute to a new controller.
      *
-     * the reroute action clean all the WalrusFrontController.
+     * the reroute action clean all the WalrusController.
      * the controller / action don't need to be accessible with classic routing.
      *
      * @param string $controller a controller name
@@ -403,7 +402,7 @@ class WalrusFrontController
     /**
      * Process a new controller and return his content.
      *
-     * the reroute action doesn't clean WalrusFrontController.
+     * the reroute action doesn't clean WalrusController.
      * All your previously stored template / skeleton and variables
      * are restored.
      * the controller / action don't need to be accessible with classic routing.
@@ -453,7 +452,7 @@ class WalrusFrontController
     }
 
     /**
-     * Reset all variables from the WalrusFrontController class.
+     * Reset all variables from the WalrusController class.
      */
     private function uload()
     {

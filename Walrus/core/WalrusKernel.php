@@ -33,7 +33,7 @@ class WalrusKernel
                 $exception->handle();
             }
         }
-        WalrusFrontController::execute();
+        WalrusController::execute();
     }
 
     /**

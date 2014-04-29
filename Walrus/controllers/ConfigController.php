@@ -3,7 +3,7 @@
 namespace Walrus\controllers;
 
 use Walrus\core\WalrusCompile;
-use Walrus\core\WalrusFrontController;
+use Walrus\core\WalrusController;
 use Walrus\core\WalrusFileManager;
 use Exception;
 use R;
@@ -12,7 +12,7 @@ use R;
  * Class ConfigController
  * @package engine\controllers
  */
-class ConfigController extends WalrusFrontController
+class ConfigController extends WalrusController
 {
 
     public function config()

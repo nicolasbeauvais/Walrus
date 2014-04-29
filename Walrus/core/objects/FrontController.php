@@ -16,14 +16,14 @@ class FrontController
 {
 
     /**
-     * Stores all template of a WalrusFrontController instance.
+     * Stores all template of a WalrusController instance.
      *
      * @var array
      */
     private $templates = array();
 
     /**
-     * Stores all variables of a WalrusFrontController instance.
+     * Stores all variables of a WalrusController instance.
      *
      * @var array
      */
