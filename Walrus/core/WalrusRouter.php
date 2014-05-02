@@ -361,6 +361,7 @@ class WalrusRouter
 
         // Create the controller object.
         $cb[0] = $rc->newInstance();
+        $rc->getConstructor();
 
         // check controller action method
         if ($cb[0] && ! method_exists($cb[0], $cb[1])) {
@@ -421,6 +422,7 @@ class WalrusRouter
 
             // Create the controller object.
             $cb[0] = $rc->newInstance();
+            $rc->getConstructor();
 
             // check controller action method
             if ($cb[0] && ! method_exists($cb[0], $cb[1])) {
@@ -469,6 +471,7 @@ class WalrusRouter
 
         // Create the controller object.
         $cb[0] = $rc->newInstance();
+        $rc->getConstructor();
 
         // check controller action method
         if ($cb[0] && ! method_exists($cb[0], $cb[1])) {
