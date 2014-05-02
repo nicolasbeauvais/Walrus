@@ -5,7 +5,7 @@ namespace engine\models;
 use R;
 use Walrus\core\WalrusModel;
 
-class %name%
+class %name% extends WalrusModel
 {
 
 }
