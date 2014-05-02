@@ -11,6 +11,7 @@ $_ENV['W']['deploy']['blacklist'] = array(
     '.idea',
     '.DS_Store',
     'Thumbs.db',
+    'cache',
     'config',
     'logs',
     'Test',
