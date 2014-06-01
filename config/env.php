@@ -7,7 +7,7 @@
  */
 
 // const VERSION, the current version of Walrus.
-$_ENV['W']['VERSION'] = '1.0.0b';
+$_ENV['W']['VERSION'] = '1.0.0';
 
 // const APP_PATH, the acces directory of walrus "./www/".
 $_ENV['W']['APP_PATH'] = dirname(__FILE__) . DIRECTORY_SEPARATOR;
