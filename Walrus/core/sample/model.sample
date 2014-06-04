@@ -1,6 +1,6 @@
 <?php
 
-namespace engine\models;
+namespace app\engine\models;
 
 use R;
 use Walrus\core\WalrusModel;

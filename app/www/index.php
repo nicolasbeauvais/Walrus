@@ -10,21 +10,14 @@ use Walrus\core\WalrusKernel;
 use Walrus\core\WalrusAutoload;
 
 /**
- * Declaration for the $_ENV global variable.
- * $_ENV is filed with configuration info in WalrusKernel,
- * and routing info in WalrusROuter
- */
-$_ENV['W'] = array();
-
-/**
  * Require constant
  */
-require_once('../config/env.php');
+require_once('../../config/env.php');
 
 /**
  * Require WalrusAutoload
  */
-require_once('../Walrus/core/WalrusAutoload.php');
+require_once($_ENV['W']['WALRUS_PATH'] . '/core/WalrusAutoload.php');
 
 /**
  * Launch WalrusAutoload, ready to go.

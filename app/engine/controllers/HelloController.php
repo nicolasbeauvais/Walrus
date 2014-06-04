@@ -1,9 +1,8 @@
 <?php
 
-namespace engine\controllers;
+namespace app\engine\controllers;
 
-use Walrus\core\WalrusFileManager;
-use Walrus\core\WalrusController as WalrusController;
+use Walrus\core\WalrusController;
 
 /**
  * Class HelloController
