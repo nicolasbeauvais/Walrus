@@ -40,6 +40,7 @@ class WalrusFileManagerTest extends PHPUnit_Framework_TestCase
     {
         try {
             $filer->fileCreate('test.txt');
+            $filer->setCurrentElem('');
             $elements = $filer->getElements();
 
             $this->assertEquals(1, count($elements));
