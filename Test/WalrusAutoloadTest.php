@@ -33,6 +33,6 @@ class WalrusAutoloadTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Walrus\controllers\ConfigController', $namespace);
 
         $namespace = WalrusAutoload::getNamespace('HelloController');
-        $this->assertEquals('engine\controllers\HelloController', $namespace);
+        $this->assertEquals('app\engine\controllers\HelloController', $namespace);
     }
 }
