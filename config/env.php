@@ -28,7 +28,7 @@ $_ENV['W']['ROOT_PATH'] = substr(dirname(__FILE__), 0, -7) . DIRECTORY_SEPARATOR
 $_ENV['W']['APP_PATH'] = $_ENV['W']['ROOT_PATH'] . 'app' . DIRECTORY_SEPARATOR;
 
 // FRONT_PATH, the templates directory, relative to APP_PATH.
-$_ENV['W']['FRONT_PATH'] = $_ENV['W']['APP_PATH'] . 'app/templates' . DIRECTORY_SEPARATOR;
+$_ENV['W']['FRONT_PATH'] = $_ENV['W']['APP_PATH'] . 'templates' . DIRECTORY_SEPARATOR;
 
 // WALRUS_PATH, the Walrus directory, relative to ROOT_PATH.
 $_ENV['W']['WALRUS_PATH'] = $_ENV['W']['ROOT_PATH'] . 'Walrus' . DIRECTORY_SEPARATOR;
