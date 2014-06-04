@@ -19,10 +19,12 @@ class WalrusAutoload
      * Contain all directory to watch for autoload.
      */
     private static $classesPath = array(
-        'engine/controllers/',
-        'engine/models/',
+        'app/engine/controllers/',
+        'app/engine/models/',
+        'app/engine/api/',
+        'app/helpers/',
+
         'Walrus/controllers/',
-        'Walrus/models/',
         'Walrus/core/',
         'Walrus/core/objects/',
         'vendor/',
@@ -70,7 +72,8 @@ class WalrusAutoload
                 $class_with_namespace = $class_with_namespace . '\\' . $class_with_namespace;
             }
 
-            $vendors_path = $_ENV['W']['ROOT_PATH'] . 'vendor/' . str_replace('\\', '/', $class_with_namespace) . '.php';
+            $vendors_path = $_ENV['W']['ROOT_PATH'] . 'vendor/' .
+                str_replace('\\', '/', $class_with_namespace) . '.php';
 
             if (file_exists($vendors_path)) {
                 include_once($vendors_path);

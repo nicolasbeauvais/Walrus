@@ -6,7 +6,7 @@
  * Created: 19:00 27/03/14
  */
 
-namespace Walrus\core\helpers;
+namespace app\helpers;
 
 use Walrus\core\WalrusException;
 

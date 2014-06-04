@@ -19,7 +19,7 @@ class WalrusHelpers
     /**
      * Helpers namespace.
      */
-    private static $helpersNamespace = 'Walrus\core\helpers\\';
+    private static $helpersNamespace = 'app\helpers\\';
 
     /**
      * Register all Helpers to load.
@@ -27,9 +27,9 @@ class WalrusHelpers
      * A helper name should pass this regex: [A-Za-z_]+
      */
     private static $helpers = array(
-        'Url' => array('class' => 'Url','type' => 0),
-        'Form' => array('class' => 'Form', 'type' => 0),
-        'Tag' => array('class' => 'Tag', 'type' => 1)
+        'Url' => array('class' => 'Url'),
+        'Form' => array('class' => 'Form'),
+        'Tag' => array('class' => 'Tag'),
     );
 
     /**
@@ -95,8 +95,7 @@ class WalrusHelpers
             throw new WalrusException('The helper: ' . $helper . ' doesn\'t exist or not registered to WalrusHelpers');
         }
 
-        if ((isset(self::$helpersInstances[$helper]) && $newInstance == false)
-            && self::test(self::$helpers[$helper]['class'], 'back')) {
+        if ((isset(self::$helpersInstances[$helper]) && $newInstance == false)) {
             return self::$helpersInstances[$helper];
         } else {
             $instance = self::instanceClass($helper);
@@ -137,55 +136,16 @@ class WalrusHelpers
     }
 
     /**
-     * Test if a helper can be called by the function.
-     *
-     * @param int $helper can be 0, 1 or 2
-     * @param string $frontOrBack can be Front or Back
-     *
-     * @throws WalrusException if the helper have a bad type
-     *
-     * @return bool
-     */
-    private static function test($helper, $frontOrBack)
-    {
-        $type = self::$helpers[$helper];
-
-        $type = abs((int)$type);
-        if ($type > 2) {
-            throw new WalrusException('The Helper ' . $helper .' hasn\'t a correct type (0, 1 or 2)');
-        }
-
-        if ($frontOrBack == 'front') {
-            return $type !== 1;
-        } elseif ($frontOrBack == 'back') {
-            return $type !== 2;
-        } else {
-            throw new WalrusException('$frontOrBack is set to a bad value, must be the string "front" or "back"');
-        }
-    }
-
-    /**
      * Register a helper to the WalrusHelpers class.
      *
-     * $type values:
-     * 0: accessibility from backend and frontend
-     * 1: accessibility from backend only (controllers/models)
-     * 2: accessibility from frontend only (views/templates)
-     *
      * @param string $class the class name of the helper
-     * @param int $type security type
      *
      * @throws WalrusException if a helper with this $class name already exist
      */
-    public static function registerHelper($class, $type = 0)
+    public static function registerHelper($class)
     {
-        $type = abs((int)$type);
-        if ($type > 2) {
-            throw new WalrusException('A Walrus Helper must have a correct type: 0, 1 or 2');
-        }
-
         if (!array_key_exists($class, self::$helpers)) {
-            self::setHelper($class, $type);
+            self::setHelper($class);
         } else {
             throw new WalrusException('A Walrus helper with the name ' . $class . ' already exist');
         }
@@ -195,10 +155,9 @@ class WalrusHelpers
      * Add a new Helper to the helpers array
      *
      * @param string $class the class name of the helper
-     * @param int $type security type
      */
-    private static function setHelper($class, $type)
+    private static function setHelper($class)
     {
-        self::$helpers[$class] = array('class' => $class, 'type' => $type);
+        self::$helpers[$class] = array('class' => $class);
     }
 }
