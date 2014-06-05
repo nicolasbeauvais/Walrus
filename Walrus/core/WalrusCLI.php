@@ -224,86 +224,48 @@ class WalrusCLI
         $timeCompile = round((microtime(true) - $startCompile), 2) . 's';
         echo 'done (' . $timeCompile . ')' . "\r\n";
 
-        // create testing directory
-        if (!file_exists($filer->filerPathJoin('www', 'testing'))) {
-            $startCreateTesting = microtime(true);
-            echo 'Create testing project directory... ';
+        $startCreateProduction = microtime(true);
+        echo 'Create production project directory... ';
 
-            $filer->setCurrentElem('www');
-            $filer->folderCreate('testing');
+        $name = 'deploy-' . date('Y-m-d His');
+        $filer->setCurrentElem('');
+        $filer->folderCreate($name);
 
-            $filer->setCurrentElem('');
-            $filer->copy('', $filer->pathJoin('www', 'testing'), $_ENV['W']['deploy']['blacklist']);
-        } else {
-            $answer = self::prompt('A testing project as been detected, resume deploy', array('yes', 'no'));
+        // copy project to deploy folder
+        $_ENV['W']['deploy']['blacklist'][] = $name;
+        $filer->copy('', $filer->pathJoin($name), $_ENV['W']['deploy']['blacklist']);
 
-            if ($answer == 'no') {
-                $startCreateTesting = microtime(true);
-                echo 'Create testing project directory... ';
-
-                $filer->setCurrentElem($filer->pathJoin('www', 'testing'));
-                $filer->emptyFolder();
-                $filer->setCurrentElem('');
-                $filer->copy('', $filer->pathJoin('www', 'testing'), $_ENV['W']['deploy']['blacklist']);
-            }
-        }
-
-        // add configuration to testing
-        if (file_exists($filer->filerPathJoin('www', 'testing', 'config'))) {
-            $filer->setCurrentElem($filer->pathJoin('www', 'testing', 'config'));
-            $filer->emptyFolder();
-        } else {
-            $filer->setCurrentElem($filer->pathJoin('www', 'testing'));
-            $filer->folderCreate('config');
-        }
+        // add configuration
+        $filer->setCurrentElem($name);
+        $filer->folderCreate('config');
 
         $conf = $_ENV['W'];
         $conf['environment'] = 'production';
 
-        // change 'url' to 'base_url'
+        // set configuration
         $config = WalrusCompile::newConfiguration($conf);
         $filer->setCurrentElem('');
 
         copy(
             $filer->filerPathJoin('config', 'config.php'),
-            $filer->filerPathJoin('www', 'testing', 'config', 'config.php')
+            $filer->filerPathJoin($name, 'config', 'config.php')
         );
 
-        $filer->setCurrentElem($filer->pathJoin('www', 'testing', 'config', 'config.php'));
+        $filer->setCurrentElem($filer->pathJoin($name, 'config', 'config.php'));
         $filer->changeFileContent($config);
         $filer->setCurrentElem('');
 
         copy(
             $filer->filerPathJoin('config', 'env.php'),
-            $filer->filerPathJoin('www', 'testing', 'config', 'env.php')
+            $filer->filerPathJoin($name, 'config', 'env.php')
         );
         $filer->setCurrentElem($filer->pathJoin('config', 'compiled.php'));
-        $filer->moveCurrent($filer->pathJoin('www', 'testing', 'config'));
+        $filer->moveCurrent($filer->pathJoin($name, 'config'));
 
-        if (isset($startCreateTesting)) {
-            $timeCreateTesting = round((microtime(true) - $startCreateTesting), 2) . 's';
+        if (isset($startCreateProduction)) {
+            $timeCreateTesting = round((microtime(true) - $startCreateProduction), 2) . 's';
             echo 'done (' . $timeCreateTesting . ')' . "\r\n";
         }
-
-        echo 'Your project as been deployed to the testing folder.' . "\r\n";
-
-        $answer = self::prompt('Deploy testing', array('yes', 'no'));
-
-        if ($answer == 'yes') {
-            $name = 'deploy-' . date('Y-m-d His');
-            $filer->setCurrentElem('');
-            $filer->folderCreate($name);
-
-            $filer->copy(
-                $filer->pathJoin('www', 'testing'),
-                $filer->pathJoin($name)
-            );
-
-        }
-
-        $filer->setCurrentElem($filer->pathJoin('www', 'testing'));
-        $filer->emptyFolder();
-        $filer->deleteCurrent();
 
         $timeDeploy = round((microtime(true) - $startDeploy), 2) . 's';
         echo 'Deploy as been successful (' . $timeDeploy . ')' . "\r\n";

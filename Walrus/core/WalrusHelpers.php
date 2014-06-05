@@ -26,11 +26,7 @@ class WalrusHelpers
      *
      * A helper name should pass this regex: [A-Za-z_]+
      */
-    private static $helpers = array(
-        'Url' => array('class' => 'Url'),
-        'Form' => array('class' => 'Form'),
-        'Tag' => array('class' => 'Tag'),
-    );
+    private static $helpers = array();
 
     /**
      * Store all helpers once they are instantiated
@@ -46,7 +42,7 @@ class WalrusHelpers
     /**
      * Private construct to prevent multiples instances
      */
-    protected function __construct()
+    private function __construct()
     {
     }
 
@@ -55,19 +51,6 @@ class WalrusHelpers
      */
     protected function __clone()
     {
-    }
-
-    /**
-     * Main function to call to get an instance of WalrusHelpers.
-     * @return WalrusRouter
-     */
-    public static function getInstance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self;
-        }
-
-        return self::$instance;
     }
 
     /**

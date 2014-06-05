@@ -67,7 +67,9 @@ class WalrusCompile
             if (!$deploy) {
                 return self::setup();
             } else {
-                return self::compileForProduction();
+                $yaml = self::compileYAMLForProduction();
+                $helpers = self::compileHelpersForProduction();
+                return $yaml && $helpers;
             }
         }
     }
@@ -77,8 +79,7 @@ class WalrusCompile
      */
     private static function construct()
     {
-        self::$configPath = $_ENV['W']['ROOT_PATH'] . 'config';
-        self::$compiledPath = self::$configPath . DIRECTORY_SEPARATOR . 'compiled';
+        self::$compiledPath = $_ENV['W']['CONFIG_PATH'] . DIRECTORY_SEPARATOR . 'compiled';
     }
 
     /**
@@ -101,14 +102,16 @@ class WalrusCompile
 
             $_ENV['W']['templating'] = 'php';
 
-            self::compile();
+            self::compileHelpers();
+            self::compileYAML();
             WalrusRouter::reroute('config', 'config');
 
             return false;
         }
 
         if ($_ENV['W']['environment'] == 'development') { // if dev
-            self::compile();
+            self::compileHelpers();
+            self::compileYAML();
         } else {
             require_once($_ENV['W']['ROOT_PATH'] . 'config/config.php');
             require_once($_ENV['W']['ROOT_PATH'] . 'config/compiled.php');
@@ -118,15 +121,35 @@ class WalrusCompile
     }
 
     /**
+     * Read the helpers directory to make a helpers array
+     */
+    private static function compileHelpers()
+    {
+        $filer = new WalrusFileManager($_ENV['W']['HELPERS_PATH']);
+        $elements = $filer->getElements();
+
+        $_ENV['W']['HELPERS'] = array();
+
+        foreach ($elements as $element) {
+            $className = substr($element, 0, -4);
+
+            $_ENV['W']['HELPERS'][$className] = array(
+                'class' => $className
+            );
+        }
+    }
+
+    /**
      * Check and compile if necessary all config files, for development environment only
      *
      * @return array of existing YAML files
      */
-    private static function compile()
+    private static function compileYAML()
     {
+
         clearstatcache();
 
-        $filer = new WalrusFileManager(self::$configPath);
+        $filer = new WalrusFileManager($_ENV['W']['CONFIG_PATH']);
         $tree = $filer->getFolderTree();
 
         $_ENV['W']['development']['nb_file_compiled'] = 0;
@@ -252,7 +275,7 @@ class WalrusCompile
     /**
      * Compile all php files into one compiled.php files (used by CLI, for production environment only).
      */
-    private static function compileForProduction()
+    private static function compileYAMLForProduction()
     {
         $filer = new WalrusFileManager($_ENV['W']['ROOT_PATH']);
 
@@ -261,6 +284,8 @@ class WalrusCompile
 
         $filer->setCurrentElem($filer->pathJoin('config', 'compiled'));
         $tree = $filer->getElements(true);
+
+
 
         $compiled = '';
 
@@ -296,6 +321,27 @@ class WalrusCompile
 
         $filer->setCurrentElem($filer->pathJoin('config', 'compiled.php'));
         $filer->changeFileContent($sample);
+
+        return true;
+    }
+
+    /**
+     * Compile helpers directory tree in the compiled.php files (used by CLI, for production environment only).
+     */
+    private static function compileHelpersForProduction()
+    {
+        self::compileHelpers();
+
+        $filer = new WalrusFileManager($_ENV['W']['ROOT_PATH']);
+
+        $name = 'HELPERS';
+        $compiled = "\r\n" . '// ' . ucfirst(strtolower($name)) . "\r\n";
+
+        $index = '$_ENV[\'W\'][\'' . $name . '\']';
+        $compiled .= self::convertPHPArrayToPHPString($index, $_ENV['W']['HELPERS']);
+
+        $filer->setCurrentElem($filer->pathJoin('config', 'compiled.php'));
+        $filer->addFileContent($compiled);
 
         return true;
     }
