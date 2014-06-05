@@ -53,6 +53,11 @@ class WalrusHelpers
     {
     }
 
+    public static function initialise()
+    {
+        self::$helpers = $_ENV['W']['HELPERS'];
+    }
+
     /**
      * Return all created helpers
      */
