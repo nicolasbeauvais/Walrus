@@ -48,6 +48,7 @@ class WalrusKernel
         }
 
         new WalrusMonitoring();
+        WalrusHelpers::initialise();
 
         return $hasConfig;
     }
