@@ -8,10 +8,10 @@
 
 use Walrus\core\WalrusCLI as WalrusCLI;
 
-$_ENV['W']['ROOT_PATH'] = dirname(__FILE__) . DIRECTORY_SEPARATOR;
+require_once('config' . DIRECTORY_SEPARATOR . 'env.php');
 
-require_once('Walrus' . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'WalrusAutoload.php');
-require_once('config' . DIRECTORY_SEPARATOR . 'config.php');
+require_once($_ENV['W']['WALRUS_PATH'] . 'core' . DIRECTORY_SEPARATOR . 'WalrusAutoload.php');
+require_once($_ENV['W']['CONFIG_PATH'] . 'config.php');
 
 new \Walrus\core\WalrusAutoload();
 
