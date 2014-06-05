@@ -93,20 +93,25 @@ class WalrusCLI
         }
 
         $name = ucwords(strtolower($name));
-        $filer = new WalrusFileManager($_ENV['W']['ROOT_PATH']);
 
-        if (!file_exists($_ENV['W']['ROOT_PATH'] . 'engine/controllers/' . $name . 'Controller.php')) {
+        $filer = new WalrusFileManager($_ENV['W']['ROOT_PATH']);
+        $engine = $filer->pathJoin('app', 'engine', 'controllers');
+
+        if (!file_exists(
+            $_ENV['W']['ROOT_PATH'] . $filer->pathJoin($engine, $name . 'Controller.php')
+        )) {
 
             try {
-                $filer->setCurrentElem('Walrus/core/sample/controller.sample');
+                $filer->setCurrentElem($filer->pathJoin('Walrus', 'core', 'sample', 'controller.sample'));
                 $controller = $filer->getFileContent();
                 $controller = str_replace('%name%', $name, $controller);
 
-                $filer->setCurrentElem('engine/controllers');
+                $filer->setCurrentElem($engine);
                 $filer->fileCreate($name . 'Controller.php');
-                $filer->setCurrentElem('engine/controllers/' . $name . 'Controller.php');
+                $filer->setCurrentElem($filer->pathJoin($engine, $name . 'Controller.php'));
                 $filer->changeFileContent($controller);
-                echo 'New controller created in engine/controllers with the name ' . $name . 'Controller.php' . "\n";
+
+                echo 'New controller created in ' . $engine . ' with the name ' . $name . 'Controller.php' . "\n";
             } catch (WalrusException $e) {
                 echo 'Exception: ' . $e->getMessage() . "\n";
                 return;
@@ -115,14 +120,15 @@ class WalrusCLI
             echo $name . 'Controller.php already exist' . "\n";
         }
 
-        if (!file_exists($_ENV['W']['ROOT_PATH'] . 'templates/' . $name)) {
+        $template = $filer->pathJoin('app', 'templates');
+        if (!file_exists($_ENV['W']['ROOT_PATH'] . $filer->pathJoin('app', 'templates', $name))) {
 
             try {
 
-                $filer->setCurrentElem('templates');
+                $filer->setCurrentElem($template);
                 $filer->folderCreate(strtolower($name));
 
-                echo 'New templates directory created in templates with the name ' . $name . "\n";
+                echo 'New templates directory created in ' . $template . ' with the name ' . $name . "\n";
             } catch (WalrusException $e) {
                 echo 'Exception: ' . $e->getMessage() . "\n";
                 return;
@@ -147,19 +153,20 @@ class WalrusCLI
 
         $name = ucwords(strtolower($name));
         $filer = new WalrusFileManager($_ENV['W']['ROOT_PATH']);
+        $engine = $filer->pathJoin('app', 'engine', 'api');
 
-        if (!file_exists($_ENV['W']['ROOT_PATH'] . 'engine/api/' . $name . 'Controller.php')) {
+        if (!file_exists($_ENV['W']['ROOT_PATH'] . $engine . $name . 'Controller.php')) {
 
             try {
-                $filer->setCurrentElem('Walrus/core/sample/APIController.sample');
+                $filer->setCurrentElem($filer->pathJoin('Walrus', 'core', 'sample', 'APIController.sample'));
                 $controller = $filer->getFileContent();
                 $controller = str_replace('%name%', $name, $controller);
 
-                $filer->setCurrentElem('engine/api');
+                $filer->setCurrentElem($engine);
                 $filer->fileCreate($name . 'Controller.php');
-                $filer->setCurrentElem('engine/api/' . $name . 'Controller.php');
+                $filer->setCurrentElem($filer->pathJoin($engine, $name . 'Controller.php'));
                 $filer->changeFileContent($controller);
-                echo 'New controller created in api/controllers with the name ' . $name . 'Controller.php' . "\n";
+                echo 'New controller created in ' . $engine . ' with the name ' . $name . 'Controller.php' . "\n";
             } catch (WalrusException $e) {
                 echo 'Exception: ' . $e->getMessage() . "\n";
                 return;
@@ -183,18 +190,19 @@ class WalrusCLI
         }
 
         $filer = new WalrusFileManager($_ENV['W']['ROOT_PATH']);
+        $engine = $filer->pathJoin('app', 'engine', 'models');
 
-        if (!file_exists($_ENV['W']['ROOT_PATH'] . 'engine/models/' . $name . '.php')) {
+        if (!file_exists($_ENV['W']['ROOT_PATH'] . $engine . $name . '.php')) {
             try {
-                $filer->setCurrentElem('Walrus/core/sample/model.sample');
+                $filer->setCurrentElem($filer->pathJoin('Walrus', 'core', 'sample', 'model.sample'));
                 $model = $filer->getFileContent();
                 $model = str_replace('%name%', $name, $model);
 
-                $filer->setCurrentElem('engine/models');
+                $filer->setCurrentElem($engine);
                 $filer->fileCreate($name . '.php');
-                $filer->setCurrentElem('engine/models/' . $name . '.php');
+                $filer->setCurrentElem($filer->pathJoin($engine, $name . '.php'));
                 $filer->changeFileContent($model);
-                echo 'New model created in engine/models with the name ' . $name . '.php' . "\n";
+                echo 'New model created in ' . $engine . ' with the name ' . $name . '.php' . "\n";
             } catch (WalrusException $e) {
                 echo 'Exception: ' . $e->getMessage() . "\n";
                 return;
