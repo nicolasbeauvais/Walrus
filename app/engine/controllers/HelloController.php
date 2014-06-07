@@ -13,6 +13,6 @@ class HelloController extends WalrusController
 
     public function run()
     {
-        echo 'Hello Walrus!';
+        $this->setView('world');
     }
 }
