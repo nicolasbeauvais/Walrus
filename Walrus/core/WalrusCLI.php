@@ -126,7 +126,7 @@ class WalrusCLI
             try {
 
                 $filer->setCurrentElem($template);
-                $filer->folderCreate(strtolower($name));
+                $filer->folderCreate(strtolower($name), 0777);
 
                 echo 'New templates directory created in ' . $template . ' with the name ' . $name . "\n";
             } catch (WalrusException $e) {

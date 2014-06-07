@@ -416,7 +416,7 @@ class WalrusFileManager
      * @throws WalrusException in case the $folderName isn't valid
      * @return string
      */
-    public function folderCreate ($folderName, $chmod = 0700)
+    public function folderCreate ($folderName, $chmod = 0755)
     {
         if (strpbrk($folderName, "\\/?%*:|\"<>")) {
             throw new WalrusException('"' . $folderName . '" isn\'t a valid folder name');
@@ -844,17 +844,22 @@ class WalrusFileManager
      * Handler function
      *
      * @param $path
+     * @param $chmod
      *
      * @return bool
      * @throws WalrusException
      */
-    private function fmMkdir ($path)
+    private function fmMkdir ($path, $chmod = 0755)
     {
         if (file_exists($path)) {
             throw new WalrusException('file: "' . $path . '" already exist');
         }
 
-        $mkdir = mkdir($path);
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $mkdir = mkdir($path);
+        } else {
+            $mkdir = mkdir($path, $chmod);
+        }
 
         if (!$mkdir) {
             throw new WalrusException('An error occurred when tried to create folder: "' . $path . '"');

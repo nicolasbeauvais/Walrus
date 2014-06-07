@@ -179,9 +179,9 @@ class WalrusController
     {
         if ($_ENV['W']['templating'] == 'smarty') {
             self::$smarty = new Smarty();
-            self::$smarty->setCacheDir($_ENV['W']['ROOT_PATH'] . 'cache' . DIRECTORY_SEPARATOR . 'smarty')
-                ->setCompileDir($_ENV['W']['ROOT_PATH'] . 'cache' . DIRECTORY_SEPARATOR . 'smarty')
-                ->setTemplateDir($_ENV['W']['ROOT_PATH'] . 'templates');
+            self::$smarty->setCacheDir($_ENV['W']['CACHE_PATH'] . DIRECTORY_SEPARATOR . 'smarty')
+                ->setCompileDir($_ENV['W']['CACHE_PATH'] . DIRECTORY_SEPARATOR . 'smarty')
+                ->setTemplateDir($_ENV['W']['APP_PATH'] . 'templates');
         }
 
         if (count(self::$variables) > 0) {
@@ -202,7 +202,7 @@ class WalrusController
                 }
                 switch ($_ENV['W']['templating']) {
                     case 'haml':
-                        self::compileToHAML(substr(self::$foreach_value->getTemplate(), 0, -4));
+                        self::compileToHAML(self::$foreach_value);
                         require(self::$foreach_value->getTemplate());
                         break;
                     case 'smarty':
@@ -275,23 +275,35 @@ class WalrusController
 
     /**
      * Compile HAML file.
+     *
+     * @param Template $template
+     *
+     * @throws WalrusException
      */
     private static function compileToHAML ($template)
     {
+        $templateName = substr($template->getTemplate(), 0, -4);
+        $templateDir = substr($templateName, 0, strrpos($templateName, DIRECTORY_SEPARATOR) - strlen($templateName));
+
         $haml = new MtHaml\Environment('php');
 
-        if (!file_exists($template)) {
-            throw new WalrusException('Requested template does not exist: ' . $template);
+        if (!file_exists($templateName)) {
+            throw new WalrusException('Requested template does not exist: ' . $templateName);
         }
 
-        $hamlCode = file_get_contents($template);
+        $hamlCode = file_get_contents($templateName);
 
-        if (!file_exists($template . '.php') || filemtime($template . '.php') != filemtime($template)) {
-            $phpCode = $haml->compileString($hamlCode, $template);
-            $tempnam = tempnam(dirname($template), basename($template));
-            file_put_contents($tempnam, $phpCode);
-            rename($tempnam, $template.'.php');
-            touch($template.'.php', filemtime($template));
+
+        if (!file_exists($templateName . '.php') || filemtime($templateName . '.php') != filemtime($templateName)) {
+
+            $phpCode = $haml->compileString($hamlCode, $templateName);
+
+            $tempFile = tempnam($templateDir, 'haml');
+            file_put_contents($tempFile, $phpCode);
+
+            copy($tempFile, $templateName . '.php');
+            rename($tempFile, $templateName . '.php');
+            touch($templateName.'.php', filemtime($templateName));
         }
     }
 
@@ -300,7 +312,7 @@ class WalrusController
      *
      * @param string $controller
      *
-     * @return Class the specofied controller class
+     * @return Class the specified controller class
      * @throws WalrusException if the controller doesn't exist
      */
     protected function controller($controller)
