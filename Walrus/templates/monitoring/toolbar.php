@@ -124,7 +124,7 @@ if ($e2nb > 0) {
 <!-- TOOLBAR -->
 <div id="WALRUS-toolbar">
     <div id="WALRUS-logo">
-        <a href="http://www.walrus-framework.com/doc/<?php echo $_ENV['W']['VERSION']; ?>"
+        <a target="_blank" href="http://www.walrus-framework.com/doc/<?php echo $_ENV['W']['VERSION']; ?>"
            title="Walrus v<?php echo $_ENV['W']['VERSION']; ?> documentation">
         <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYA
         AAAIGNIUk0AAHolAACAgwAA9CUAAITRAABtXwAA6GwAADyLAAAbWIPnB3gAAAoCSURBVHja7JprcFTlGcd/e87e9+wl2SQQEmQBR0BsXTxeplYlV
