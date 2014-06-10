@@ -67,7 +67,7 @@ var Walrus = {};
     };
 
     Walrus.nolinkInit = function () {
-        $('body').find('[data-nolink]').on('click.WALRUS-nolink', function (event) {
+        $('body').on('click.WALRUS-nolink', '[data-nolink]', function (event) {
             if (Walrus.isntExternal(atob($(this).data('nolink')))) {
                 Walrus.ajaxNavigation(event, atob($(this).data('nolink')));
                 event.stopPropagation();
