@@ -196,6 +196,13 @@ class WalrusMonitoring
      */
     private function e2Process()
     {
+        if ($_ENV['W']['environment'] == 'development') {
+            if (!file_exists($_ENV['W']['TMP_PATH'])) {
+                $filerRoot = new WalrusFileManager($_ENV['W']['ROOT_PATH']);
+                $filerRoot->folderCreate('tmp');
+            }
+        }
+
         $filer = new WalrusFileManager($_ENV['W']['TMP_PATH']);
         if (!file_exists($_ENV['W']['TMP_PATH'] . 'logs')) {
             $filer->folderCreate('logs');
