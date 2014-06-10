@@ -33,18 +33,24 @@ It is fast because it’s a client need.
 
 * **Walrus**/ - All the files of WalrusFramework. This is where magic happens and where you should look at when you want to contribute.
 * **config**/
-  * *config.yml* - This is where all your Framework configs go (database, ...).
+  * *compiled*/ - All YAML config files are converted to PHP files in this directory.
+  * *routes*/ - YAML routes files.
+  * *skeleton*/ - YAML skeletons files
+  * *config.php* - This is where all your Framework configs go (database, ...).
   * *env.php* - All environment variables.
-  * *routes.yml* - All your routes.
-  * *skeleton.yml* - This is where you indicate the different parts of your views. Cf. Skeleton
-* **engine**/ - This is the back-end of your application.
-  * *controllers*/ -  Your own controllers go here.
-  * *models*/ - Your own models go here.
+  * *deploy.php* - Deploy configuration
+* **app**/ -  All your app files goes here.
+    * *engine*/ - This is the back-end of your application.
+      * *controllers*/ -  Your own controllers go here.
+      * *models*/ - Your own models go here.
+      * *api*/ -  Your own API controllers goes here.
+  * **www**/ - This is the front-end of your application, basically the files your browsers will be able to get.
+      * *assets*/ -  All your images, javascript and styles files.
+      * *index.php* - Entry point of your application.
+  * *templates*/ - Your templates here.
+  * **helpers**/ -  Helpers directory.
 * **vendor**/ -  Your vendors go here, few are already included in order to get Walrus working.
-* **www**/ - This is the front-end of your application, basically the files your browsers will be able to get.
-  * *assets*/ -  All your images, javascript and styles files.
-  * *templates*/ - Your templates here..
-  * *index.php* - Entry point of your application.
+* **tmp**/ - Temporary files.
 * **tusk** - Walrus Command Line Interface (CLI).
     
 ####Notes :
