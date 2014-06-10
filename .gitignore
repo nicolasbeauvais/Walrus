@@ -3,6 +3,6 @@
 Thumbs.db
 
 #Walrus
-tmp/
+tmp/*
 config/config.php
 config/compiled/
