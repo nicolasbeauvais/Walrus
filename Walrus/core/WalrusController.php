@@ -179,8 +179,8 @@ class WalrusController
     {
         if ($_ENV['W']['templating'] == 'smarty') {
             self::$smarty = new Smarty();
-            self::$smarty->setCacheDir($_ENV['W']['CACHE_PATH'] . DIRECTORY_SEPARATOR . 'smarty')
-                ->setCompileDir($_ENV['W']['CACHE_PATH'] . DIRECTORY_SEPARATOR . 'smarty')
+            self::$smarty->setCacheDir($_ENV['W']['CACHE_PATH'] . 'smarty')
+                ->setCompileDir($_ENV['W']['CACHE_PATH'] . 'smarty')
                 ->setTemplateDir($_ENV['W']['APP_PATH'] . 'templates');
         }
 
