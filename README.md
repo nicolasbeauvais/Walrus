@@ -54,5 +54,5 @@ It is fast because it’s a client need.
 * **tusk** - Walrus Command Line Interface (CLI).
     
 ####Notes :
-* In order to use *Walrus long polling methods* you must have a PHP version >= 5.4.4 because it uses PHP SessionHandlerInterface.
+* To use *Walrus framework* you must have a PHP version >= 5.5.0.
 * You need to activate url_rewriting module on your server.
