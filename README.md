@@ -40,15 +40,15 @@ It is fast because it’s a client need.
   * *env.php* - All environment variables.
   * *deploy.php* - Deploy configuration
 * **app**/ -  All your app files goes here.
-    * *engine* / - This is the back-end of your application.
+    * *engine*/ - This is the back-end of your application.
       * *controllers*/ -  Your own controllers go here.
       * *models*/ - Your own models go here.
       * *api*/ -  Your own API controllers goes here.
-  * *www* / - This is the front-end of your application, basically the files your browsers will be able to get.
+  * *www*/ - This is the front-end of your application, basically the files your browsers will be able to get.
       * *assets*/ -  All your images, javascript and styles files.
       * *index.php* - Entry point of your application.
   * *templates*/ - Your templates here.
-  * **helpers**/ -  Helpers directory.
+  * *helpers*/ -  Helpers directory.
 * **vendor**/ -  Your vendors go here, few are already included in order to get Walrus working.
 * **tmp**/ - Temporary files.
 * **tusk** - Walrus Command Line Interface (CLI).
