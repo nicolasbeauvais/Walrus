@@ -63,6 +63,7 @@ var Walrus = {};
     };
 
     Walrus.ajaxNavigationInit = function () {
+        history.pushState({url: document.URL}, '', document.URL);
         $(document).on('click.WALRUS-ajaxnavigation', Walrus.catchLinks);
     };
 
