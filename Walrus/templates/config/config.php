@@ -312,7 +312,7 @@
             <br/>
             And remove the <span>_config</span> route from:
             <p>
-                config/routes.yml
+                config/routes/route-default.yml
             </p>
             <div class="button">
                 <a href="./">Hello Walrus</a>
