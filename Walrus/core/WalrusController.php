@@ -132,7 +132,7 @@ class WalrusController
             $template = $_ENV['W']['FRONT_PATH'] . $view . self::$templating[0];
         }
 
-        if ($acl && (!isset($_SESSION['acl']) || $acl != $_SESSION['acl'])) {
+        if ($acl && (!isset($_SESSION['acl']) || !WalrusACL::hasRole($_SESSION['acl'], $acl))) {
             return;
         }
 

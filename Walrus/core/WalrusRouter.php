@@ -324,7 +324,7 @@ class WalrusRouter
 
             foreach ($this->routes as $defaultRoute) {
                 if ($defaultRoute->getName()  == '_403' && !$defaultRoute->getAcl()
-                    || (isset($_SESSION['acl']) && $defaultRoute->getAcl() === $_SESSION['acl'])) {
+                    || (isset($_SESSION['acl']) && WalrusACL::hasRole($_SESSION['acl'], $defaultRoute->getAcl()))) {
                     $route = $defaultRoute;
                 }
             }

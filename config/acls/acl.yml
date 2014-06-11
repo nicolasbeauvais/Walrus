@@ -1,0 +1,16 @@
+# ACL heritage tree
+
+# exemple:
+
+# administrator:
+#   'administrate'
+#   partner: 'advertise'
+#   teacher:
+#       'teach'
+#       student: 'learn'
+
+# This exemple give:
+# The student can only learn
+# The teacher get all student rights (learning) and can teach
+# The partner can only advertise
+# The administrator get all student, teacher and partner right, administrator can also administrate

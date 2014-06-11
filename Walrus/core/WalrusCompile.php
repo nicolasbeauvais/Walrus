@@ -32,7 +32,8 @@ class WalrusCompile
     private static $entities = array(
         'route',
         'skeleton',
-        'form'
+        'form',
+        'acl'
     );
 
     private static $instance;
@@ -212,6 +213,13 @@ class WalrusCompile
 
                     $filer->setCurrentElem($filer->pathJoin('compiled', $entityPlu));
 
+                    //special case
+                    switch ($entity) {
+                        case 'acl':
+                            $content = WalrusACL::flattenACL($content);
+                            break;
+                    }
+
                     $compiled = serialize($content);
 
                     if (file_exists($filer->filerPathJoin($PHPFile))) {
@@ -284,8 +292,6 @@ class WalrusCompile
 
         $filer->setCurrentElem($filer->pathJoin('config', 'compiled'));
         $tree = $filer->getElements(true);
-
-
 
         $compiled = '';
 
