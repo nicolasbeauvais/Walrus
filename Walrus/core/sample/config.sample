@@ -18,7 +18,7 @@ $_ENV['W']['password'] = "%password%";
 // Base url:
 $_ENV['W']['base_url'] = "%url%";
 
-// Templating language: haml|smarty|php
+// Templating language: haml|smarty|twig|php
 $_ENV['W']['templating'] = "%templating%";
 
 // Environment: development|production

@@ -243,12 +243,10 @@
     }
     .left {
         float: left;
-        width: 290px;
         display: inline-block;
     }
     .right {
         float: right;
-        width: 275px;
         display: inline-block;
     }
     </style>
@@ -408,20 +406,9 @@
                     && $post['templating'] == 'haml') { echo '_selected';} ?>">
                     <i></i> HAML
                 </div>
-            </div>
-        </div>
-        <div class="right">
-            <label for="env" class="title">Environment mode:</label>
-            <div id="env" class="case_container">
-                <input type="hidden" name="environment"
-                       value="<?php echo isset($post['environment']) ? $post['environment'] : 'development'; ?>"/>
-                <div class="case  <?php if((isset($post['environment']) && $post['environment'] == 'development')
-                    || !isset($post['environment'])) { echo '_selected';} ?>">
-                    <i></i> Development
-                </div>
-                <div class="case <?php if(isset($post['environment'])
-                    && $post['environment'] == 'production') { echo '_selected';} ?>">
-                    <i></i> Production
+                <div class="case <?php if(isset($post['templating'])
+                    && $post['templating'] == 'twig') { echo '_selected';} ?>">
+                    <i></i> Twig
                 </div>
             </div>
         </div>
