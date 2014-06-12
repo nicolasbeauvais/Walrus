@@ -15,6 +15,8 @@ use Walrus\core\WalrusException;
 use ReflectionClass;
 use MtHaml;
 use Smarty;
+use Twig_Loader_Filesystem;
+use Twig_Environment;
 
 /**
  * Class WalrusController
@@ -45,6 +47,12 @@ class WalrusController
      * @var obj
      */
     private static $smarty;
+
+    /**
+     * Contain the twig object if needed
+     * @var obj
+     */
+    private static $twig;
 
     /**
      * Contain all data specific to the template engine.
@@ -95,6 +103,10 @@ class WalrusController
                 break;
             case 'smarty':
                 self::$templating[0] = '.tpl';
+                self::$templating[1] = '';
+                break;
+            case 'twig':
+                self::$templating[0] = '.twig';
                 self::$templating[1] = '';
                 break;
             case 'php':
@@ -177,18 +189,31 @@ class WalrusController
      */
     public static function execute()
     {
+
         if ($_ENV['W']['templating'] == 'smarty') {
             self::$smarty = new Smarty();
             self::$smarty->setCacheDir($_ENV['W']['CACHE_PATH'] . 'smarty')
                 ->setCompileDir($_ENV['W']['CACHE_PATH'] . 'smarty')
                 ->setTemplateDir($_ENV['W']['APP_PATH'] . 'templates');
+            Smarty::muteExpectedErrors();
+        }
+
+        if ($_ENV['W']['templating'] == 'twig') {
+            $loader = new Twig_Loader_Filesystem($_ENV['W']['FRONT_PATH']);
+            self::$twig = new Twig_Environment($loader, array(
+                'cache' => $_ENV['W']['CACHE_PATH'] . 'twig'
+            ));
         }
 
         if (count(self::$variables) > 0) {
             foreach (self::$variables as self::$foreach_key => self::$foreach_value) {
+
                 ${self::$foreach_key} = self::$foreach_value;
                 if ($_ENV['W']['templating'] == 'smarty') {
                     self::$smarty->assign(self::$foreach_key, self::$foreach_value);
+                }
+                if ($_ENV['W']['templating'] == 'twig') {
+                    $twigVars[self::$foreach_key] = self::$foreach_value;
                 }
             }
         }
@@ -196,10 +221,12 @@ class WalrusController
         if (count(self::$templates) > 0) {
 
             foreach (self::$templates as self::$foreach_key => self::$foreach_value) {
+
                 if (self::$foreach_value->getIsWalrus()) {
                     require(self::$foreach_value->getTemplate());
                     continue;
                 }
+
                 switch ($_ENV['W']['templating']) {
                     case 'haml':
                         self::compileToHAML(self::$foreach_value);
@@ -207,6 +234,11 @@ class WalrusController
                         break;
                     case 'smarty':
                         self::$smarty->display(self::$foreach_value->getTemplate());
+                        break;
+                    case 'twig':
+                        $path = str_replace($_ENV['W']['FRONT_PATH'], '', self::$foreach_value->getTemplate());
+                        $template = self::$twig->loadTemplate($path);
+                        $template->display($twigVars);
                         break;
                     default:
                         require(self::$foreach_value->getTemplate());
