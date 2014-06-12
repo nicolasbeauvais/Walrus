@@ -63,6 +63,12 @@ class WalrusAutoload
             return true;
         } else {
 
+            // Transform Zend style namespace to PSR-2
+            if (strpos($class_with_namespace, '_')) {
+                $class_with_namespace = str_replace('_', '\\', $class_with_namespace);
+                return $this->autoload($class_with_namespace);
+            }
+
             if (array_key_exists($class_with_namespace, self::$classesKnown)) {
                 include_once( $_ENV['W']['ROOT_PATH'] . self::$classesKnown[$class_with_namespace] . '.php');
                 return true;
