@@ -5,8 +5,8 @@
     <title>Walrus welcome page</title>
 </head>
 <body>
-<h1>Hello World</h1>
+<h1><?php echo $speak; ?></h1>
 
-<p>Welcome on Walrus Framework <?php echo $_ENV['W']['VERSION']; ?></p>
+<p>Welcome on Walrus Framework.</p>
 </body>
 </html>

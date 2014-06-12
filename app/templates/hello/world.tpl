@@ -5,8 +5,8 @@
     <title>Walrus welcome page</title>
 </head>
 <body>
-<h1>Hello World</h1>
+<h1>{$speak}</h1>
 
-<p>Welcome on Walrus Framework {$smarty.env.W.VERSION}</p>
+<p>Welcome on Walrus Framework.</p>
 </body>
 </html>
