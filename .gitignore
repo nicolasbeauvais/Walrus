@@ -1,7 +1,6 @@
 # OS
 .DS_Store
 Thumbs.db
-.idea/
 
 #Walrus
 tmp/*
