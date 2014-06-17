@@ -6,7 +6,7 @@
  * Created: 19:00 27/03/14
  */
 
-namespace app\helpers;
+namespace Walrus\core\objects;
 
 use Walrus\core\WalrusException;
 
@@ -134,7 +134,11 @@ class Tag
     public function inject(Tag $object)
     {
         if (get_class($object) == __class__) {
-            $this->attributes['text'] .= $object->make();
+            if (isset($this->attributes['text'])) {
+                $this->attributes['text'] .= $object->make();
+            } else {
+                $this->attributes['text'] = $object->make();
+            }
         }
 
         return $this;
