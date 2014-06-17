@@ -26,13 +26,10 @@ class WalrusKernel
     public static function execute()
     {
         if (self::bootstrap()) {
-            try {
-                $WalrusRouter = WalrusRouter::getInstance();
-                $WalrusRouter->execute();
-            } catch (WalrusException $exception) {
-                $exception->handle();
-            }
+            $WalrusRouter = WalrusRouter::getInstance();
+            $WalrusRouter->execute();
         }
+
         WalrusController::execute();
     }
 
