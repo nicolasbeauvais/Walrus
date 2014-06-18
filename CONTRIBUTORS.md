@@ -8,7 +8,9 @@ Here's the list of them (cheers guys !):
 ####Development team
 * E-Wok (Nicolas Beauvais)
 * ThomasHarper (Thomas Bentkowski)
-* FaustineLarmagna (Faustine Larmagna)
-* Flambard (Guillaume Flambard)
+* alicia16489 (Benoit Ciret) 
 
 ####Contributors
+* Julien-Boudry (Julien Boudry)
+* FaustineLarmagna (Faustine Larmagna)
+* Flambard (Guillaume Flambard)
