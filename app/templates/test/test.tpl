@@ -2,11 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Walrus welcome page</title>
+    <title>Test file</title>
 </head>
 <body>
-<h1>{$speak}</h1>
-
-<p>Welcome on Walrus Framework.</p>
+{$form}
 </body>
 </html>

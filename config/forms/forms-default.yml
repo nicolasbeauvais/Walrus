@@ -1,0 +1,49 @@
+_form_login:
+  form:
+    method: POST
+    action: /test/hello
+    submit: test it
+    structure: list
+
+  fields:
+    name:
+      type: text
+      required: true
+      validate: /^\w{3,10}$/
+    email:
+      type: email
+      required: true
+    password:
+      type: password
+      required: true
+    password_repeat:
+      type: password
+      required: true
+    sexe:
+      type: radio
+      options:
+        male:
+          label: Male
+        female:
+          label: Female
+      required: true
+    newsletter:
+      type: checkbox
+      options:
+        1:
+          label: 'Yes'
+        0:
+          label: 'No'
+      validate:
+        - 0
+        - 1
+    categories:
+      type: select
+      function: HelloController::getSelect
+      required: true
+    transport:
+      type: select
+      options:
+        - train
+        - voiture
+        - jambes

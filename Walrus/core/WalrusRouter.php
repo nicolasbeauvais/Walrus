@@ -260,7 +260,7 @@ class WalrusRouter
      * @param string $routeName The name of the route to reverse route.
      * @param array $params Optional array of parameters to use in URL.
      *
-     * @throws Exception
+     * @throws WalrusException
      * @return string The url to the route
      */
     public function generate($routeName, array $params = array())
@@ -302,6 +302,7 @@ class WalrusRouter
     private function process()
     {
         $_ENV['W']['route_type'] = 'classic';
+        $_ENV['W']['route_current'] = isset($_GET['url']) ? '/' . $_GET['url'] : '/';
 
         $route = $this->matchCurrentRequest();
         if (!$route) {
@@ -414,7 +415,7 @@ class WalrusRouter
             }
         }
 
-        $class = 'engine\\api\\' . ucwords($cb[0]) . 'Controller';
+        $class = 'app\\engine\\api\\' . ucwords($cb[0]) . 'Controller';
 
         if (class_exists($class)) {
 
