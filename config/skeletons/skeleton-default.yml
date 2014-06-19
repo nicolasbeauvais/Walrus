@@ -1,0 +1,11 @@
+# Skeletons exemple
+
+#_skeleton_main:
+#    header:
+#        template: "header/head"
+#    nav:
+#        template: "nav/menu"
+#    body:
+#        template: "body/home"
+#    footer:
+#        template: "footer/footer"
