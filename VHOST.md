@@ -15,6 +15,9 @@ VHOST :
                         Order allow,deny
                         allow from all
                 </Directory>
+                
+                # Chroot PHP script to this path
+                php_admin_value open_basedir "/var/www/Walrus"
 
                 ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
 
