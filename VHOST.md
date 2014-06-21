@@ -15,6 +15,11 @@ VHOST :
                         Order allow,deny
                         allow from all
                 </Directory>
+                
+                # Chroot PHP script to this path
+                php_admin_value open_basedir "/var/www/Walrus"
+                # Tmp upload directory
+                php_admin_value upload_tmp_dir "/var/www/Walrus/tmp"
 
                 ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
 
