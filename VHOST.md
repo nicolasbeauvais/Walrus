@@ -1,12 +1,11 @@
 VHOST :
 
-  $ sudo nano /etc/apache2/sites-available/walrus.dev
+  $ sudo nano /etc/apache2/sites-available/walrus
 
 
 	<VirtualHost *:80>
                 ServerAdmin webmaster@localhost
-                ServerName walrus.dev
-                ServerAlias www.walrus.dev
+                ServerName walrus
 
                 DocumentRoot /var/www/Walrus
                 <Directory /var/www/Walrus>
@@ -34,14 +33,14 @@ VHOST :
 
 ___
 
-	$ sudo a2ensite walrus.dev
+	$ sudo a2ensite walrus
 	$ sudo service apache2 reload
 
 ___
 
 Host to add (Windows ou Mac) AND VM :
 
-    127.0.0.1       walrus.dev
+    127.0.0.1       walrus
 
 path VM :
 
