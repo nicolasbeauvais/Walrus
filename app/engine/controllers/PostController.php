@@ -63,7 +63,7 @@ class PostController extends WalrusController
             $this->register('error', 'Post doesnt exist');
         }
         else
-
+        {
             $this->register('post', $result);
         }
 
