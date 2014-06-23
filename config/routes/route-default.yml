@@ -2,9 +2,38 @@
 
 _home:
     path:   ''
-    controller:   'HelloController'
-    action: 'run'
-    method: 'GET'
+    controller: 'HomeController'
+    action: 'index'
+
+_login:
+    path: 'signin'
+    controller: 'UserController'
+    action: 'signin'
+
+_register:
+    path: 'signup'
+    controller: 'UserController'
+    action: 'signup'
+
+_newPost:
+    path: 'post/create'
+    controller: 'PostController'
+    action: 'create'
+
+_showPost:
+    path: 'post/:id'
+    controller: 'PostController'
+    action: 'show'
+
+_deletePost:
+    path: 'post/:id/delete'
+    controller: 'PostController'
+    action: 'delete'
+
+_editPost:
+    path: 'post/:id/edit'
+    controller: 'PostController'
+    action: 'edit'
 
 _config:
     path: 'config'

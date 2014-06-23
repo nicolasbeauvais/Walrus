@@ -1,0 +1,16 @@
+<h3>Signup</h3>
+
+<form action="/signup" method="POST">
+  <input type="hidden" name="type" value="signup"/>
+  <input type="text" name="name" placeholder="Name" value=""/>
+  <input type="text" name="pseudo" placeholder="Pseudo" value=""/>
+    {% if errors['pseudo.taken'] is defined %}
+        <span style="color:#ff0000;">{{ errors['pseudo.taken'] }}</span>
+    {% endif %}
+  <input type="password" name="password" placeholder="Password" value=""/>
+    {% if errors['password.confirm'] is defined %}
+        <span style="color:#ff0000;">{{ errors['password.confirm'] }}</span>
+    {% endif %}
+  <input type="password" name="cpassword" placeholder="Password" value=""/>
+  <input type="submit" value="Signup"/>
+</form>

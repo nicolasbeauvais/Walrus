@@ -1,0 +1,10 @@
+Welcome Home
+{% if posts is defined  %}
+    {% for post in posts %}
+        <br>
+        title : <a href="/post/{{ post.properties.id }}">{{ post.properties.title }}</a>
+        <br>
+    {% endfor %}
+{% else %}
+    No Posts
+{% endif %}

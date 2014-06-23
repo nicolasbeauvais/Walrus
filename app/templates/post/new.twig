@@ -1,0 +1,12 @@
+<h3>New Post</h3>
+
+<form action="/post/create" method="POST">
+  <input type="text" name="title" placeholder="title" value=""/>
+  <br>
+    {% if errors['title.empty'] is defined %}
+        <span style="color:#ff0000;">{{ errors['title.empty'] }}</span>
+    {% endif %}
+  <br>
+  <textarea name="content"></textarea>
+  <input type="submit" value="submit"/>
+</form>
