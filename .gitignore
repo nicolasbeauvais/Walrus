@@ -6,3 +6,6 @@ Thumbs.db
 tmp/*
 config/config.php
 config/compiled/
+
+#JetBrains IDE
+.idea/
