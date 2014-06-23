@@ -14,7 +14,7 @@ class Post
             return array('post.not_found' => 'Post doesnt exist');
         }
 
-        if($_SESSION['user']['id'] == $post->getProperties()['id'])
+        if($_SESSION['user']['id'] != $post->getProperties()['users_id'])
         {
             return array('user.forbidden' => 'Vous n\'avez pas les droits de faire ca');
         }
