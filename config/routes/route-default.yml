@@ -39,3 +39,4 @@ _config:
     path: 'config'
     controller: 'ConfigController'
     action: 'config'
+    acl: 'admin'
