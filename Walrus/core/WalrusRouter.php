@@ -95,10 +95,16 @@ class WalrusRouter
     {
         $this->setBasePath('/');
 
-        try {
+        // Detect an XMLHTTPRequest
+        $_ENV['W']['is_ajax'] = !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
 
-            $url = isset($_GET['url']) ? $_GET['url'] : '/';
-            if (preg_match('@^api/@', $url)) {
+        // Format url
+        $url = isset($_GET['walrus_route']) ? $_GET['walrus_route'] : '/';
+        unset($_GET['walrus_route']);
+
+        try {
+            if (preg_match('@^api/@', $this->currentPath)) {
                 $this->processForAPI();
             } else {
                 session_start();
@@ -179,7 +185,7 @@ class WalrusRouter
             && in_array($_method, array('PUT', 'DELETE'));
 
         $requestMethod = $checkMethod ? $_method : $_SERVER['REQUEST_METHOD'];
-        $requestUrl = isset($_GET['url']) ? $_GET['url'] : '/';
+        $requestUrl = $this->currentPath;
 
 
         // strip GET variables from URL
@@ -302,7 +308,8 @@ class WalrusRouter
     private function process()
     {
         $_ENV['W']['route_type'] = 'classic';
-        $_ENV['W']['route_current'] = isset($_GET['url']) ? '/' . $_GET['url'] : '/';
+        $_ENV['W']['route_current'] = substr($this->currentPath, -1) == '/' ?
+            $this->currentPath : $this->currentPath . '/';
 
         $route = $this->matchCurrentRequest();
         if (!$route) {
@@ -314,7 +321,7 @@ class WalrusRouter
             }
 
             if (!$route) {
-                $url = isset($_GET['url']) ? $_GET['url'] : '/';
+                $url = $this->currentPath;
                 throw new WalrusException('Undefined route: ' . $url);
             }
         }
@@ -399,7 +406,8 @@ class WalrusRouter
     {
         $_ENV['W']['route_type'] = 'api';
 
-        $url = isset($_GET['url']) ? $_GET['url'] : '/';
+        $url = $this->currentPath;
+
         $apiUrl = rtrim(str_replace('api/', '', $url), '/');
 
         $cb = explode('/', $apiUrl);
@@ -453,11 +461,17 @@ class WalrusRouter
      * @param string $action an action of the controller
      * @param array $param an array of the parameter to pass to the controller
      *
-     * @throws Exception
+     * @throws WalrusException
+     *
+     * @return mixed the result of the called function
      */
     public static function reroute($controller, $action, $param = array())
     {
-        $controllerClass = ucwords(strtolower($controller)) . 'Controller';
+        if (strpos(strtolower($controller), 'controller') > 0) {
+            $controllerClass = ucwords($controller);
+        } else {
+            $controllerClass = ucwords(strtolower($controller)) . 'Controller';
+        }
 
         $class = WalrusAutoload::getNamespace($controllerClass);
 
@@ -479,18 +493,20 @@ class WalrusRouter
             throw new WalrusException('Controller exception');
         }
 
-        call_user_func_array($cb, $param);
+        return call_user_func_array($cb, $param);
     }
 
     /**
-     * Special Walrus router.
+     * Parse routes
      */
     public function getRoutes()
     {
-
         foreach ($_ENV['W']['routes'] as $name => $route) {
 
             $path = isset($route['path']) && !empty($route['path']) ? $route['path'] : '/';
+            if (strlen($path) > 1 && substr($path, 0, 1) == '/') {
+                $path = substr($path, 1, strlen($path));
+            }
             $controller = isset($route['controller']) ? $route['controller'] : '';
             $action = isset($route['action']) ? $route['action'] : '';
 
