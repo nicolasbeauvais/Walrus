@@ -33,7 +33,8 @@ class WalrusCompile
         'route',
         'skeleton',
         'form',
-        'acl'
+        'acl',
+        'i18n'
     );
 
     private static $instance;
@@ -270,10 +271,17 @@ class WalrusCompile
                     $filer->deleteCurrent();
                 } else {
                     $content = $filer->getFileContent();
-                    if (isset($_ENV['W'][$dir]) && !empty($_ENV['W'][$dir])) {
-                        $_ENV['W'][$dir] = array_merge($_ENV['W'][$dir], unserialize($content));
-                    } else {
-                        $_ENV['W'][$dir] = unserialize($content);
+
+                    switch ($dir) {
+                        case 'i18ns':
+                            $_ENV['W'][$dir][$fileName] = unserialize($content);
+                            break;
+                        default:
+                            if (isset($_ENV['W'][$dir]) && !empty($_ENV['W'][$dir])) {
+                                $_ENV['W'][$dir] = array_merge($_ENV['W'][$dir], unserialize($content));
+                            } else {
+                                $_ENV['W'][$dir] = unserialize($content);
+                            }
                     }
                 }
             }
