@@ -12,19 +12,22 @@
 #       type: text
 #       required: true
 #       label: Your email
-#       validate: /^\w{3,10}$/
+#       check:
+#         validate: /^\w{3,10}$/
 #     password:
 #       type: password
-#       required: true
 #       id: helloworld
+#       check:
+#         required: true
 #     sexe:
 #       type: radio
-#       required: true
 #       options:
 #         male:
 #           label: Male
 #         female:
 #           label: Female
+#       check:
+#         required: true
 #     newsletter:
 #       type: checkbox
 #       options:
@@ -32,13 +35,11 @@
 #           label: 'Yes'
 #         0:
 #           label: 'No'
-#       validate:
-#         - 0
-#         - 1
 #     categories:
 #       type: select
 #       function: HelloController::getSelect
-#       required: true
+#       check:
+#         required: true
 #     transport:
 #       type: select
 #       options:
