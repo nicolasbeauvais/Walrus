@@ -10,10 +10,10 @@
 	 	<img src="/assets/images/logo.png" alt="COUCOU">
 		<br>
 		<nav>
-	    	<a href="/">Home</a>
-	    	<a href="/post/create">Cr&eacute;er un post</a>
-	    	<a href="/signin">Se connecter</a>
-	    	<a href="/signup">S'inscrire</a>
+	    	<a href="/Walrus/">Home</a>
+	    	<a href="/Walrus/post/create">Cr&eacute;er un post</a>
+	    	<a href="/Walrus/signin">Se connecter</a>
+	    	<a href="/Walrus/signup">S'inscrire</a>
 		</nav>
 	</div>
 	<div class="list-post-home">
@@ -21,7 +21,7 @@
 		<br>
 		{% if posts is defined  %}
 		    {% for post in posts %}
-		        <a href="/post/{{ post.properties.id }}">{{ post.properties.title }}</a>
+		        <a href="/Walrus/post/{{ post.properties.id }}">{{ post.properties.title }}</a>
 		        <br>
 		    {% endfor %}
 		{% else %}

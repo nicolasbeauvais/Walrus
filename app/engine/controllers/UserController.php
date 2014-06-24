@@ -17,7 +17,7 @@ class UserController extends WalrusController
                 }
                 else
                 {
-                    $this->go('/');
+                    $this->go('/Walrus/');
                 }
             }
         }
@@ -29,13 +29,15 @@ class UserController extends WalrusController
     {
         if (isset($_POST['type'])) {
             if ($_POST['type'] === 'signup') {
+
                 $res = $this->model('user')->signup();
+                
                 if (isset($res['errors'])) {
                     $this->register('errors', $res['errors']);
                 }
                 else
                 {
-                    $this->go('/');
+                    $this->go('/Walrus/');
                 }
             }
         }

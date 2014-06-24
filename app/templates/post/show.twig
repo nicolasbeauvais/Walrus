@@ -3,20 +3,20 @@
 <head>
     <title>Walrus Form</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="/assets/styles/main.css">
+    <link rel="stylesheet" type="text/css" href="/Walrus/assets/styles/main.css">
 </head>
 <body>
     <div style="text-align:center">
-        <img src="/assets/images/logo.png">
+        <img src="/Walrus/assets/images/logo.png">
         <br>
         <nav>
-            <a href="/">Home</a>
-            <a href="/post/create">Cr&eacute;er un post</a>
-            <a href="/signin">Se connecter</a>
-            <a href="/signup">S'inscrire</a>
+            <a href="/Walrus/">Home</a>
+            <a href="/Walrus/post/create">Cr&eacute;er un post</a>
+            <a href="/Walrus/signin">Se connecter</a>
+            <a href="/Walrus/signup">S'inscrire</a>
         </nav>
     </div>
-    <a href="/">back</a>
+    <a href="/Walrus/">back</a>
     {% if error is defined %}
         {{ error }}
     {% elseif post is defined %}
@@ -26,8 +26,8 @@
         {% if session is defined %}
             {{ session.user.id }}
             {% if session.user.id == post.properties.users_id %}
-                <a href="/post/{{ post.properties.id }}/delete">delete</a>
-                <a href="/post/{{ post.properties.id }}/edit">edit</a>
+                <a href="/Walrus/post/{{ post.properties.id }}/delete">delete</a>
+                <a href="/Walrus/post/{{ post.properties.id }}/edit">edit</a>
             {% endif %}
         {% endif %}
     {% endif %}

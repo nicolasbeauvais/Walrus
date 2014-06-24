@@ -34,7 +34,7 @@ class PostController extends WalrusController
             }
             else
             {
-                $this->go('/post/'.$res->getProperties()['id']);
+                $this->go('/Walrus/post/'.$res->getProperties()['id']);
             }
         }
 
@@ -52,7 +52,7 @@ class PostController extends WalrusController
             }
             else
             {
-                $this->go('/post/'.$res->getProperties()['id']);
+                $this->go('/Walrus/post/'.$res->getProperties()['id']);
             }
         }
 
@@ -78,9 +78,9 @@ class PostController extends WalrusController
         if(!empty($result))
         {
             $this->register('error', $result);
-            $this->go('/post/'.$id);
+            $this->go('/Walrus/post/'.$id);
         }
 
-        $this->go('/');
+        $this->go('/Walrus/');
     }
 }
