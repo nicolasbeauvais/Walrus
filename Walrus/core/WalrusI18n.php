@@ -59,18 +59,58 @@ class WalrusI18n
     {
         $args = func_get_args();
 
-        $value = self::$values;
+        $vars = '';
+        $format = '';
+        $message = self::$values;
 
         if (empty($args)) {
-            return $value;
+            return $message;
         }
 
         foreach ($args as $arg) {
-            if (isset($value[$arg])) {
-                $value = $value[$arg];
+
+            if (is_array($arg)) {
+                $vars = $arg;
+                continue;
+            }
+
+            if (isset($message['format'])) {
+                $format = $message['format'];
+            }
+
+            if (isset($message[$arg])) {
+                $message = $message[$arg];
             } else {
                 throw new WalrusException('Cannot find translation for: ' . explode('/', $args));
             }
+        }
+
+        // handle singular and plural
+        if (is_array($message)) {
+            if (isset($vars['count']) && ($vars['count'] > 1 && isset($message['other']))
+             || ($vars['count'] <= 1 && isset($message['one']))) {
+                $message = $vars['count'] > 1 ? $message['other'] : $message['one'];
+            } else {
+                throw new WalrusException('Expected count vars and one/other i18n to process: "' . $message  . '"');
+            }
+        }
+
+        if (!empty($format) && !empty($vars)) {
+            foreach ($vars as $key => $var) {
+                $format = preg_replace("/\%\{(" . $key . ")\}/", $var, $format);
+            }
+
+            $value = preg_replace("/\%\{(message)\}/", $message, $format);
+        } else {
+            $value = $message;
+        }
+
+        if (empty($vars)) {
+            return $value;
+        }
+
+        foreach ($vars as $key => $var) {
+            $value = preg_replace("/\%\{" . $key . "\}/", $var, $value);
         }
 
         return $value;
