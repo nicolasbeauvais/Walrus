@@ -4,7 +4,7 @@ errors:
     required: is required
     not_required: is required
     empty: can't be empty
-    equal_to: must be equal to %{count}
+    equal_to: must be equal to %{value}
     even: must be even
     greater_than: must be greater than %{count}
     greater_than_or_equal_to: must be greater than or equal to %{count}
@@ -21,3 +21,12 @@ errors:
     length:
       one: is the wrong length (should be 1 character)
       other: is the wrong length (should be %{count} characters)
+    max_selected:
+      one: require a maximum of one element selected
+      other: require a maximum of %{count} elements selected
+    min_selected:
+      one: require a minimum of one element selected
+      other: require a minimum of %{count} elements selected
+    selected:
+      one: require one element selected
+      other: require %{count} elements selected
