@@ -56,19 +56,19 @@ class WalrusRouter
      * The WalrusRouter unique instance for singleton.
      * @var WalrusRouter
      */
-    protected static $instance;
+    private static $instance;
 
     /**
      * Private construct to prevent multiples instances
      */
-    protected function __construct()
+    private function __construct()
     {
     }
 
     /**
      * Private clone to prevent multiples instances
      */
-    protected function __clone()
+    private function __clone()
     {
     }
 
