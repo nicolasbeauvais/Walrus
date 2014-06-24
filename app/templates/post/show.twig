@@ -1,18 +1,24 @@
-<a href="/">back</a>
-{% if error is defined %}
-    {{ error }}
-{% elseif post is defined %}
-    title : {{ post.properties.title }}
-    content : {{ post.properties.content }}
+{% extends "layout/layout.twig" %}
 
-    {% if session is defined %}
-        {{ session.user.id }}
-        {% if session.user.id == post.properties.users_id %}
-            <a href="/post/{{ post.properties.id }}/delete">delete</a>
-            <a href="/post/{{ post.properties.id }}/edit">edit</a>
+{% block content %}
+
+    <a href="/">back</a>
+    {% if error is defined %}
+        {{ error }}
+    {% elseif post is defined %}
+        title : {{ post.properties.title }}
+        content : {{ post.properties.content }}
+
+        {% if session is defined %}
+            {{ session.user.id }}
+            {% if session.user.id == post.properties.users_id %}
+                <a href="/post/{{ post.properties.id }}/delete">delete</a>
+                <a href="/post/{{ post.properties.id }}/edit">edit</a>
+            {% endif %}
         {% endif %}
     {% endif %}
-{% endif %}
+    
+{% endblock %}
 
 
 

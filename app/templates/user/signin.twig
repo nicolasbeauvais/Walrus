@@ -1,13 +1,19 @@
-<h3>Login</h3>
+{% extends "layout/layout.twig" %}
 
-<form action="/signin" method="POST">
-  <input type="hidden" name="type" value="login"/>
-  <input type="text" name="pseudo" placeholder="Pseudo" value=""/>
-  <input type="password" name="password" placeholder="Password" value=""/>
-  <br>
-    {% if errors['credentials'] is defined %}
-        <span style="color:#ff0000;">{{ errors['credentials'] }}</span>
-    {% endif %}
-  <br>
-  <input class="first" type="submit" value="Login"/>
-</form>
+{% block content %}
+
+	<h3>Login</h3>
+
+	<form action="/signin" method="POST">
+	  <input type="hidden" name="type" value="login"/>
+	  <input type="text" name="pseudo" placeholder="Pseudo" value=""/>
+	  <input type="password" name="password" placeholder="Password" value=""/>
+	  <br>
+	    {% if errors['credentials'] is defined %}
+	        <span style="color:#ff0000;">{{ errors['credentials'] }}</span>
+	    {% endif %}
+	  <br>
+	  <input class="first" type="submit" value="Login"/>
+	</form>
+	
+{% endblock %}
