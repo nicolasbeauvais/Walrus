@@ -5,6 +5,7 @@ VHOST :
 
 	<VirtualHost *:80>
                 ServerAdmin webmaster@localhost
+
                 ServerName walrus
 
                 DocumentRoot /var/www/Walrus
@@ -14,7 +15,7 @@ VHOST :
                         Order allow,deny
                         allow from all
                 </Directory>
-                
+
                 # Chroot PHP script to this path
                 php_admin_value open_basedir "/var/www/Walrus"
                 # Tmp upload directory
@@ -40,7 +41,7 @@ ___
 
 Host to add (Windows ou Mac) AND VM :
 
-    127.0.0.1       walrus
+    127.0.0.1       walrus.dev
 
 path VM :
 
