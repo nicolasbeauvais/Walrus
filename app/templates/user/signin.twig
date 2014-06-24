@@ -1,7 +1,21 @@
-{% extends "layout/layout.twig" %}
-
-{% block content %}
-
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Walrus Form</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="/assets/styles/main.css">
+</head>
+<body>
+	<div style="text-align:center">
+	  	<img src="/assets/images/logo.png">
+	  	<br>
+	  	<nav>
+		    <a href="/">Home</a>
+		    <a href="/post/create">Cr&eacute;er un post</a>
+		    <a href="/signin">Se connecter</a>
+		    <a href="/signup">S'inscrire</a>
+	  	</nav>
+	</div>
 	<h3>Login</h3>
 
 	<form action="/signin" method="POST">
@@ -15,5 +29,5 @@
 	  <br>
 	  <input class="first" type="submit" value="Login"/>
 	</form>
-	
-{% endblock %}
+</body>
+</html>

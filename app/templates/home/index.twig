@@ -1,14 +1,33 @@
-{% extends "templates/layout/layout.twig" %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Walrus Form</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="/assets/styles/main.css">
+</head>
+<body>
+	<div style="text-align:center">
+	 	<img src="/assets/images/logo.png" alt="COUCOU">
+		<br>
+		<nav>
+	    	<a href="/">Home</a>
+	    	<a href="/post/create">Cr&eacute;er un post</a>
+	    	<a href="/signin">Se connecter</a>
+	    	<a href="/signup">S'inscrire</a>
+		</nav>
+	</div>
+	<div class="list-post-home">
+		Listes des posts :
+		<br>
+		{% if posts is defined  %}
+		    {% for post in posts %}
+		        <a href="/post/{{ post.properties.id }}">{{ post.properties.title }}</a>
+		        <br>
+		    {% endfor %}
+		{% else %}
+		    No Posts
+		{% endif %}
+	</div>
+</body>
+</html>
 
-{% block content %}
-	Welcome Home
-	{% if posts is defined  %}
-	    {% for post in posts %}
-	        <br>
-	        title : <a href="/post/{{ post.properties.id }}">{{ post.properties.title }}</a>
-	        <br>
-	    {% endfor %}
-	{% else %}
-	    No Posts
-	{% endif %}
-{% endblock %}

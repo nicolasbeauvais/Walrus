@@ -1,0 +1,19 @@
+body {
+	font-family: Arial, sans-serif;
+	font-size: 18px;
+}
+
+nav a {
+	color: #666;
+	text-decoration: none;
+	margin-right: 10px;
+	
+}
+
+nav a:last-child {
+	margin-right: 0;
+}
+
+nav a:hover {
+	text-decoration: underline;
+}
