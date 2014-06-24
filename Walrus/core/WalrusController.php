@@ -106,7 +106,7 @@ class WalrusController
                 self::$templating[1] = '';
                 break;
             case 'twig':
-                self::$templating[0] = '.twig';
+                self::$templating[0] = '.html.twig';
                 self::$templating[1] = '';
                 break;
             case 'php':
