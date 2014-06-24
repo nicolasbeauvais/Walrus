@@ -73,7 +73,7 @@ class WalrusForm
      *
      * @return mixed
      */
-    public function check($controller = null, $action = null, $param = null)
+    public function check($controller = null, $action = null, $param = array())
     {
         $errors = array();
         $data = $this->form['method'] == 'POST' ? $_POST : $_GET;
@@ -234,10 +234,8 @@ class WalrusForm
             die;
         }
 
-        if (empty($errors)) {
-            if ($controller && $action) {
-                WalrusRouter::reroute($controller, $action, $param);
-            }
+        if (empty($errors) && $controller && $action) {
+            WalrusRouter::reroute($controller, $action, $param);
             return true;
         }
 
