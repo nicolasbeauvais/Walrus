@@ -9,3 +9,4 @@ config/compiled/
 
 #JetBrains IDE
 .idea/
+/nbproject
