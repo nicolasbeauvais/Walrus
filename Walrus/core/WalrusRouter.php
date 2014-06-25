@@ -100,7 +100,8 @@ class WalrusRouter
             && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
 
         // Format url
-        $this->currentPath = $_SERVER['REQUEST_URI'];
+        $url = isset($_GET['walrus_route']) ? $_GET['walrus_route'] : '/';
+        unset($_GET['walrus_route']);
 
         try {
             if (preg_match('@^api/@', $this->currentPath)) {
@@ -186,12 +187,13 @@ class WalrusRouter
         $requestMethod = $checkMethod ? $_method : $_SERVER['REQUEST_METHOD'];
         $requestUrl = $this->currentPath;
 
+
         // strip GET variables from URL
         if (($pos = strpos($requestUrl, '?')) !== false) {
             $requestUrl =  substr($requestUrl, 0, $pos);
         }
 
-        $this->currentPath = rtrim($requestUrl, '/').'/';
+        $this->currentPath = '/' . rtrim($requestUrl, '/').'/';
 
         return $this->match($requestMethod);
     }
@@ -201,7 +203,7 @@ class WalrusRouter
      * If so, return route's target
      * If called multiple times
      *
-     * @param string $requestMethod The type of method for the route.
+     * @param string $requestMethod The type of methode for the route.
      *
      * @return Route|false
      */
