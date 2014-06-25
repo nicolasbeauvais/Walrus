@@ -100,7 +100,8 @@ class WalrusRouter
             && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
 
         // Format url
-        $url = isset($_GET['walrus_route']) ? $_GET['walrus_route'] : '/';
+        $this->currentPath = isset($_GET['walrus_route']) ?
+            (strpos($_GET['walrus_route'], '/') == 0 ? $_GET['walrus_route'] : '/' . $_GET['walrus_route']) : '/';
         unset($_GET['walrus_route']);
 
         try {
