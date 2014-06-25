@@ -97,7 +97,7 @@ class WalrusForm
 
                 // process function
                 if (isset($field['function'])) {
-                    $cb = explode(':', $field['function']);
+                    $cb = explode('::', $field['function']);
                     $field['options'] = WalrusRouter::reroute($cb[0], $cb[1]);
                 }
 
@@ -145,8 +145,6 @@ class WalrusForm
             } elseif (!isset($check['required'])) {
                 $check['required'] = true;
             }
-
-            // @TODO: check validate field (regex), function caller, email check
 
             // check required
             if (isset($check['required']) && $check['required'] == true && !(isset($data[$name]))) {// check required
@@ -226,6 +224,15 @@ class WalrusForm
                     'attribute' => $name,
                     'count' => $check['min']
                 ));
+            }
+            if (isset($check['validate']) && preg_match($check['validate'], $data[$name])) {// check max
+                $errors[$name] = WalrusI18n::get('errors', 'messages', 'validate', array('attribute' => $name));
+            }
+            if (isset($check['function'])) {
+                $cb = explode('::', $check['function']);
+                if (!$isOk = WalrusRouter::reroute($cb[0], $cb[1])) {
+                    $errors[$name] = $isOk;
+                }
             }
         }
 
@@ -331,7 +338,7 @@ class WalrusForm
 
                 // function cal
                 if ($function) {
-                    $cb = explode(':', $function);
+                    $cb = explode('::', $function);
                     $options = WalrusRouter::reroute($cb[0], $cb[1]);
                 }
 

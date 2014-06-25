@@ -3,6 +3,7 @@
 namespace app\engine\controllers;
 
 use Walrus\core\WalrusController;
+use Walrus\core\WalrusForm;
 
 /**
  * Class HelloController
