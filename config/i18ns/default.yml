@@ -2,7 +2,7 @@ errors:
   format: '%{attribute} %{message}'
   messages:
     required: is required
-    not_required: is required
+    blank: must be blank
     empty: can't be empty
     equal_to: must be equal to %{value}
     even: must be even
