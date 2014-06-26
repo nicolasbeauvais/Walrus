@@ -201,7 +201,8 @@ class WalrusController
         if ($_ENV['W']['templating'] == 'twig') {
             $loader = new Twig_Loader_Filesystem($_ENV['W']['FRONT_PATH']);
             self::$twig = new Twig_Environment($loader, array(
-                'cache' => $_ENV['W']['CACHE_PATH'] . 'twig'
+                'cache' => $_ENV['W']['CACHE_PATH'] . 'twig',
+                'auto_reload' => true
             ));
         }
 
