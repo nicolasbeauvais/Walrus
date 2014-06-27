@@ -225,8 +225,8 @@ class WalrusForm
                     'count' => $check['min']
                 ));
             }
-            if (isset($check['validate']) && preg_match($check['validate'], $data[$name])) {// check max
-                $errors[$name] = WalrusI18n::get('errors', 'messages', 'validate', array('attribute' => $name));
+            if (isset($check['validate']) && preg_match($check['validate'], $data[$name]) !== 1) {// check max
+                $errors[$name] = WalrusI18n::get('errors', 'messages', 'invalid', array('attribute' => $name));
             }
             if (isset($check['function'])) {
                 $cb = explode('::', $check['function']);
@@ -241,8 +241,12 @@ class WalrusForm
             die;
         }
 
-        if (empty($errors) && $controller && $action) {
-            WalrusRouter::reroute($controller, $action, $param);
+        if (empty($errors)) {
+
+            if ($controller && $action) {
+                return WalrusRouter::reroute($controller, $action, $param);
+            }
+
             return true;
         }
 
