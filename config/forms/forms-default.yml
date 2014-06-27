@@ -46,4 +46,8 @@
 #         - train
 #         - car
 #         - plane
+#     message:
+#       type: textarea
+#       check:
+#         min: 50
 
