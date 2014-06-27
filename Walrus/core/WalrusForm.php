@@ -454,7 +454,8 @@ class WalrusForm
 
                 // Create input
                 $Tag = new Tag();
-                $Tag->create('input');
+                $type = $field['type'] == 'textarea' ? 'textarea' : 'input';
+                $Tag->create($type);
                 $Tag->setAttributes($field);
 
                 array_push($row, $Tag);
