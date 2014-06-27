@@ -194,8 +194,6 @@ class WalrusRouter
             $requestUrl =  substr($requestUrl, 0, $pos);
         }
 
-        $this->currentPath = '/' . rtrim($requestUrl, '/').'/';
-
         return $this->match($requestMethod);
     }
 
