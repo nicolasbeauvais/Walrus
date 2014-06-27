@@ -1,6 +1,6 @@
 # Form exemple
 
-# _form_login:
+# form_signup:
 #   form:
 #     method: POST
 #     action: /my-form
