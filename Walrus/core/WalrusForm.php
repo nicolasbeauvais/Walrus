@@ -361,6 +361,8 @@ class WalrusForm
                         $Optgroup->setAttributes(array('label' => $inputKey));
 
                         foreach ($text as $keyText => $valueText) {
+                            $Option = new Tag();
+                            $Option->create('option');
                             $Option->setAttributes(array('value' => $keyText));
                             $Option->inject($valueText);
                             $Optgroup->inject($Option);
