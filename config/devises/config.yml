@@ -1,7 +1,9 @@
 signin:
-  actif : off
+  actif : on
   login:
     field: email
+  bad_credentials:
+    message: errors.login.bad_credentials
   path: /signin
   redirect: /
   template: devises/signin
@@ -14,9 +16,22 @@ signup:
   path: /signup
   redirect: /
   template: devises/signup
+  login:
+    not_empty:
+      message: errors.messages.not_empty
+    not_uniq:
+      message: errors.messages.not_uniq
   password:
     field : password
     salt: email
     hash : sha256
-#    regex: /^(?=.*\d)[0-9A-Za-z]{8,}/
+    confirm:
+      field: cpassword
+      message: errors.password.confirm
+    regex:
+      pattern: /^(?=.*\d)(?=.*[A-Z])[0-9A-Za-z]{8,}$/
+      message: errors.password.regex
+  table: users
+  default:
+    acl: user
 

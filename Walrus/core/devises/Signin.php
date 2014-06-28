@@ -9,8 +9,11 @@ namespace Walrus\core\devises;
 
 class Signin
 {
+    public static $options;
+
     public static function getRoutes($options)
     {
+        self::$options = $options;
         $routes = array();
 
         $path = str_replace('/','',$options['path']);

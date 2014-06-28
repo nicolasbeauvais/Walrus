@@ -1,0 +1,12 @@
+<h3>Login</h3>
+
+<form action="/signin/" method="POST">
+    <input type="email" name="email" placeholder="Login.." value=""/>
+    <input type="password" name="password" placeholder="Password.." value=""/>
+    <br>
+    {% if errors['bad_credentials'] is defined %}
+        <span style="color:#ff0000;">{{ errors['bad_credentials'] }}</span>
+    {% endif %}
+    <br>
+    <input class="first" type="submit" value="Login"/>
+</form>

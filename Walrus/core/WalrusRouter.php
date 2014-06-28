@@ -110,12 +110,7 @@ class WalrusRouter
                 $this->processForAPI();
             } else {
                 session_start();
-                var_dump($_ENV['W']['devises']);
-
                 WalrusDevises::bootsrap();
-
-                var_dump($_ENV['W']['routes']);
-
                 $this->getRoutes();
                 $this->process();
             }
@@ -221,6 +216,11 @@ class WalrusRouter
                 continue;
             }
 
+            if($requestMethod != $route->getMethod())
+            {
+                continue;
+            }
+
             // check if request url matches route regex. if not, return false.
             if (!preg_match("@^".$route->getRegex()."*$@i", $this->currentPath, $matches)) {
                 continue;
@@ -317,7 +317,6 @@ class WalrusRouter
             $this->currentPath : $this->currentPath . '/';
 
         $route = $this->matchCurrentRequest();
-
         if (!$route) {
             // try to find a default route
             foreach ($this->routes as $defaultRoute) {

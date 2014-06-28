@@ -1,0 +1,29 @@
+<h3>Signup</h3>
+
+<form action="/signup/" method="POST">
+    <input type="text" name="email" placeholder="Email.." value="{% if email is defined %}{{ email }}{% endif %}"/>
+    {% if errors.login.not_empty is defined %}
+        <br>
+        <span style="color:#ff0000;">{{ errors.login.not_empty }}</span>
+    {% endif %}
+    {% if errors.login.not_uniq is defined %}
+        <br>
+        <span style="color:#ff0000;">{{ errors.login.not_uniq }}</span>
+    {% endif %}
+    <br>
+    <input type="password" name="password" placeholder="Password.." value=""/>
+    {% if errors.password.regex is defined %}
+        <br>
+        <span style="color:#ff0000;">{{ errors.password.regex }}</span>
+    {% endif %}
+    <br>
+    <input type="password" name="cpassword" placeholder="Confirm Password.." value=""/>
+    {% if errors.password.confirm is defined %}
+        <br>
+        <span style="color:#ff0000;">{{ errors.password.confirm }}</span>
+    {% endif %}
+    <br>
+    <input type="submit" value="Signup"/>
+</form>
+</body>
+</html>

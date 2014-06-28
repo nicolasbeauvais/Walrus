@@ -7,8 +7,34 @@
 namespace app\engine\controllers;
 
 use Walrus\core\WalrusController;
+use Walrus\core\devises\Signin;
 
 class WalrusSigninController extends WalrusController
 {
+    public function getSignin()
+    {
+        $this->setView(Signin::$options['template']);
+    }
 
+    public function postSignin()
+    {
+        if (!empty($_POST))
+        {
+            $res = $this->model('user')->signin();
+            if(isset($res['bad_credentials']))
+            {
+                $this->register('errors', array('bad_credentials' => $res['bad_credentials']));
+                if(!empty($_POST[Signin::$options['login']['field']]))
+                {
+                    $this->register('email', $_POST[Signin::$options['login']['field']]);
+                }
+            }
+            else
+            {
+                $this->go('/');
+            }
+        }
+
+        $this->setView(Signin::$options['template']);
+    }
 }
