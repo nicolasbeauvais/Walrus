@@ -155,8 +155,12 @@ class WalrusForm
                 $errors[$name] = WalrusI18n::get('errors', 'messages', 'blank', array('attribute' => $name));
                 continue;
             }
-            if (isset($check['empty']) && $check['empty'] == true && empty($data[$name])) {// check empty
+            if (isset($check['empty']) && $check['empty'] == true && !empty($data[$name])) {// check empty
                 $errors[$name] = WalrusI18n::get('errors', 'messages', 'empty', array('attribute' => $name));
+                continue;
+            }
+            if (isset($check['empty']) && $check['empty'] == false && empty($data[$name])) {// check empty
+                $errors[$name] = WalrusI18n::get('errors', 'messages', 'not_empty', array('attribute' => $name));
                 continue;
             }
             if (isset($check['equal_to'])) {// check equal_to
