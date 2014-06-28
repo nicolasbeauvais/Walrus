@@ -67,6 +67,15 @@ class WalrusI18n
             return $message;
         }
 
+        if(substr_count($args[0], '.'))
+        {
+            $params = explode('.', $args[0]);
+            if(!empty($args[1]))
+                $params[] = $args[1];
+
+            $args = $params;
+        }
+
         foreach ($args as $arg) {
 
             if (is_array($arg)) {

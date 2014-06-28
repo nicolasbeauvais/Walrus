@@ -1,9 +1,15 @@
 errors:
+  login:
+    bad_credentials: Wrong login/password
+  password:
+    regex:  Password must have a number, a capital and minimum 8 characters
+    confirm: Confirm password fail
   format: '%{attribute} %{message}'
   messages:
     required: is required
     blank: must be blank
     empty: must be empty
+    not_uniq: already exist
     not_empty: can't be empty
     equal_to: must be equal to %{value}
     even: must be even
