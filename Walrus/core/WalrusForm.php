@@ -330,11 +330,10 @@ class WalrusForm
                     $Label = new Tag();
                     $Label->create('label');
 
-                    if (is_string($label)) {
-                        $Label->setAttributes('text', $label);
-                    } elseif (is_array($label)) {
-                        $Label->setAttributes($label);
-                    }
+                    $label = is_array($label)? array_merge($label, array('for' => $field['id']))
+                        : array('text' => $label, 'for' => $field['id']);
+
+                    $Label->setAttributes($label);
 
                     array_push($row, $Label);
                 }
@@ -382,11 +381,11 @@ class WalrusForm
                     $Label = new Tag();
                     $Label->create('label');
 
-                    if (is_string($label)) {
-                        $Label->setAttributes('text', $label);
-                    } elseif (is_array($label)) {
-                        $Label->setAttributes($label);
-                    }
+                    $label = is_array($label)? array_merge($label, array('for' => $field['id']))
+                        : array('text' => $label, 'for' => $field['id']);
+
+                    $Label->setAttributes($label);
+
                     array_push($row, $Label);
                 }
 
@@ -452,11 +451,11 @@ class WalrusForm
                     $Label = new Tag();
                     $Label->create('label');
 
-                    if (is_string($label)) {
-                        $Label->setAttributes('text', $label);
-                    } elseif (is_array($label)) {
-                        $Label->setAttributes($label);
-                    }
+                    $label = is_array($label)? array_merge($label, array('for' => $field['id']))
+                        : array('text' => $label, 'for' => $field['id']);
+
+                    $Label->setAttributes($label);
+
                     array_push($row, $Label);
                 }
 
