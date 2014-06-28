@@ -1,0 +1,22 @@
+signin:
+  actif : off
+  login:
+    field: email
+  path: /signin
+  redirect: /
+  template: devises/signin
+  filter:
+      actif: on
+      exceptions: []
+
+signup:
+  actif : on
+  path: /signup
+  redirect: /
+  template: devises/signup
+  password:
+    field : password
+    salt: email
+    hash : sha256
+#    regex: /^(?=.*\d)[0-9A-Za-z]{8,}/
+

@@ -30,6 +30,7 @@ class WalrusCompile
      * Directories to compile
      */
     private static $entities = array(
+        'devise',
         'route',
         'skeleton',
         'form',

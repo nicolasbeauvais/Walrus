@@ -9,6 +9,7 @@
 namespace Walrus\core;
 
 use Spyc\Spyc;
+use Walrus\core\devises\WalrusDevises;
 use Walrus\core\objects\Route;
 use Walrus\core\WalrusException;
 use ReflectionClass;
@@ -102,6 +103,12 @@ class WalrusRouter
                 $this->processForAPI();
             } else {
                 session_start();
+                var_dump($_ENV['W']['devises']);
+
+                WalrusDevises::bootsrap();
+
+                var_dump($_ENV['W']['routes']);
+
                 $this->getRoutes();
                 $this->process();
             }
@@ -287,7 +294,6 @@ class WalrusRouter
             }
         }
 
-
         return array(
             'url' => $url,
             'route' => $route
@@ -304,6 +310,7 @@ class WalrusRouter
         $_ENV['W']['route_type'] = 'classic';
 
         $route = $this->matchCurrentRequest();
+
         if (!$route) {
             // try to find a default route
             foreach ($this->routes as $defaultRoute) {
@@ -486,7 +493,6 @@ class WalrusRouter
      */
     public function getRoutes()
     {
-
         foreach ($_ENV['W']['routes'] as $name => $route) {
 
             $path = isset($route['path']) && !empty($route['path']) ? $route['path'] : '/';
