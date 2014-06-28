@@ -6,7 +6,7 @@
  * Created: 19:00 27/03/14
  */
 
-namespace app\helpers;
+namespace Walrus\core\objects;
 
 use Walrus\core\WalrusException;
 
@@ -127,14 +127,24 @@ class Tag
     /**
      * Add a Tag HTML tag into an other.
      *
-     * @param $object
+     * @param $content
      *
      * @return Tag
      */
-    public function inject(Tag $object)
+    public function inject($content)
     {
-        if (get_class($object) == __class__) {
-            $this->attributes['text'] .= $object->make();
+        if (is_string($content)) {
+            if (isset($this->attributes['text'])) {
+                $this->attributes['text'] .= $content;
+            } else {
+                $this->attributes['text'] = $content;
+            }
+        } elseif (get_class($content) == __class__) {
+            if (isset($this->attributes['text'])) {
+                $this->attributes['text'] .= $content->make();
+            } else {
+                $this->attributes['text'] = $content->make();
+            }
         }
 
         return $this;

@@ -156,7 +156,7 @@ class WalrusMonitoring
             $i = $line;
             for ($i; $i > 0; $i--) {
                 if (isset($code[$i])) {
-                    preg_match('/\sfunction\s+([a-z_]\w+)/', $code[$i], $matches);
+                    preg_match('/function\s+([a-z_]\w+)\s?\(/', $code[$i], $matches);
                     if (!empty($matches) && isset($matches[1])) {
                         $function = $matches[1];
                         break;
