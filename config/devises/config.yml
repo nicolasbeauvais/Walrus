@@ -23,6 +23,7 @@ signup:
       message: errors.messages.not_uniq
   password:
     field : password
+    # if salf option is a field from form ( like email ), field's value will become the salt ( for uniq salt )
     salt: email
     hash : sha256
     confirm:

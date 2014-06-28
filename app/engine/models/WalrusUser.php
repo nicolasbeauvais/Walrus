@@ -49,7 +49,10 @@ class WalrusUser
         //___________________________________
 
         $user->$login_field = $_POST[$login_field];
-        $user->$password_field = hash(Signup::$options['password']['hash'], Signup::$options['password']['salt'] . $_POST[$password_field]);
+
+
+
+        $user->$password_field = hash(Signup::$options['password']['hash'], $this->getSalt() . $_POST[$password_field]);
         $user->acl = Signup::$options['default']['acl'];
 
         foreach(Signup::$options['additional_fields'] as $field)
@@ -74,7 +77,7 @@ class WalrusUser
             $login_field.' = :login AND '.$password_field.' = :password',
             array(
                 ':login' => $_POST[$login_field],
-                ':password' => hash(Signup::$options['password']['hash'], Signup::$options['password']['salt'] . $_POST[$password_field]),
+                ':password' => hash(Signup::$options['password']['hash'], $this->getSalt() . $_POST[$password_field]),
             )
         );
 
@@ -97,5 +100,17 @@ class WalrusUser
         $_SESSION['id'] = (int)$bean->id;
         $_SESSION['login'] = (string)$bean->$login;
         $_SESSION['acl'] = (string)$bean->acl;
+    }
+
+    protected function getSalt()
+    {
+        if(!empty($_POST[Signup::$options['password']['salt']]))
+        {
+            return $_POST[Signup::$options['password']['salt']];
+        }
+        else
+        {
+            return Signup::$options['password']['salt'];
+        }
     }
 }
