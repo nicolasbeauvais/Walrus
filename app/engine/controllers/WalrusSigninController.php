@@ -20,7 +20,7 @@ class WalrusSigninController extends WalrusController
     {
         if (!empty($_POST))
         {
-            $res = $this->model('user')->signin();
+            $res = $this->model('WalrusUser')->signin();
             if(isset($res['bad_credentials']))
             {
                 $this->register('errors', array('bad_credentials' => $res['bad_credentials']));
