@@ -350,12 +350,31 @@ class WalrusForm
                 }
 
                 foreach ($options as $inputKey => $text) {
+
                     // Create option
                     $Option = new Tag();
                     $Option->create('option');
-                    $Option->setAttributes(array('value' => $inputKey));
-                    $Option->inject($text);
-                    $Tag->inject($Option);
+
+                    if (is_array($text)) {
+                        $Optgroup = new Tag();
+                        $Optgroup->create('optgroup');
+                        $Optgroup->setAttributes(array('label' => $inputKey));
+
+                        foreach ($text as $keyText => $valueText) {
+                            $Option->setAttributes(array('value' => $keyText));
+                            $Option->inject($valueText);
+                            $Optgroup->inject($Option);
+                        }
+
+                        $options = $Optgroup;
+
+                    } else {
+                        $Option->setAttributes(array('value' => $inputKey));
+                        $Option->inject($text);
+                        $options = $Option;
+                    }
+
+                    $Tag->inject($options);
                 }
 
                 array_push($row, $Tag);
