@@ -298,7 +298,7 @@
     if ($validation):
     ?>
         <div id="infos">
-            Walrus as been configured.
+            Walrus has been configured.
         </div>
         <div id="more">
             <h3>Important!</h3><br/>

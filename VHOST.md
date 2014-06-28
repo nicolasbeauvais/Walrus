@@ -1,7 +1,6 @@
 VHOST :
 
-  $ sudo nano /etc/apache2/sites-available/walrus
-
+$ sudo nano /etc/apache2/sites-available/walrus
 
 	<VirtualHost *:80>
                 ServerAdmin webmaster@localhost
@@ -14,7 +13,7 @@ VHOST :
                         Order allow,deny
                         allow from all
                 </Directory>
-                
+
                 # Chroot PHP script to this path
                 php_admin_value open_basedir "/var/www/Walrus"
                 # Tmp upload directory
@@ -34,13 +33,14 @@ VHOST :
 ___
 
 	$ sudo a2ensite walrus
+
 	$ sudo service apache2 reload
 
 ___
 
 Host to add (Windows ou Mac) AND VM :
 
-    127.0.0.1       walrus
+    127.0.0.1       walrus.dev
 
 path VM :
 
