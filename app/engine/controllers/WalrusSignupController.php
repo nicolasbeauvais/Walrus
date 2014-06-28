@@ -21,7 +21,7 @@ class WalrusSignupController extends WalrusController
     {
         if (!empty($_POST))
         {
-            $res = $this->model('user')->signup();
+            $res = $this->model('WalrusUser')->signup();
 
             if (isset($res['errors'])) {
                 $this->register('errors', $res['errors']);
