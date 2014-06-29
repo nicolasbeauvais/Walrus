@@ -9,6 +9,7 @@ signin:
   template: devises/signin
   filter:
       actif: on
+      session_key: id
       exceptions: []
 
 signup:

@@ -1,12 +1,12 @@
 # Routes
 
 _home:
-    path:   ''
+    path:   '/'
     controller:   'HelloController'
     action: 'run'
     method: 'GET'
 
 _config:
-    path: 'config'
+    path: '/config'
     controller: 'ConfigController'
     action: 'config'
