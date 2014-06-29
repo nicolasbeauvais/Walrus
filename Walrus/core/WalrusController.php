@@ -8,6 +8,7 @@
 
 namespace Walrus\core;
 
+use Walrus\core\WalrusRouter;
 use Walrus\core\objects\Skeleton;
 use Walrus\core\objects\Template;
 use Walrus\core\objects\FrontController;
@@ -117,6 +118,20 @@ class WalrusController
         // Globals
         $this->register('_ENV', $_ENV);
         $this->register('helpers', WalrusHelpers::execute());
+    }
+
+    /**
+     * Reverse a named route.
+     *
+     * @param string $routeName The name of the route to reverse route.
+     * @param array $params Optional array of parameters to use in URL.
+     *
+     * @throws WalrusException
+     * @return string The url to the route
+     */
+    public function generate($routeName, array $params = array())
+    {
+        WalrusRouter::getInstance()->generate($routeName, $params);
     }
 
     /**
