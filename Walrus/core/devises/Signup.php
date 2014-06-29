@@ -34,9 +34,4 @@ class Signup
 
         return $routes;
     }
-
-    public function hashPassword()
-    {
-        return 'toto';
-    }
 }

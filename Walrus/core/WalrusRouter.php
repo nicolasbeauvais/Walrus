@@ -9,6 +9,7 @@
 namespace Walrus\core;
 
 use Spyc\Spyc;
+use Walrus\core\devises\Signin;
 use Walrus\core\devises\WalrusDevises;
 use Walrus\core\objects\Route;
 use Walrus\core\WalrusException;
@@ -101,9 +102,27 @@ class WalrusRouter
             && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
 
         // Format url
-        $this->currentPath = isset($_GET['walrus_route']) ?
-            (strpos($_GET['walrus_route'], '/') == 0 ? $_GET['walrus_route'] : '/' . $_GET['walrus_route']) : '/';
+        // query exist
+        if(!empty($_GET['walrus_route']))
+        {
+            $posLastSlash = strrpos($_GET['walrus_route'], '/') + 1;
+            // slash in last pos
+            if($posLastSlash == strlen($_GET['walrus_route']))
+            {
+                $currentPath = '/'. $_GET['walrus_route'];
+            }
+            else
+            {
+                $currentPath = '/'. $_GET['walrus_route'] .'/';
+            }
+        }
+        else
+        {
+            $currentPath = '/';
+        }
+
         unset($_GET['walrus_route']);
+        $this->currentPath = $currentPath;
 
         try {
             if (preg_match('@^api/@', $this->currentPath)) {
@@ -189,7 +208,6 @@ class WalrusRouter
 
         $requestMethod = $checkMethod ? $_method : $_SERVER['REQUEST_METHOD'];
         $requestUrl = $this->currentPath;
-
 
         // strip GET variables from URL
         if (($pos = strpos($requestUrl, '?')) !== false) {
@@ -330,6 +348,9 @@ class WalrusRouter
                 throw new WalrusException('Undefined route: ' . $url);
             }
         }
+
+        // launch login filter
+        Signin::filter($route);
 
         if ($route->getAcl() && (!isset($_SESSION['acl']) || $route->getAcl() != $_SESSION['acl'])) {
 

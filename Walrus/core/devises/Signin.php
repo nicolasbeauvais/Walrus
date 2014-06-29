@@ -34,4 +34,29 @@ class Signin
 
         return $routes;
     }
+
+    public static function filter($route)
+    {
+
+        $signinDevise = $_ENV['W']['devises']['signin'];
+        $sessionKey = $signinDevise['filter']['session_key'];
+        $exceptions = $signinDevise['filter']['exceptions'];
+
+        $exceptions[] = '_getSignin';
+        $exceptions[] = '_postSignin';
+        $exceptions[] = '_getSignup';
+        $exceptions[] = '_postSignup';
+
+        if($signinDevise['filter']['actif'])
+        {
+            if(!in_array($route->getName(), $exceptions))
+            {
+                if(!isset($_SESSION[$sessionKey]))
+                {
+                    header('Location: ' . $signinDevise['path']);
+                    die();
+                }
+            }
+        }
+    }
 }
