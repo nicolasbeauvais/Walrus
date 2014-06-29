@@ -10,7 +10,8 @@ signin:
   filter:
       actif: on
       session_key: id
-      exceptions: []
+      # give name of route, generic is bettet ;)
+      exceptions: ['_config']
 
 signup:
   actif : on

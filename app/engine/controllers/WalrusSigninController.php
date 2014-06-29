@@ -37,4 +37,13 @@ class WalrusSigninController extends WalrusController
 
         $this->setView(Signin::$options['template']);
     }
+
+    public function logout()
+    {
+        unset($_SESSION['id']);
+        unset($_SESSION['login']);
+        unset($_SESSION['acl']);
+
+        $this->go($this->generate('_home'));
+    }
 }
