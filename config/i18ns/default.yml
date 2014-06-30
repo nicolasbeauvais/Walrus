@@ -3,7 +3,8 @@ errors:
   messages:
     required: is required
     blank: must be blank
-    empty: can't be empty
+    empty: must be empty
+    not_empty: can't be empty
     equal_to: must be equal to %{value}
     even: must be even
     greater_than: must be greater than %{count}
