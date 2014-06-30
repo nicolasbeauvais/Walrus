@@ -620,4 +620,38 @@ class WalrusForm
         $this->form = $form;
         return true;
     }
+
+    /**
+     * @param string $key
+     * @param string $value
+     */
+    public function setForm($key, $value)
+    {
+        $this->form[$key] = $value;
+    }
+
+    /**
+     * @return array
+     */
+    public function getForm()
+    {
+        return $this->form;
+    }
+
+    /**
+     * @param string $key
+     * @param string $value
+     */
+    public function setFields($key, $value)
+    {
+        $this->fields[$key] = $value;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFields()
+    {
+        return $this->fields;
+    }
 }
