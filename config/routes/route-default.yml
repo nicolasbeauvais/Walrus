@@ -5,8 +5,3 @@ _home:
     controller:   'HelloController'
     action: 'run'
     method: 'GET'
-
-_project:
-    path: 'project'
-    controller: 'ProjectController'
-    action: 'index'

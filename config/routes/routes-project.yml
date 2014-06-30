@@ -1,0 +1,21 @@
+#routes for Project controller
+
+_project:
+    path: 'project'
+    controller: 'ProjectController'
+    action: 'index'
+
+_create_project:
+    path: 'project/create'
+    controller: 'ProjectController'
+    action: 'create'
+
+_delete_project:
+    path: 'project/delete/:id'
+    controller: 'ProjectController'
+    action: 'delete'
+
+_update_project:
+    path: 'project/update/:id'
+    controller: 'ProjectController'
+    action: 'update'
