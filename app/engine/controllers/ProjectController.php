@@ -7,4 +7,10 @@ use Walrus\core\WalrusController;
 class ProjectController extends WalrusController
 {
 
+    public function index(){
+
+
+        $this->setView('index');
+    }
+
 }
