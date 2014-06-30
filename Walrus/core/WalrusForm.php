@@ -155,8 +155,12 @@ class WalrusForm
                 $errors[$name] = WalrusI18n::get('errors', 'messages', 'blank', array('attribute' => $name));
                 continue;
             }
-            if (isset($check['empty']) && $check['empty'] == true && empty($data[$name])) {// check empty
+            if (isset($check['empty']) && $check['empty'] == true && !empty($data[$name])) {// check empty
                 $errors[$name] = WalrusI18n::get('errors', 'messages', 'empty', array('attribute' => $name));
+                continue;
+            }
+            if (isset($check['empty']) && $check['empty'] == false && empty($data[$name])) {// check empty
+                $errors[$name] = WalrusI18n::get('errors', 'messages', 'not_empty', array('attribute' => $name));
                 continue;
             }
             if (isset($check['equal_to'])) {// check equal_to
@@ -206,13 +210,13 @@ class WalrusForm
             if (isset($check['odd']) && $check['odd'] == true && $data[$name] % 2 == 0) {// check odd
                 $errors[$name] = WalrusI18n::get('errors', 'messages', 'odd', array('attribute' => $name));
             }
-            if (isset($check['max']) && $check['max'] == true && $data[$name] > $check['max']) {// check max
+            if (isset($check['max']) && $check['max'] == true && strlen($data[$name]) > $check['max']) {// check max
                 $errors[$name] = WalrusI18n::get('errors', 'messages', 'max', array(
                     'attribute' => $name,
                     'count' => $check['max']
                 ));
             }
-            if (isset($check['min']) && $check['min'] == true && $data[$name] < $check['min']) {// check min
+            if (isset($check['min']) && $check['min'] == true && strlen($data[$name]) < $check['min']) {// check min
                 $errors[$name] = WalrusI18n::get('errors', 'messages', 'min', array(
                     'attribute' => $name,
                         'count' => $check['min']
@@ -225,8 +229,8 @@ class WalrusForm
                     'count' => $check['min']
                 ));
             }
-            if (isset($check['validate']) && preg_match($check['validate'], $data[$name])) {// check max
-                $errors[$name] = WalrusI18n::get('errors', 'messages', 'validate', array('attribute' => $name));
+            if (isset($check['validate']) && preg_match($check['validate'], $data[$name]) !== 1) {// check max
+                $errors[$name] = WalrusI18n::get('errors', 'messages', 'invalid', array('attribute' => $name));
             }
             if (isset($check['function'])) {
                 $cb = explode('::', $check['function']);
@@ -241,8 +245,12 @@ class WalrusForm
             die;
         }
 
-        if (empty($errors) && $controller && $action) {
-            WalrusRouter::reroute($controller, $action, $param);
+        if (empty($errors)) {
+
+            if ($controller && $action) {
+                return WalrusRouter::reroute($controller, $action, $param);
+            }
+
             return true;
         }
 
@@ -322,11 +330,10 @@ class WalrusForm
                     $Label = new Tag();
                     $Label->create('label');
 
-                    if (is_string($label)) {
-                        $Label->setAttributes('text', $label);
-                    } elseif (is_array($label)) {
-                        $Label->setAttributes($label);
-                    }
+                    $label = is_array($label)? array_merge($label, array('for' => $field['id']))
+                        : array('text' => $label, 'for' => $field['id']);
+
+                    $Label->setAttributes($label);
 
                     array_push($row, $Label);
                 }
@@ -343,12 +350,33 @@ class WalrusForm
                 }
 
                 foreach ($options as $inputKey => $text) {
+
                     // Create option
                     $Option = new Tag();
                     $Option->create('option');
-                    $Option->setAttributes(array('value' => $inputKey));
-                    $Option->inject($text);
-                    $Tag->inject($Option);
+
+                    if (is_array($text)) {
+                        $Optgroup = new Tag();
+                        $Optgroup->create('optgroup');
+                        $Optgroup->setAttributes(array('label' => $inputKey));
+
+                        foreach ($text as $keyText => $valueText) {
+                            $Option = new Tag();
+                            $Option->create('option');
+                            $Option->setAttributes(array('value' => $keyText));
+                            $Option->inject($valueText);
+                            $Optgroup->inject($Option);
+                        }
+
+                        $options = $Optgroup;
+
+                    } else {
+                        $Option->setAttributes(array('value' => $inputKey));
+                        $Option->inject($text);
+                        $options = $Option;
+                    }
+
+                    $Tag->inject($options);
                 }
 
                 array_push($row, $Tag);
@@ -374,11 +402,11 @@ class WalrusForm
                     $Label = new Tag();
                     $Label->create('label');
 
-                    if (is_string($label)) {
-                        $Label->setAttributes('text', $label);
-                    } elseif (is_array($label)) {
-                        $Label->setAttributes($label);
-                    }
+                    $label = is_array($label)? array_merge($label, array('for' => $field['id']))
+                        : array('text' => $label, 'for' => $field['id']);
+
+                    $Label->setAttributes($label);
+
                     array_push($row, $Label);
                 }
 
@@ -444,17 +472,18 @@ class WalrusForm
                     $Label = new Tag();
                     $Label->create('label');
 
-                    if (is_string($label)) {
-                        $Label->setAttributes('text', $label);
-                    } elseif (is_array($label)) {
-                        $Label->setAttributes($label);
-                    }
+                    $label = is_array($label)? array_merge($label, array('for' => $field['id']))
+                        : array('text' => $label, 'for' => $field['id']);
+
+                    $Label->setAttributes($label);
+
                     array_push($row, $Label);
                 }
 
                 // Create input
                 $Tag = new Tag();
-                $Tag->create('input');
+                $type = $field['type'] == 'textarea' ? 'textarea' : 'input';
+                $Tag->create($type);
                 $Tag->setAttributes($field);
 
                 array_push($row, $Tag);
@@ -590,5 +619,39 @@ class WalrusForm
 
         $this->form = $form;
         return true;
+    }
+
+    /**
+     * @param string $key
+     * @param string $value
+     */
+    public function setForm($key, $value)
+    {
+        $this->form[$key] = $value;
+    }
+
+    /**
+     * @return array
+     */
+    public function getForm()
+    {
+        return $this->form;
+    }
+
+    /**
+     * @param string $key
+     * @param string $value
+     */
+    public function setFields($key, $value)
+    {
+        $this->fields[$key] = $value;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFields()
+    {
+        return $this->fields;
     }
 }

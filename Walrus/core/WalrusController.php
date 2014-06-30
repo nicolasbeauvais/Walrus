@@ -16,6 +16,7 @@ use ReflectionClass;
 use MtHaml;
 use Smarty;
 use Twig_Loader_Filesystem;
+use Twig_Extension_Debug;
 use Twig_Environment;
 
 /**
@@ -201,9 +202,25 @@ class WalrusController
         if ($_ENV['W']['templating'] == 'twig') {
             $loader = new Twig_Loader_Filesystem($_ENV['W']['FRONT_PATH']);
             self::$twig = new Twig_Environment($loader, array(
-                'cache' => $_ENV['W']['CACHE_PATH'] . 'twig'
+                'cache' => $_ENV['W']['CACHE_PATH'] . 'twig',
+                'debug' => ($_ENV['W']['environment'] == 'development'),
+                'auto_reload' => true
             ));
+            if ($_ENV['W']['environment'] == 'development') {
+                self::$twig->addExtension(new Twig_Extension_Debug());
+            }
         }
+
+        self::$variables['app'] = array(
+            'session' => $_SESSION,
+            'post' => $_POST,
+            'get' => $_GET,
+            'env' => $_ENV,
+            'server' => $_SERVER,
+            'request' => $_REQUEST,
+            'cookie' => $_COOKIE,
+            'file' => $_FILES
+        );
 
         if (count(self::$variables) > 0) {
             foreach (self::$variables as self::$foreach_key => self::$foreach_value) {
