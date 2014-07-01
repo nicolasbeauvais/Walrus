@@ -5,6 +5,11 @@ _project:
     controller: 'ProjectController'
     action: 'index'
 
+_show_project:
+    path: 'project/show/:id'
+    controller: 'ProjectController'
+    action: 'show'
+
 _create_project:
     path: 'project/create'
     controller: 'ProjectController'

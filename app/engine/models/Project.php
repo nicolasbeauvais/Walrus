@@ -29,6 +29,8 @@ class Project extends WalrusModel
     }
 
     /**
+     * Update an existing project
+     *
      * @param int $id
      * @param array $params
      * @return int

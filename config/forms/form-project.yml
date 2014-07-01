@@ -1,0 +1,18 @@
+# Project form
+
+form_project:
+    form:
+        method: POST
+        action: /DoctorTask/project/create
+        submit: Create new project
+        structure: list
+
+    fields:
+        title:
+            type: text
+            min: 1
+            label: Title
+
+        description:
+            type: textarea
+            label: Description
