@@ -58,9 +58,18 @@ class ProjectController extends WalrusController
         $project = $projects->findProject($id);
 
         $this->register("title",$project->title);
+        $this->register("id",$id);
 
         $this->setView("show");
 
+    }
+
+    public function delete($id){
+
+        $projects = new Project();
+        $projects->deleteProject($id);
+
+        $this->reroute("ProjectController","index");
     }
 
 }
