@@ -15,6 +15,11 @@ use Walrus\core\WalrusAutoload;
 require_once('../../config/env.php');
 
 /**
+ * Require PHPMailer
+ */
+require_once('../../vendor/PHPMailer/PHPMailerAutoload.php');
+
+/**
  * Require WalrusAutoload
  */
 require_once($_ENV['W']['WALRUS_PATH'] . '/core/WalrusAutoload.php');
