@@ -10,8 +10,9 @@ form_project:
     fields:
         title:
             type: text
-            min: 1
             label: Title
+            check:
+                min: 1
 
         description:
             type: textarea

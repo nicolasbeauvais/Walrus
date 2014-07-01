@@ -72,4 +72,31 @@ class Project extends WalrusModel
         return $project;
     }
 
+    /**
+     * Returns all the projects
+     *
+     * @return array
+     */
+    public function getAllProjects(){
+
+        $projects = R::findAll("project");
+        return $projects;
+    }
+
+    public function getProjectsByUser($user){
+
+        $projects = R::find("project",'user_id = :user',[':user' => $user]);
+        return $projects;
+    }
+
+    public function getProjectsByCollaboration($user){
+
+        $projects = array();
+        $allProjects = R::find("project_user","user_id = :user",[':user' => $user]);
+        foreach($allProjects as $project){
+            $projects[] = R::load("project",$project->project_id);
+        }
+        return $projects;
+    }
+
 }

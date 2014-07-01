@@ -22,17 +22,16 @@ class ProjectController extends WalrusController
             $form = new WalrusForm('form_project');
             $check = $form->check();
             if($check === true){
-                var_dump($check);
-var_dump($form);
+
                 $params = array(
                     "title" => $_POST['title'],
                     "description" => $_POST['description']
                 );
-/*
+
                 $projects = new Project();
                 $id = $projects->createProject($params);
 
-                $this->reroute("ProjectController","show",array("id"=>$id));*/
+                $this->reroute("ProjectController","show",array("id"=>$id));
             }
             else {
                 $this->register("form",$form->render());
@@ -49,6 +48,18 @@ var_dump($form);
 
             $this->setView('create');
         }
+
+    }
+
+    public function show($id){
+
+        $projects = new Project();
+
+        $project = $projects->findProject($id);
+
+        $this->register("title",$project->title);
+
+        $this->setView("show");
 
     }
 
