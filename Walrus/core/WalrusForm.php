@@ -654,4 +654,16 @@ class WalrusForm
     {
         return $this->fields;
     }
+
+    /**
+     * Set a particular field value.
+     *
+     * @param string $field
+     * @param string $key
+     * @param string $value
+     */
+    public function setFieldValue($field, $key, $value)
+    {
+        $this->fields[$field][$key] = $value;
+    }
 }
