@@ -81,7 +81,13 @@ class WalrusI18n
             if (isset($message[$arg])) {
                 $message = $message[$arg];
             } else {
-                throw new WalrusException('Cannot find translation for: ' . explode('/', $args));
+
+                foreach ($args as $key => $arg) {
+                    if (is_array($arg)) {
+                        unset($args[$key]);
+                    }
+                }
+                throw new WalrusException('Cannot find translation for: ' . implode('/', $args));
             }
         }
 

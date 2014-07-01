@@ -12,8 +12,7 @@ namespace Walrus\core;
  * Class WalrusAutoload
  * @package Walrus\core
  */
-class WalrusAutoload
-{
+class WalrusAutoload {
 
     /**
      * Contain all directory to watch for autoload.
@@ -23,7 +22,6 @@ class WalrusAutoload
         'app/engine/models/',
         'app/engine/api/',
         'app/helpers/',
-
         'Walrus/controllers/',
         'Walrus/core/',
         'Walrus/core/objects/',
@@ -40,9 +38,8 @@ class WalrusAutoload
     /**
      * Set the autoload.
      */
-    public function __construct()
-    {
-        spl_autoload_register(array($this,'autoload'));
+    public function __construct() {
+        spl_autoload_register(array($this, 'autoload'));
     }
 
     /**
@@ -54,11 +51,24 @@ class WalrusAutoload
      * @param string $class_with_namespace
      * @return bool
      */
-    private function autoload($class_with_namespace)
-    {
+    private function autoload($class_with_namespace) {
+
         $path = $_ENV['W']['ROOT_PATH'] . str_replace('\\', '/', $class_with_namespace) . '.php';
 
         if (file_exists($path)) {
+            
+            // if trying to autoload core components
+            if (strpos($path, 'Walrus/core') !== false) {
+                
+                // check if user has created a custom class that override the core component
+                $custom_path = str_replace("Walrus/", "app/", $path);
+                if (file_exists($custom_path)) {
+                    // load custom core components instead of basic component
+                    include_once($custom_path);
+                    return true;
+                }
+            }
+
             include_once($path);
             return true;
         } else {
@@ -79,7 +89,7 @@ class WalrusAutoload
             }
 
             $vendors_path = $_ENV['W']['ROOT_PATH'] . 'vendor/' .
-                str_replace('\\', '/', $class_with_namespace) . '.php';
+                    str_replace('\\', '/', $class_with_namespace) . '.php';
 
             if (file_exists($vendors_path)) {
                 include_once($vendors_path);
@@ -97,8 +107,7 @@ class WalrusAutoload
      * @param string $class the class name
      * @return bool|string
      */
-    public static function getNamespace($class)
-    {
+    public static function getNamespace($class) {
         $vendors_path = $_ENV['W']['ROOT_PATH'] . 'vendor/' . $class . '/' . str_replace('\\', '/', $class) . '.php';
 
         if (file_exists($vendors_path)) {
@@ -121,4 +130,5 @@ class WalrusAutoload
 
         return false;
     }
+
 }

@@ -1,6 +1,6 @@
 # Form exemple
 
-# _form_login:
+# form_signup:
 #   form:
 #     method: POST
 #     action: /my-form
@@ -44,6 +44,10 @@
 #       type: select
 #       options:
 #         - train
-#         - voiture
-#         - jambes
+#         - car
+#         - plane
+#     message:
+#       type: textarea
+#       check:
+#         min: 50
 

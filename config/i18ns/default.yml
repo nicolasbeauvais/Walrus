@@ -2,8 +2,9 @@ errors:
   format: '%{attribute} %{message}'
   messages:
     required: is required
-    not_required: is required
-    empty: can't be empty
+    blank: must be blank
+    empty: must be empty
+    not_empty: can't be empty
     equal_to: must be equal to %{value}
     even: must be even
     greater_than: must be greater than %{count}

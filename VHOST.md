@@ -1,12 +1,10 @@
 VHOST :
 
-  $ sudo nano /etc/apache2/sites-available/walrus.dev
-
+$ sudo nano /etc/apache2/sites-available/walrus
 
 	<VirtualHost *:80>
                 ServerAdmin webmaster@localhost
-                ServerName walrus.dev
-                ServerAlias www.walrus.dev
+                ServerName walrus
 
                 DocumentRoot /var/www/Walrus
                 <Directory /var/www/Walrus>
@@ -15,6 +13,11 @@ VHOST :
                         Order allow,deny
                         allow from all
                 </Directory>
+
+                # Chroot PHP script to this path
+                php_admin_value open_basedir "/var/www/Walrus"
+                # Tmp upload directory
+                php_admin_value upload_tmp_dir "/var/www/Walrus/tmp"
 
                 ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
 
@@ -29,7 +32,8 @@ VHOST :
 
 ___
 
-	$ sudo a2ensite walrus.dev
+	$ sudo a2ensite walrus
+
 	$ sudo service apache2 reload
 
 ___

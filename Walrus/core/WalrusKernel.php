@@ -41,10 +41,10 @@ class WalrusKernel
         $hasConfig = WalrusCompile::launch();
         if ($hasConfig) {
             WalrusKernel::bootstrapOrm();
+            WalrusI18n::initialise();
         }
 
         new WalrusMonitoring();
-        WalrusI18n::initialise();
         WalrusHelpers::initialise();
 
         return $hasConfig;

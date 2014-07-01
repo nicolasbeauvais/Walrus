@@ -5,8 +5,3 @@ _home:
     controller:   'HelloController'
     action: 'run'
     method: 'GET'
-
-_config:
-    path: 'config'
-    controller: 'ConfigController'
-    action: 'config'

@@ -1,0 +1,35 @@
+#routes for Project controller
+
+_project:
+    path: 'project'
+    controller: 'ProjectController'
+    action: 'index'
+
+_show_project:
+    path: 'project/show/:id'
+    controller: 'ProjectController'
+    action: 'show'
+    filters:
+        require:
+            id: '\d+'
+
+_create_project:
+    path: 'project/create'
+    controller: 'ProjectController'
+    action: 'create'
+
+_delete_project:
+    path: 'project/delete/:id'
+    controller: 'ProjectController'
+    action: 'delete'
+    filters:
+        require:
+            id: '\d+'
+
+_update_project:
+    path: 'project/update/:id'
+    controller: 'ProjectController'
+    action: 'update'
+    filters:
+        require:
+            id: '\d+'
