@@ -59,6 +59,22 @@ class WalrusAutoload
         $path = $_ENV['W']['ROOT_PATH'] . str_replace('\\', '/', $class_with_namespace) . '.php';
 
         if (file_exists($path)) {
+
+            // if trying to autoload core components
+            if (strpos($path, 'Walrus/core') > -1) {
+
+                // check if user has created a custom class that override the core component
+                $custom_path = str_replace("Walrus/", "app/", $path);
+
+                if (file_exists($custom_path)) {
+                    // load core components to allow class extends
+                    include_once($path);
+                    // load custom core components
+                    include_once($custom_path);
+                    return true;
+                }
+            }
+
             include_once($path);
             return true;
         } else {

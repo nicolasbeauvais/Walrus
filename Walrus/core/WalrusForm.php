@@ -210,13 +210,13 @@ class WalrusForm
             if (isset($check['odd']) && $check['odd'] == true && $data[$name] % 2 == 0) {// check odd
                 $errors[$name] = WalrusI18n::get('errors', 'messages', 'odd', array('attribute' => $name));
             }
-            if (isset($check['max']) && $check['max'] == true && strlen($data[$name]) > $check['max']) {// check max
+            if (isset($check['max']) && strlen($data[$name]) > $check['max']) {// check max
                 $errors[$name] = WalrusI18n::get('errors', 'messages', 'max', array(
                     'attribute' => $name,
                     'count' => $check['max']
                 ));
             }
-            if (isset($check['min']) && $check['min'] == true && strlen($data[$name]) < $check['min']) {// check min
+            if (isset($check['min']) && strlen($data[$name]) < $check['min']) {// check min
                 $errors[$name] = WalrusI18n::get('errors', 'messages', 'min', array(
                     'attribute' => $name,
                         'count' => $check['min']
@@ -619,5 +619,51 @@ class WalrusForm
 
         $this->form = $form;
         return true;
+    }
+
+    /**
+     * @param string $key
+     * @param string $value
+     */
+    public function setForm($key, $value)
+    {
+        $this->form[$key] = $value;
+    }
+
+    /**
+     * @return array
+     */
+    public function getForm()
+    {
+        return $this->form;
+    }
+
+    /**
+     * @param string $key
+     * @param string $value
+     */
+    public function setFields($key, $value)
+    {
+        $this->fields[$key] = $value;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
+    /**
+     * Set a particular field value.
+     *
+     * @param string $field
+     * @param string $key
+     * @param string $value
+     */
+    public function setFieldValue($field, $key, $value)
+    {
+        $this->fields[$field][$key] = $value;
     }
 }
