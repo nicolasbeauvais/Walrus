@@ -67,8 +67,10 @@ class WalrusAutoload
                 $custom_path = str_replace("Walrus/", "app/", $path);
 
                 if (file_exists($custom_path)) {
-                    // load custom core components instead of basic component
-                    include_once $custom_path;
+                    // load core components to allow class extends
+                    include_once($path);
+                    // load custom core components
+                    include_once($custom_path);
                     return true;
                 }
             }
