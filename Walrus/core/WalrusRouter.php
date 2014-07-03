@@ -234,11 +234,6 @@ class WalrusRouter
                 continue;
             }
 
-            if($requestMethod != $route->getMethod())
-            {
-                continue;
-            }
-
             // check if request url matches route regex. if not, return false.
             if (!preg_match("@^".$route->getRegex()."*$@i", $this->currentPath, $matches)) {
                 continue;
