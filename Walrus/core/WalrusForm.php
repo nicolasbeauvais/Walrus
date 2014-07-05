@@ -306,6 +306,29 @@ class WalrusForm
             $label = isset($field['label']) ? $field['label'] : ucfirst($key);
             unset($field['check']);
 
+            $parsedParam = array();
+            // function cal
+            if ($function) {
+                $cb = explode('::', $function);
+
+                $hasParam = strpos($cb[1], '(');
+                if ($hasParam > -1) {
+                    $cb[1] = substr($cb[1], 0, $hasParam);
+
+                    $params = substr($function, strpos($function, '(') + 1, -1);
+                    $params = explode(',', $params);
+
+                    foreach ($params as $param) {
+                        $param = trim($param);
+                        $p = explode(':', $param);
+
+                        $parsedParam[$p[0]] = $p[1];
+                    }
+                }
+
+                $options = WalrusRouter::reroute($cb[0], $cb[1], $parsedParam);
+            }
+
             // default values
             $field['type'] = isset($field['type']) ? $field['type'] : 'text';
             $field['name'] = isset($field['name']) ? $field['name'] : $key;
@@ -318,7 +341,7 @@ class WalrusForm
 
             if ($field['type'] == 'select') {
 
-                if (!($options xor $function)) {
+                if (!$options) {
                     continue;
                 }
 
@@ -342,12 +365,6 @@ class WalrusForm
                 $Tag = new Tag();
                 $Tag->create('select');
                 $Tag->setAttributes($field);
-
-                // function cal
-                if ($function) {
-                    $cb = explode('::', $function);
-                    $options = WalrusRouter::reroute($cb[0], $cb[1]);
-                }
 
                 foreach ($options as $inputKey => $text) {
 
