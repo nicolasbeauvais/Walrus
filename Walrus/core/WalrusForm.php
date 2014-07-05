@@ -336,7 +336,7 @@ class WalrusForm
             $field['placeholder'] = isset($field['placeholder']) ? $field['placeholder'] : ucfirst($key);
 
             // remove all non attribute datas
-            $removeKeys = array('required', 'validate', 'options', 'function');
+            $removeKeys = array('validate', 'options', 'function');
             $field = array_diff_key($field, array_flip($removeKeys));
 
             if ($field['type'] == 'select') {
