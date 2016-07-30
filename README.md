@@ -1,3 +1,9 @@
+# Do not use Walrus in production !
+
+Walrus framework was made as a school project and isn't maintained anymore.
+
+<hr>
+
 #Welcome to Walrus
 > Simple, Lightweight and Fast. 
 > Certainly not that big whatever factory.
