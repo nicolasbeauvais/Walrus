@@ -14,7 +14,7 @@ Walrus framework was made as a school project and isn't maintained anymore. If y
 
 > “We need a simple PHP framework that can build web applications easily and simply without all of those features that are not necessary”
 
-#### [Walrus Framework full documentation](http://walrus-framework.nicolas-beauvais.com)
+#### [Walrus Framework full documentation](http://walrus.nicolas-beauvais.com)
 
 Walrus is a framework for building web-application in a very simple way according to the Model-View-Controller (MVC) pattern.
 
