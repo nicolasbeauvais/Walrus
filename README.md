@@ -1,10 +1,10 @@
 # Do not use Walrus in production !
 
-Walrus framework was made as a school project and isn't maintained anymore.
+Walrus framework was made as a school project and isn't maintained anymore. If you are looking for a great PHP framework try [Laravel](https://laravel.com).
 
 <hr>
 
-#Welcome to Walrus
+# Welcome to Walrus
 > Simple, Lightweight and Fast. 
 > Certainly not that big whatever factory.
 
@@ -14,7 +14,7 @@ Walrus framework was made as a school project and isn't maintained anymore.
 
 > “We need a simple PHP framework that can build web applications easily and simply without all of those features that are not necessary”
 
-####[Walrus Framework full documentation](http://walrus-framework.nicolas-beauvais.com)
+#### [Walrus Framework full documentation](http://walrus-framework.nicolas-beauvais.com)
 
 Walrus is a framework for building web-application in a very simple way according to the Model-View-Controller (MVC) pattern.
 
@@ -27,7 +27,7 @@ Besides those features they have got a lot of tutorials, videos showing how to d
 
 But hey, we’re all sick of learning how to do this thing in this particular framework way. It is like we have lost a part of simplicity that we needed to understand things swiftly. Differences can be interesting I mean, really, but sometimes the particularity of few framework makes us angry and we could lost time.
 
-###That is why we created Walrus.
+### That is why we created Walrus.
 
 It is simple, we wanted it to respect KISS principle, you just have to focus on what matters for your client, and we handle the rest.
 
@@ -35,7 +35,7 @@ It is lightweight, we added only what you really need to build a simple web appl
 
 It is fast because it’s a client need. 
 
-###Architecture
+### Architecture
 
 * **Walrus**/ - All the files of WalrusFramework. This is where magic happens and where you should look at when you want to contribute.
 * **config**/
@@ -59,6 +59,6 @@ It is fast because it’s a client need.
 * **tmp**/ - Temporary files.
 * **tusk** - Walrus Command Line Interface (CLI).
     
-####Notes :
+#### Notes :
 * To use *Walrus framework* you must have a PHP version >= 5.5.0.
 * You need to activate url_rewriting module on your server.
