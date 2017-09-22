@@ -1,16 +1,15 @@
 Walrus Framework is made by people who care about great code, simplicity and speed. 
 Here's the list of them (cheers guys !): 
 
-####Designer
-* Walurs logo by Xavier Costanzo. Check out his [profile](http://fr.linkedin.com/pub/françois-xavier-costanzo/3a/769/b1a)
-* walrus-framework.com design by [Jérémy barbet](http://fr.linkedin.com/in/jeremdsgn/)
+#### Designer
+* Walurs logo by [François-Xavier Costanzo](https://github.com/Kingeek)
+* walrus-framework.com design by [Jérémy barbet](https://github.com/JeremDsgn)
 
-####Development team
-* E-Wok (Nicolas Beauvais)
-* ThomasHarper (Thomas Bentkowski)
-* alicia16489 (Benoit Ciret) 
+#### Development team
+* [Nicolas Beauvais](https://github.com/nicolasbeauvais)
+* [Thomas Bentkowski](https://github.com/ThomasHarper)
 
-####Contributors
-* Julien-Boudry (Julien Boudry)
-* FaustineLarmagna (Faustine Larmagna)
-* Flambard (Guillaume Flambard)
+#### Contributors
+* [Julien Boudry](https://github.com/julien-boudry)
+* [Faustine Larmagna](https://github.com/FaustineLarmagna)
+* [Guillaume Flambard](https://github.com/GuillaumeFlambard)
